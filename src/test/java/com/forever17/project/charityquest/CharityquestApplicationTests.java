@@ -1,4 +1,4 @@
-package com.forever17.project.charity.charityquest;
+package com.forever17.project.charityquest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

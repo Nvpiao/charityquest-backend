@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- scan: reload this file if any change on this file. default: true -->
+<!-- scanPeriod: check whether this file has been changed. default: 1 min-->
+<!-- debug: internal status of logback default: false。 -->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <!-- logback project name -->
+    <property name="appName" value="CharityQuest"/>
+
+    <!-- log level: DEBUGER INFO WARN ERROR -->
+    <property name="logLevel" value="INFO"/>
+
+    <!-- path of log files -->
+    <property name="logPath" value="./logs"/>
+
+    <!-- maximum of storing log files: 30 days-->
+    <property name="maxHistory" value="3"/>
+
+    <!-- buffer of queue. default:256 -->
+    <property name="queueSize" value="256"/>
+
+    <!-- lOGGER  PATTERN  -->
+    <property name="logPattern"
+              value="[ %-5level] [%date{yyyy-MM-dd HH:mm:ss.SSS}] %logger{96} [%line] [%thread]- %msg%n"/>
+    <!-- %d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger - %msg%n -->
+    <!-- %d{yyyy-MM-dd HH:mm:ss} %-4relative [%thread] %-5level %logger{35} - %msg %n -->
+    <!-- [ %-5level] [%date{yyyy-MM-dd HH:mm:ss.SSS}] %logger{96} [%line] [%thread]- %msg%n  -->
+
+    <!-- dynamic log -->
+    <jmxConfigurator/>
+
+    <!-- stander output -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- DUBUG log  -->
+    <appender name="FILE_DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${logPath}/${appName}_debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/debug/${appName}_debug.log.%d{yyyy-MM-dd}.zip
+            </fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- INFO log  -->
+    <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${logPath}/${appName}_info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/info/${appName}_info.log.%d{yyyy-MM-dd}.zip
+            </fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!--  WARN log -->
+    <appender name="FILE_WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${logPath}/${appName}_warn.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/warn/${appName}_warn.log.%d{yyyy-MM-dd}.zip
+            </fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Error log -->
+    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${logPath}/${appName}_error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/error/${appName}_error.log.%d{yyyy-MM-dd}.zip
+            </fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ASYNC_LOG_DEBUG  -->
+    <appender name="ASYNC_LOG_DEBUG" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- do not discard logs -->
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>${queueSize}</queueSize>
+        <appender-ref ref="FILE_DEBUG"/>
+    </appender>
+
+    <!-- ASYNC_LOG_INFO -->
+    <appender name="ASYNC_LOG_INFO" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- do not discard logs -->
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>${queueSize}</queueSize>
+        <appender-ref ref="FILE_INFO"/>
+    </appender>
+
+    <!-- ASYNC_LOG_WARN -->
+    <appender name="ASYNC_LOG_WARN" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- do not discard logs -->
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>${queueSize}</queueSize>
+        <appender-ref ref="FILE_WARN"/>
+    </appender>
+
+    <!--ASYNC_LOG_ERROR  -->
+    <appender name="ASYNC_LOG_ERROR" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- do not discard logs -->
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>${queueSize}</queueSize>
+        <appender-ref ref="FILE_ERROR"/>
+    </appender>
+
+    <!-- log level -->
+    <root level="${logLevel}">
+        <!--  console  -->
+        <appender-ref ref="STDOUT"/>
+
+        <!--        <appender-ref ref="ASYNC_LOG_DEBUG"/>-->
+        <!--        <appender-ref ref="ASYNC_LOG_INFO"/>-->
+        <!--        <appender-ref ref="ASYNC_LOG_WARN"/>-->
+        <!--        <appender-ref ref="ASYNC_LOG_ERROR"/>-->
+    </root>
+</configuration>
