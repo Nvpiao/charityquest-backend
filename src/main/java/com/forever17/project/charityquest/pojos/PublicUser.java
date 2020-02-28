@@ -1,5 +1,7 @@
 package com.forever17.project.charityquest.pojos;
 
+import com.forever17.project.charityquest.constants.CharityConstants;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -11,24 +13,53 @@ import java.io.Serializable;
  * PublicUser POJO
  *
  * @author MingLiu (MLiu54@sheffield.ac.uk)
- * @version 1.0
+ * @version 1.1
  * @date 15 Feb 2020
  * @since 1.0
  */
 @Data
+@ApiModel
 public class PublicUser implements Serializable {
     private static final long serialVersionUID = 1L;
+    /**
+     * id of public user
+     */
     private String id;
-    @NotBlank(message = "login name can not be blanked!")
-    private String loginName;
-    @NotBlank(message = "password can not be blanked!")
-    private String password;
-    private String name;
-    private Integer telPre;
-    private Integer tel;
-    private Integer gender;
-    @Email(message = "Email not valid.")
+    /**
+     * email address of public user
+     */
+    @Email(message = CharityConstants.VALID_EMAIL_NOT_VALID_WARN)
     private String email;
+    /**
+     * password of public user
+     */
+    @NotBlank(message = CharityConstants.VALID_PASSWORD_BLANK_WARN)
+    private String password;
+    /**
+     * title of public user, content:'Mr', 'Mrs', 'Miss', 'Ms', 'Dr', 'Other'. default: Mr
+     */
+    @NotBlank(message = CharityConstants.VALID_TITLE_BLANK_WARN)
+    private String title;
+    /**
+     * first name of public user
+     */
+    private String firstName;
+    /**
+     * last name of public user
+     */
+    private String lastName;
+    /**
+     * telephone country code of public user
+     */
+    private String telPre;
+    /**
+     * telephone number of public user
+     */
+    @NotBlank(message = CharityConstants.VALID_TEL_BLANK_WARN)
+    private String tel;
+    /**
+     * avatar of public user
+     */
     private String photo;
 
     @Override
@@ -44,13 +75,13 @@ public class PublicUser implements Serializable {
         }
         PublicUser other = (PublicUser) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-                && (this.getLoginName() == null ? other.getLoginName() == null : this.getLoginName().equals(other.getLoginName()))
+                && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
                 && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
-                && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+                && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
+                && (this.getFirstName() == null ? other.getFirstName() == null : this.getFirstName().equals(other.getFirstName()))
+                && (this.getLastName() == null ? other.getLastName() == null : this.getLastName().equals(other.getLastName()))
                 && (this.getTelPre() == null ? other.getTelPre() == null : this.getTelPre().equals(other.getTelPre()))
                 && (this.getTel() == null ? other.getTel() == null : this.getTel().equals(other.getTel()))
-                && (this.getGender() == null ? other.getGender() == null : this.getGender().equals(other.getGender()))
-                && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
                 && (this.getPhoto() == null ? other.getPhoto() == null : this.getPhoto().equals(other.getPhoto()));
     }
 
@@ -59,13 +90,13 @@ public class PublicUser implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getLoginName() == null) ? 0 : getLoginName().hashCode());
+        result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
         result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
-        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+        result = prime * result + ((getTitle() == null) ? 0 : getTitle().hashCode());
+        result = prime * result + ((getFirstName() == null) ? 0 : getFirstName().hashCode());
+        result = prime * result + ((getLastName() == null) ? 0 : getLastName().hashCode());
         result = prime * result + ((getTelPre() == null) ? 0 : getTelPre().hashCode());
         result = prime * result + ((getTel() == null) ? 0 : getTel().hashCode());
-        result = prime * result + ((getGender() == null) ? 0 : getGender().hashCode());
-        result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
         result = prime * result + ((getPhoto() == null) ? 0 : getPhoto().hashCode());
         return result;
     }
@@ -76,13 +107,13 @@ public class PublicUser implements Serializable {
                 " [" +
                 "Hash = " + hashCode() +
                 ", id=" + id +
-                ", loginName=" + loginName +
+                ", email=" + email +
                 ", password=" + password +
-                ", name=" + name +
+                ", title=" + title +
+                ", firstName=" + firstName +
+                ", lastName=" + lastName +
                 ", telPre=" + telPre +
                 ", tel=" + tel +
-                ", gender=" + gender +
-                ", email=" + email +
                 ", photo=" + photo +
                 ", serialVersionUID=" + serialVersionUID +
                 "]";

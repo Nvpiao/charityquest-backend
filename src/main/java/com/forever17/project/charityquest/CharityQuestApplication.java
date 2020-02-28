@@ -20,10 +20,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableSwaggerBootstrapUI
 @MapperScan(basePackages = {"com.forever17.project.charityquest.mapper"})
-public class CharityquestApplication {
+public class CharityQuestApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CharityquestApplication.class, args);
+        SpringApplication.run(CharityQuestApplication.class, args);
     }
 
 }

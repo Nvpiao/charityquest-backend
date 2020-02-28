@@ -16,7 +16,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum StatusInfo {
-    FAIL(0), SUCCESS(1);
+    FAIL(0), SUCCESS(1), WARN(2);
 
     /**
      * code of status

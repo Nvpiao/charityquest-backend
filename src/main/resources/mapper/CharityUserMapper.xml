@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.forever17.project.charityquest.mapper.CharityUserMapper">
+    <resultMap id="BaseResultMap" type="com.forever17.project.charityquest.pojos.CharityUser">
+        <id column="charity_user_id" jdbcType="VARCHAR" property="id"/>
+        <result column="charity_user_email" jdbcType="VARCHAR" property="email"/>
+        <result column="charity_user_password" jdbcType="VARCHAR" property="password"/>
+        <result column="charity_user_name" jdbcType="VARCHAR" property="name"/>
+        <result column="charity_user_number" jdbcType="VARCHAR" property="number"/>
+        <result column="charity_user_photo" jdbcType="VARCHAR" property="photo"/>
+        <result column="charity_user_case_photo" jdbcType="VARCHAR" property="casePhoto"/>
+        <result column="charity_user_description" jdbcType="VARCHAR" property="description"/>
+        <result column="charity_user_project_desc" jdbcType="VARCHAR" property="projectDesc"/>
+        <result column="charity_user_case_video" jdbcType="VARCHAR" property="caseVideo"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        charity_user.id as charity_user_id, charity_user.email as charity_user_email, charity_user.`password` as `charity_user_password`,
+    charity_user.`name` as `charity_user_name`, charity_user.`number` as `charity_user_number`, 
+    charity_user.photo as charity_user_photo, charity_user.case_photo as charity_user_case_photo, 
+    charity_user.description as charity_user_description, charity_user.project_desc as charity_user_project_desc, 
+    charity_user.case_video as charity_user_case_video
+    </sql>
+    <select id="selectByExample" parameterType="com.forever17.project.charityquest.pojos.CharityUserExample"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from charity_user charity_user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from charity_user charity_user
+        where charity_user.id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from charity_user
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.forever17.project.charityquest.pojos.CharityUserExample">
+        delete from charity_user charity_user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.forever17.project.charityquest.pojos.CharityUser">
+        insert into charity_user (id, email, `password`,
+                                  `name`, `number`, photo,
+                                  case_photo, description, project_desc,
+                                  case_video)
+        values (#{id,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+                #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR},
+                #{casePhoto,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{projectDesc,jdbcType=VARCHAR},
+                #{caseVideo,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.forever17.project.charityquest.pojos.CharityUser">
+        insert into charity_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="password != null">
+                `password`,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="number != null">
+                `number`,
+            </if>
+            <if test="photo != null">
+                photo,
+            </if>
+            <if test="casePhoto != null">
+                case_photo,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="projectDesc != null">
+                project_desc,
+            </if>
+            <if test="caseVideo != null">
+                case_video,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="photo != null">
+                #{photo,jdbcType=VARCHAR},
+            </if>
+            <if test="casePhoto != null">
+                #{casePhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="projectDesc != null">
+                #{projectDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="caseVideo != null">
+                #{caseVideo,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.forever17.project.charityquest.pojos.CharityUserExample"
+            resultType="java.lang.Long">
+        select count(*) from charity_user charity_user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update charity_user charity_user
+        <set>
+            <if test="record.id != null">
+                charity_user.id = #{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.email != null">
+                charity_user.email = #{record.email,jdbcType=VARCHAR},
+            </if>
+            <if test="record.password != null">
+                charity_user.`password` = #{record.password,jdbcType=VARCHAR},
+            </if>
+            <if test="record.name != null">
+                charity_user.`name` = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.number != null">
+                charity_user.`number` = #{record.number,jdbcType=VARCHAR},
+            </if>
+            <if test="record.photo != null">
+                charity_user.photo = #{record.photo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.casePhoto != null">
+                charity_user.case_photo = #{record.casePhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="record.description != null">
+                charity_user.description = #{record.description,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectDesc != null">
+                charity_user.project_desc = #{record.projectDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.caseVideo != null">
+                charity_user.case_video = #{record.caseVideo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update charity_user charity_user
+        set charity_user.id = #{record.id,jdbcType=VARCHAR},
+        charity_user.email = #{record.email,jdbcType=VARCHAR},
+        charity_user.`password` = #{record.password,jdbcType=VARCHAR},
+        charity_user.`name` = #{record.name,jdbcType=VARCHAR},
+        charity_user.`number` = #{record.number,jdbcType=VARCHAR},
+        charity_user.photo = #{record.photo,jdbcType=VARCHAR},
+        charity_user.case_photo = #{record.casePhoto,jdbcType=VARCHAR},
+        charity_user.description = #{record.description,jdbcType=VARCHAR},
+        charity_user.project_desc = #{record.projectDesc,jdbcType=VARCHAR},
+        charity_user.case_video = #{record.caseVideo,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.forever17.project.charityquest.pojos.CharityUser">
+        update charity_user
+        <set>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                `password` = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                `number` = #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="photo != null">
+                photo = #{photo,jdbcType=VARCHAR},
+            </if>
+            <if test="casePhoto != null">
+                case_photo = #{casePhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="projectDesc != null">
+                project_desc = #{projectDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="caseVideo != null">
+                case_video = #{caseVideo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.forever17.project.charityquest.pojos.CharityUser">
+        update charity_user
+        set email        = #{email,jdbcType=VARCHAR},
+            `password`   = #{password,jdbcType=VARCHAR},
+            `name`       = #{name,jdbcType=VARCHAR},
+            `number`     = #{number,jdbcType=VARCHAR},
+            photo        = #{photo,jdbcType=VARCHAR},
+            case_photo   = #{casePhoto,jdbcType=VARCHAR},
+            description  = #{description,jdbcType=VARCHAR},
+            project_desc = #{projectDesc,jdbcType=VARCHAR},
+            case_video   = #{caseVideo,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

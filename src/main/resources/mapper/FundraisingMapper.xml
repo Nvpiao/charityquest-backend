@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.forever17.project.charityquest.mapper.FundraisingMapper">
+    <resultMap id="BaseResultMap" type="com.forever17.project.charityquest.pojos.Fundraising">
+        <id column="fundraising_id" jdbcType="VARCHAR" property="id"/>
+        <result column="fundraising_charity_id" jdbcType="VARCHAR" property="charityId"/>
+        <result column="fundraising_url" jdbcType="VARCHAR" property="url"/>
+        <result column="fundraising_start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="fundraising_end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="fundraising_raise_money" jdbcType="INTEGER" property="raiseMoney"/>
+        <result column="fundraising_target_money" jdbcType="INTEGER" property="targetMoney"/>
+        <result column="fundraising_description" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        fundraising.id as fundraising_id, fundraising.charity_id as fundraising_charity_id,
+    fundraising.url as fundraising_url, fundraising.start_time as fundraising_start_time, 
+    fundraising.end_time as fundraising_end_time, fundraising.raise_money as fundraising_raise_money, 
+    fundraising.target_money as fundraising_target_money, fundraising.description as fundraising_description
+    </sql>
+    <select id="selectByExample" parameterType="com.forever17.project.charityquest.pojos.FundraisingExample"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from fundraising fundraising
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from fundraising fundraising
+        where fundraising.id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from fundraising
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.forever17.project.charityquest.pojos.FundraisingExample">
+        delete from fundraising fundraising
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.forever17.project.charityquest.pojos.Fundraising">
+        insert into fundraising (id, charity_id, url,
+                                 start_time, end_time, raise_money,
+                                 target_money, description)
+        values (#{id,jdbcType=VARCHAR}, #{charityId,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR},
+                #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{raiseMoney,jdbcType=INTEGER},
+                #{targetMoney,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.forever17.project.charityquest.pojos.Fundraising">
+        insert into fundraising
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="charityId != null">
+                charity_id,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="raiseMoney != null">
+                raise_money,
+            </if>
+            <if test="targetMoney != null">
+                target_money,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="charityId != null">
+                #{charityId,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="raiseMoney != null">
+                #{raiseMoney,jdbcType=INTEGER},
+            </if>
+            <if test="targetMoney != null">
+                #{targetMoney,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.forever17.project.charityquest.pojos.FundraisingExample"
+            resultType="java.lang.Long">
+        select count(*) from fundraising fundraising
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update fundraising fundraising
+        <set>
+            <if test="record.id != null">
+                fundraising.id = #{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.charityId != null">
+                fundraising.charity_id = #{record.charityId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.url != null">
+                fundraising.url = #{record.url,jdbcType=VARCHAR},
+            </if>
+            <if test="record.startTime != null">
+                fundraising.start_time = #{record.startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.endTime != null">
+                fundraising.end_time = #{record.endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.raiseMoney != null">
+                fundraising.raise_money = #{record.raiseMoney,jdbcType=INTEGER},
+            </if>
+            <if test="record.targetMoney != null">
+                fundraising.target_money = #{record.targetMoney,jdbcType=INTEGER},
+            </if>
+            <if test="record.description != null">
+                fundraising.description = #{record.description,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update fundraising fundraising
+        set fundraising.id = #{record.id,jdbcType=VARCHAR},
+        fundraising.charity_id = #{record.charityId,jdbcType=VARCHAR},
+        fundraising.url = #{record.url,jdbcType=VARCHAR},
+        fundraising.start_time = #{record.startTime,jdbcType=TIMESTAMP},
+        fundraising.end_time = #{record.endTime,jdbcType=TIMESTAMP},
+        fundraising.raise_money = #{record.raiseMoney,jdbcType=INTEGER},
+        fundraising.target_money = #{record.targetMoney,jdbcType=INTEGER},
+        fundraising.description = #{record.description,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.forever17.project.charityquest.pojos.Fundraising">
+        update fundraising
+        <set>
+            <if test="charityId != null">
+                charity_id = #{charityId,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="raiseMoney != null">
+                raise_money = #{raiseMoney,jdbcType=INTEGER},
+            </if>
+            <if test="targetMoney != null">
+                target_money = #{targetMoney,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.forever17.project.charityquest.pojos.Fundraising">
+        update fundraising
+        set charity_id   = #{charityId,jdbcType=VARCHAR},
+            url          = #{url,jdbcType=VARCHAR},
+            start_time   = #{startTime,jdbcType=TIMESTAMP},
+            end_time     = #{endTime,jdbcType=TIMESTAMP},
+            raise_money  = #{raiseMoney,jdbcType=INTEGER},
+            target_money = #{targetMoney,jdbcType=INTEGER},
+            description  = #{description,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

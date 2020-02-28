@@ -11,8 +11,8 @@ import java.util.List;
  * Mapper of Public User
  *
  * @author MingLiu (MLiu54@sheffield.ac.uk)
- * @version 1.0
- * @date 15 Feb 2020
+ * @version 1.1
+ * @date 27 Feb 2020
  * @since 1.0
  */
 @Repository

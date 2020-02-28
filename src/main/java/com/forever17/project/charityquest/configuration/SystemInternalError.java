@@ -1,9 +1,9 @@
 package com.forever17.project.charityquest.configuration;
 
+import com.forever17.project.charityquest.constants.CharityCodes;
 import com.forever17.project.charityquest.constants.CharityConstants;
-import com.forever17.project.charityquest.constants.CharityErrorCodes;
 import com.forever17.project.charityquest.enums.StatusInfo;
-import com.forever17.project.charityquest.utils.ReturnStatus;
+import com.forever17.project.charityquest.pojos.entity.ReturnStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,7 +20,7 @@ public class SystemInternalError {
 
     @Bean
     public ReturnStatus getInternalErrorBean() {
-        return new ReturnStatus(CharityConstants.RETURN_UNKNOWN_ERROR,
-                CharityErrorCodes.GLOBAL_UNKNOWN_ERROR, StatusInfo.FAIL);
+        return new ReturnStatus(CharityConstants.RETURN_SYSTEM_INTERNAL_ERROR,
+                CharityCodes.GLOBAL_SYSTEM_INTERNAL_ERROR, StatusInfo.FAIL);
     }
 }

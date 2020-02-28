@@ -1,9 +1,9 @@
 package com.forever17.project.charityquest.controller.global;
 
+import com.forever17.project.charityquest.constants.CharityCodes;
 import com.forever17.project.charityquest.constants.CharityConstants;
-import com.forever17.project.charityquest.constants.CharityErrorCodes;
 import com.forever17.project.charityquest.enums.StatusInfo;
-import com.forever17.project.charityquest.utils.ReturnStatus;
+import com.forever17.project.charityquest.pojos.entity.ReturnStatus;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -48,7 +47,7 @@ public class GlobalExceptionHandleController {
         // log
         log.error(CharityConstants.RETURN_VALID_ERROR, ex);
         return new ReturnStatus(errors,
-                CharityErrorCodes.GLOBAL_VALID_ERROR, StatusInfo.FAIL);
+                CharityCodes.GLOBAL_VALID_ERROR, StatusInfo.WARN);
     }
 
     /**
@@ -61,8 +60,8 @@ public class GlobalExceptionHandleController {
     @ExceptionHandler(value = {Exception.class})
     protected ReturnStatus handleExtraException(RuntimeException ex) {
         // log
-        log.error(CharityConstants.RETURN_UNKNOWN_ERROR, ex);
-        return new ReturnStatus(Collections.singletonList(ex.getMessage()),
-                CharityErrorCodes.GLOBAL_UNKNOWN_ERROR, StatusInfo.FAIL);
+        log.error(CharityConstants.RETURN_SYSTEM_INTERNAL_ERROR, ex);
+        return new ReturnStatus(CharityConstants.RETURN_SYSTEM_INTERNAL_ERROR,
+                CharityCodes.GLOBAL_SYSTEM_INTERNAL_ERROR, StatusInfo.FAIL);
     }
 }

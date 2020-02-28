@@ -2,15 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.forever17.project.charityquest.mapper.PublicUserMapper">
     <resultMap id="BaseResultMap" type="com.forever17.project.charityquest.pojos.PublicUser">
-        <id column="public_user_id" jdbcType="VARCHAR" property="id"/>
-        <result column="public_user_login_name" jdbcType="VARCHAR" property="loginName"/>
-        <result column="public_user_password" jdbcType="VARCHAR" property="password"/>
-        <result column="public_user_name" jdbcType="VARCHAR" property="name"/>
-        <result column="public_user_tel_pre" jdbcType="INTEGER" property="telPre"/>
-        <result column="public_user_tel" jdbcType="INTEGER" property="tel"/>
-        <result column="public_user_gender" jdbcType="INTEGER" property="gender"/>
-        <result column="public_user_email" jdbcType="VARCHAR" property="email"/>
-        <result column="public_user_photo" jdbcType="VARCHAR" property="photo"/>
+      <id column="public_user_id" jdbcType="VARCHAR" property="id"/>
+      <result column="public_user_email" jdbcType="VARCHAR" property="email"/>
+      <result column="public_user_password" jdbcType="VARCHAR" property="password"/>
+      <result column="public_user_title" jdbcType="VARCHAR" property="title"/>
+      <result column="public_user_first_name" jdbcType="VARCHAR" property="firstName"/>
+      <result column="public_user_last_name" jdbcType="VARCHAR" property="lastName"/>
+      <result column="public_user_tel_pre" jdbcType="VARCHAR" property="telPre"/>
+      <result column="public_user_tel" jdbcType="VARCHAR" property="tel"/>
+      <result column="public_user_photo" jdbcType="VARCHAR" property="photo"/>
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -73,10 +73,10 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-        public_user.id as public_user_id, public_user.login_name as public_user_login_name,
-    public_user.`password` as `public_user_password`, public_user.`name` as `public_user_name`, 
-    public_user.tel_pre as public_user_tel_pre, public_user.tel as public_user_tel, public_user.gender as public_user_gender, 
-    public_user.email as public_user_email, public_user.photo as public_user_photo
+      public_user.id as public_user_id, public_user.email as public_user_email, public_user.`password` as `public_user_password`,
+    public_user.title as public_user_title, public_user.first_name as public_user_first_name, 
+    public_user.last_name as public_user_last_name, public_user.tel_pre as public_user_tel_pre, 
+    public_user.tel as public_user_tel, public_user.photo as public_user_photo
     </sql>
     <select id="selectByExample" parameterType="com.forever17.project.charityquest.pojos.PublicUserExample"
             resultMap="BaseResultMap">
@@ -111,72 +111,72 @@
         </if>
     </delete>
     <insert id="insert" parameterType="com.forever17.project.charityquest.pojos.PublicUser">
-        insert into public_user (id, login_name, `password`,
-                                 `name`, tel_pre, tel,
-                                 gender, email, photo)
-        values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-                #{name,jdbcType=VARCHAR}, #{telPre,jdbcType=INTEGER}, #{tel,jdbcType=INTEGER},
-                #{gender,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR})
+      insert into public_user (id, email, `password`,
+                               title, first_name, last_name,
+                               tel_pre, tel, photo)
+      values (#{id,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+              #{title,jdbcType=VARCHAR}, #{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR},
+              #{telPre,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.forever17.project.charityquest.pojos.PublicUser">
         insert into public_user
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
-            <if test="loginName != null">
-                login_name,
-            </if>
-            <if test="password != null">
-                `password`,
-            </if>
-            <if test="name != null">
-                `name`,
-            </if>
-            <if test="telPre != null">
-                tel_pre,
-            </if>
-            <if test="tel != null">
-                tel,
-            </if>
-            <if test="gender != null">
-                gender,
-            </if>
-            <if test="email != null">
-                email,
-            </if>
-            <if test="photo != null">
-                photo,
-            </if>
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+          id,
+        </if>
+        <if test="email != null">
+          email,
+        </if>
+        <if test="password != null">
+          `password`,
+        </if>
+        <if test="title != null">
+          title,
+        </if>
+        <if test="firstName != null">
+          first_name,
+        </if>
+        <if test="lastName != null">
+          last_name,
+        </if>
+        <if test="telPre != null">
+          tel_pre,
+        </if>
+        <if test="tel != null">
+          tel,
+        </if>
+        <if test="photo != null">
+          photo,
+        </if>
         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=VARCHAR},
-            </if>
-            <if test="loginName != null">
-                #{loginName,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="name != null">
-                #{name,jdbcType=VARCHAR},
-            </if>
-            <if test="telPre != null">
-                #{telPre,jdbcType=INTEGER},
-            </if>
-            <if test="tel != null">
-                #{tel,jdbcType=INTEGER},
-            </if>
-            <if test="gender != null">
-                #{gender,jdbcType=INTEGER},
-            </if>
-            <if test="email != null">
-                #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="photo != null">
-                #{photo,jdbcType=VARCHAR},
-            </if>
+      <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+          #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="email != null">
+          #{email,jdbcType=VARCHAR},
+        </if>
+        <if test="password != null">
+          #{password,jdbcType=VARCHAR},
+        </if>
+        <if test="title != null">
+          #{title,jdbcType=VARCHAR},
+        </if>
+        <if test="firstName != null">
+          #{firstName,jdbcType=VARCHAR},
+        </if>
+        <if test="lastName != null">
+          #{lastName,jdbcType=VARCHAR},
+        </if>
+        <if test="telPre != null">
+          #{telPre,jdbcType=VARCHAR},
+        </if>
+        <if test="tel != null">
+          #{tel,jdbcType=VARCHAR},
+        </if>
+        <if test="photo != null">
+          #{photo,jdbcType=VARCHAR},
+        </if>
         </trim>
     </insert>
     <select id="countByExample" parameterType="com.forever17.project.charityquest.pojos.PublicUserExample"
@@ -188,94 +188,94 @@
     </select>
     <update id="updateByExampleSelective" parameterType="map">
         update public_user public_user
-        <set>
-            <if test="record.id != null">
-                public_user.id = #{record.id,jdbcType=VARCHAR},
-            </if>
-            <if test="record.loginName != null">
-                public_user.login_name = #{record.loginName,jdbcType=VARCHAR},
-            </if>
-            <if test="record.password != null">
-                public_user.`password` = #{record.password,jdbcType=VARCHAR},
-            </if>
-            <if test="record.name != null">
-                public_user.`name` = #{record.name,jdbcType=VARCHAR},
-            </if>
-            <if test="record.telPre != null">
-                public_user.tel_pre = #{record.telPre,jdbcType=INTEGER},
-            </if>
-            <if test="record.tel != null">
-                public_user.tel = #{record.tel,jdbcType=INTEGER},
-            </if>
-            <if test="record.gender != null">
-                public_user.gender = #{record.gender,jdbcType=INTEGER},
-            </if>
-            <if test="record.email != null">
-                public_user.email = #{record.email,jdbcType=VARCHAR},
-            </if>
-            <if test="record.photo != null">
-                public_user.photo = #{record.photo,jdbcType=VARCHAR},
-            </if>
+      <set>
+        <if test="record.id != null">
+          public_user.id = #{record.id,jdbcType=VARCHAR},
+        </if>
+        <if test="record.email != null">
+          public_user.email = #{record.email,jdbcType=VARCHAR},
+        </if>
+        <if test="record.password != null">
+          public_user.`password` = #{record.password,jdbcType=VARCHAR},
+        </if>
+        <if test="record.title != null">
+          public_user.title = #{record.title,jdbcType=VARCHAR},
+        </if>
+        <if test="record.firstName != null">
+          public_user.first_name = #{record.firstName,jdbcType=VARCHAR},
+        </if>
+        <if test="record.lastName != null">
+          public_user.last_name = #{record.lastName,jdbcType=VARCHAR},
+        </if>
+        <if test="record.telPre != null">
+          public_user.tel_pre = #{record.telPre,jdbcType=VARCHAR},
+        </if>
+        <if test="record.tel != null">
+          public_user.tel = #{record.tel,jdbcType=VARCHAR},
+        </if>
+        <if test="record.photo != null">
+          public_user.photo = #{record.photo,jdbcType=VARCHAR},
+        </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
-        update public_user public_user
-        set public_user.id = #{record.id,jdbcType=VARCHAR},
-        public_user.login_name = #{record.loginName,jdbcType=VARCHAR},
-        public_user.`password` = #{record.password,jdbcType=VARCHAR},
-        public_user.`name` = #{record.name,jdbcType=VARCHAR},
-        public_user.tel_pre = #{record.telPre,jdbcType=INTEGER},
-        public_user.tel = #{record.tel,jdbcType=INTEGER},
-        public_user.gender = #{record.gender,jdbcType=INTEGER},
-        public_user.email = #{record.email,jdbcType=VARCHAR},
-        public_user.photo = #{record.photo,jdbcType=VARCHAR}
-        <if test="_parameter != null">
+      update public_user public_user
+      set public_user.id = #{record.id,jdbcType=VARCHAR},
+      public_user.email = #{record.email,jdbcType=VARCHAR},
+      public_user.`password` = #{record.password,jdbcType=VARCHAR},
+      public_user.title = #{record.title,jdbcType=VARCHAR},
+      public_user.first_name = #{record.firstName,jdbcType=VARCHAR},
+      public_user.last_name = #{record.lastName,jdbcType=VARCHAR},
+      public_user.tel_pre = #{record.telPre,jdbcType=VARCHAR},
+      public_user.tel = #{record.tel,jdbcType=VARCHAR},
+      public_user.photo = #{record.photo,jdbcType=VARCHAR}
+      <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
     <update id="updateByPrimaryKeySelective" parameterType="com.forever17.project.charityquest.pojos.PublicUser">
         update public_user
-        <set>
-            <if test="loginName != null">
-                login_name = #{loginName,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                `password` = #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="name != null">
-                `name` = #{name,jdbcType=VARCHAR},
-            </if>
-            <if test="telPre != null">
-                tel_pre = #{telPre,jdbcType=INTEGER},
-            </if>
-            <if test="tel != null">
-                tel = #{tel,jdbcType=INTEGER},
-            </if>
-            <if test="gender != null">
-                gender = #{gender,jdbcType=INTEGER},
-            </if>
-            <if test="email != null">
-                email = #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="photo != null">
-                photo = #{photo,jdbcType=VARCHAR},
-            </if>
+      <set>
+        <if test="email != null">
+          email = #{email,jdbcType=VARCHAR},
+        </if>
+        <if test="password != null">
+          `password` = #{password,jdbcType=VARCHAR},
+        </if>
+        <if test="title != null">
+          title = #{title,jdbcType=VARCHAR},
+        </if>
+        <if test="firstName != null">
+          first_name = #{firstName,jdbcType=VARCHAR},
+        </if>
+        <if test="lastName != null">
+          last_name = #{lastName,jdbcType=VARCHAR},
+        </if>
+        <if test="telPre != null">
+          tel_pre = #{telPre,jdbcType=VARCHAR},
+        </if>
+        <if test="tel != null">
+          tel = #{tel,jdbcType=VARCHAR},
+        </if>
+        <if test="photo != null">
+          photo = #{photo,jdbcType=VARCHAR},
+        </if>
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.forever17.project.charityquest.pojos.PublicUser">
-        update public_user
-        set login_name = #{loginName,jdbcType=VARCHAR},
-            `password` = #{password,jdbcType=VARCHAR},
-            `name`     = #{name,jdbcType=VARCHAR},
-            tel_pre    = #{telPre,jdbcType=INTEGER},
-            tel        = #{tel,jdbcType=INTEGER},
-            gender     = #{gender,jdbcType=INTEGER},
-            email      = #{email,jdbcType=VARCHAR},
-            photo      = #{photo,jdbcType=VARCHAR}
-        where id = #{id,jdbcType=VARCHAR}
+      update public_user
+      set email      = #{email,jdbcType=VARCHAR},
+          `password` = #{password,jdbcType=VARCHAR},
+          title      = #{title,jdbcType=VARCHAR},
+          first_name = #{firstName,jdbcType=VARCHAR},
+          last_name  = #{lastName,jdbcType=VARCHAR},
+          tel_pre    = #{telPre,jdbcType=VARCHAR},
+          tel        = #{tel,jdbcType=VARCHAR},
+          photo      = #{photo,jdbcType=VARCHAR}
+      where id = #{id,jdbcType=VARCHAR}
     </update>
 </mapper>

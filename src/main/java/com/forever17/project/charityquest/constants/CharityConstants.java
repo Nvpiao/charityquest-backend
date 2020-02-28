@@ -10,7 +10,7 @@ package com.forever17.project.charityquest.constants;
  */
 public class CharityConstants {
     // swagger2
-    public static final String SWAGGER2_BASE_PACKAGE = "com.forever17.project.charityquest.controller.*";
+    public static final String SWAGGER2_BASE_PACKAGE = "com.forever17.project.charityquest.controller";
     public static final String SWAGGER2_TITLE = "CharityQuest-swagger2";
     public static final String SWAGGER2_DESC = "CharityQuest-Restful-API-Doc";
     public static final String SWAGGER2_VERSION = "1.0";
@@ -20,11 +20,26 @@ public class CharityConstants {
     public static final String SWAGGER2_CONTACT_EMAIL = "MLiu54@sheffield.ac.uk";
 
     // return messages
-    public static final String RETURN_UNKNOWN_ERROR = "Unknown Error";
+    public static final String RETURN_SYSTEM_INTERNAL_ERROR = "Internal System Error!";
     public static final String RETURN_VALID_ERROR = "Parameter Validation Failed.";
     public static final String RETURN_USER_ADDED = "User Registered Successfully";
+    public static final String RETURN_EMAIL_CAN_BE_USED = "Email Address can be used.";
+    public static final String RETURN_EMAIL_CAN_NOT_BE_USED = "Email Address can Not be used!";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
     public static final String NO_SUCH_ALGORITHM_ERROR = "No such algorithm error.";
+
+    // validation information
+    public static final String VALID_EMAIL_NOT_VALID_WARN = "Email not valid!";
+    public static final String VALID_PASSWORD_BLANK_WARN = "Password can not be blank!";
+    public static final String VALID_TEL_BLANK_WARN = "Telephone number can not be blank!";
+    public static final String VALID_URL_BLANK_WARN = "URL can not be blank!";
+    public static final String VALID_START_TIME_BLANK_WARN = "Start time can not be blank!";
+    public static final String VALID_END_TIME_BLANK_WARN = "End time can not be blank!";
+    public static final String VALID_UNDER_MIN_MONEY_WARN = "Target Money can not be lower than 1 pound!";
+    public static final String VALID_UPPER_MAX_MONEY_WARN = "Target Money can not be Higher than 500 pounds!";
+    public static final String VALID_CHARITY_NAME_BLANK_WARN = "Charity name can not be blank!";
+    public static final String VALID_CHARITY_NO_BLANK_WARN = "Charity No. can not be blank!";
+    public static final String VALID_TITLE_BLANK_WARN = "Title can not be blank!";
 }
