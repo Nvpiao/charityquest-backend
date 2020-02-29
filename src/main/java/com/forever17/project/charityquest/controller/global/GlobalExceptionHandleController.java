@@ -2,7 +2,8 @@ package com.forever17.project.charityquest.controller.global;
 
 import com.forever17.project.charityquest.constants.CharityCodes;
 import com.forever17.project.charityquest.constants.CharityConstants;
-import com.forever17.project.charityquest.enums.StatusInfo;
+import com.forever17.project.charityquest.enums.StatusType;
+import com.forever17.project.charityquest.exceptions.UserNotLogInException;
 import com.forever17.project.charityquest.pojos.entity.ReturnStatus;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
@@ -46,8 +47,22 @@ public class GlobalExceptionHandleController {
         });
         // log
         log.error(CharityConstants.RETURN_VALID_ERROR, ex);
-        return new ReturnStatus(errors,
-                CharityCodes.GLOBAL_VALID_ERROR, StatusInfo.WARN);
+        return new ReturnStatus(errors, CharityCodes.GLOBAL_VALID_ERROR, StatusType.WARN);
+    }
+
+    /**
+     * handle user login exception throw by aop
+     *
+     * @param ex UserNotLogInException
+     * @return class of ReturnStatus
+     */
+    @ResponseBody
+    @ExceptionHandler(value = {UserNotLogInException.class})
+    public ReturnStatus handleUserNotLoginExceptions(
+            UserNotLogInException ex) {
+        // log
+        log.error(ex.getMessage(), ex);
+        return new ReturnStatus(ex.getMessage(), CharityCodes.USER_STATUS_ERROR, StatusType.FAIL);
     }
 
     /**
@@ -58,10 +73,14 @@ public class GlobalExceptionHandleController {
      */
     @ResponseBody
     @ExceptionHandler(value = {Exception.class})
-    protected ReturnStatus handleExtraException(RuntimeException ex) {
+    protected ReturnStatus handleExtraException(Throwable ex) {
+        Throwable cause = ex.getCause();
+        if (cause instanceof UserNotLogInException) {
+            return handleUserNotLoginExceptions((UserNotLogInException) cause);
+        }
         // log
         log.error(CharityConstants.RETURN_SYSTEM_INTERNAL_ERROR, ex);
         return new ReturnStatus(CharityConstants.RETURN_SYSTEM_INTERNAL_ERROR,
-                CharityCodes.GLOBAL_SYSTEM_INTERNAL_ERROR, StatusInfo.FAIL);
+                CharityCodes.GLOBAL_SYSTEM_INTERNAL_ERROR, StatusType.FAIL);
     }
 }

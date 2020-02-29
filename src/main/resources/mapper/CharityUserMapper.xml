@@ -8,10 +8,10 @@
         <result column="charity_user_name" jdbcType="VARCHAR" property="name"/>
         <result column="charity_user_number" jdbcType="VARCHAR" property="number"/>
         <result column="charity_user_photo" jdbcType="VARCHAR" property="photo"/>
-        <result column="charity_user_case_photo" jdbcType="VARCHAR" property="casePhoto"/>
         <result column="charity_user_description" jdbcType="VARCHAR" property="description"/>
-        <result column="charity_user_project_desc" jdbcType="VARCHAR" property="projectDesc"/>
+        <result column="charity_user_case_photo" jdbcType="VARCHAR" property="casePhoto"/>
         <result column="charity_user_case_video" jdbcType="VARCHAR" property="caseVideo"/>
+        <result column="charity_user_case_desc" jdbcType="VARCHAR" property="caseDesc"/>
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -76,9 +76,9 @@
     <sql id="Base_Column_List">
         charity_user.id as charity_user_id, charity_user.email as charity_user_email, charity_user.`password` as `charity_user_password`,
     charity_user.`name` as `charity_user_name`, charity_user.`number` as `charity_user_number`, 
-    charity_user.photo as charity_user_photo, charity_user.case_photo as charity_user_case_photo, 
-    charity_user.description as charity_user_description, charity_user.project_desc as charity_user_project_desc, 
-    charity_user.case_video as charity_user_case_video
+    charity_user.photo as charity_user_photo, charity_user.description as charity_user_description, 
+    charity_user.case_photo as charity_user_case_photo, charity_user.case_video as charity_user_case_video, 
+    charity_user.case_desc as charity_user_case_desc
     </sql>
     <select id="selectByExample" parameterType="com.forever17.project.charityquest.pojos.CharityUserExample"
             resultMap="BaseResultMap">
@@ -115,12 +115,12 @@
     <insert id="insert" parameterType="com.forever17.project.charityquest.pojos.CharityUser">
         insert into charity_user (id, email, `password`,
                                   `name`, `number`, photo,
-                                  case_photo, description, project_desc,
-                                  case_video)
+                                  description, case_photo, case_video,
+                                  case_desc)
         values (#{id,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
                 #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR},
-                #{casePhoto,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{projectDesc,jdbcType=VARCHAR},
-                #{caseVideo,jdbcType=VARCHAR})
+                #{description,jdbcType=VARCHAR}, #{casePhoto,jdbcType=VARCHAR}, #{caseVideo,jdbcType=VARCHAR},
+                #{caseDesc,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.forever17.project.charityquest.pojos.CharityUser">
         insert into charity_user
@@ -143,17 +143,17 @@
             <if test="photo != null">
                 photo,
             </if>
-            <if test="casePhoto != null">
-                case_photo,
-            </if>
             <if test="description != null">
                 description,
             </if>
-            <if test="projectDesc != null">
-                project_desc,
+            <if test="casePhoto != null">
+                case_photo,
             </if>
             <if test="caseVideo != null">
                 case_video,
+            </if>
+            <if test="caseDesc != null">
+                case_desc,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -175,17 +175,17 @@
             <if test="photo != null">
                 #{photo,jdbcType=VARCHAR},
             </if>
-            <if test="casePhoto != null">
-                #{casePhoto,jdbcType=VARCHAR},
-            </if>
             <if test="description != null">
                 #{description,jdbcType=VARCHAR},
             </if>
-            <if test="projectDesc != null">
-                #{projectDesc,jdbcType=VARCHAR},
+            <if test="casePhoto != null">
+                #{casePhoto,jdbcType=VARCHAR},
             </if>
             <if test="caseVideo != null">
                 #{caseVideo,jdbcType=VARCHAR},
+            </if>
+            <if test="caseDesc != null">
+                #{caseDesc,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -217,17 +217,17 @@
             <if test="record.photo != null">
                 charity_user.photo = #{record.photo,jdbcType=VARCHAR},
             </if>
-            <if test="record.casePhoto != null">
-                charity_user.case_photo = #{record.casePhoto,jdbcType=VARCHAR},
-            </if>
             <if test="record.description != null">
                 charity_user.description = #{record.description,jdbcType=VARCHAR},
             </if>
-            <if test="record.projectDesc != null">
-                charity_user.project_desc = #{record.projectDesc,jdbcType=VARCHAR},
+            <if test="record.casePhoto != null">
+                charity_user.case_photo = #{record.casePhoto,jdbcType=VARCHAR},
             </if>
             <if test="record.caseVideo != null">
                 charity_user.case_video = #{record.caseVideo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.caseDesc != null">
+                charity_user.case_desc = #{record.caseDesc,jdbcType=VARCHAR},
             </if>
         </set>
         <if test="_parameter != null">
@@ -242,10 +242,10 @@
         charity_user.`name` = #{record.name,jdbcType=VARCHAR},
         charity_user.`number` = #{record.number,jdbcType=VARCHAR},
         charity_user.photo = #{record.photo,jdbcType=VARCHAR},
-        charity_user.case_photo = #{record.casePhoto,jdbcType=VARCHAR},
         charity_user.description = #{record.description,jdbcType=VARCHAR},
-        charity_user.project_desc = #{record.projectDesc,jdbcType=VARCHAR},
-        charity_user.case_video = #{record.caseVideo,jdbcType=VARCHAR}
+        charity_user.case_photo = #{record.casePhoto,jdbcType=VARCHAR},
+        charity_user.case_video = #{record.caseVideo,jdbcType=VARCHAR},
+        charity_user.case_desc = #{record.caseDesc,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -268,32 +268,32 @@
             <if test="photo != null">
                 photo = #{photo,jdbcType=VARCHAR},
             </if>
-            <if test="casePhoto != null">
-                case_photo = #{casePhoto,jdbcType=VARCHAR},
-            </if>
             <if test="description != null">
                 description = #{description,jdbcType=VARCHAR},
             </if>
-            <if test="projectDesc != null">
-                project_desc = #{projectDesc,jdbcType=VARCHAR},
+            <if test="casePhoto != null">
+                case_photo = #{casePhoto,jdbcType=VARCHAR},
             </if>
             <if test="caseVideo != null">
                 case_video = #{caseVideo,jdbcType=VARCHAR},
+            </if>
+            <if test="caseDesc != null">
+                case_desc = #{caseDesc,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.forever17.project.charityquest.pojos.CharityUser">
         update charity_user
-        set email        = #{email,jdbcType=VARCHAR},
-            `password`   = #{password,jdbcType=VARCHAR},
-            `name`       = #{name,jdbcType=VARCHAR},
-            `number`     = #{number,jdbcType=VARCHAR},
-            photo        = #{photo,jdbcType=VARCHAR},
-            case_photo   = #{casePhoto,jdbcType=VARCHAR},
-            description  = #{description,jdbcType=VARCHAR},
-            project_desc = #{projectDesc,jdbcType=VARCHAR},
-            case_video   = #{caseVideo,jdbcType=VARCHAR}
+        set email       = #{email,jdbcType=VARCHAR},
+            `password`  = #{password,jdbcType=VARCHAR},
+            `name`      = #{name,jdbcType=VARCHAR},
+            `number`    = #{number,jdbcType=VARCHAR},
+            photo       = #{photo,jdbcType=VARCHAR},
+            description = #{description,jdbcType=VARCHAR},
+            case_photo  = #{casePhoto,jdbcType=VARCHAR},
+            case_video  = #{caseVideo,jdbcType=VARCHAR},
+            case_desc   = #{caseDesc,jdbcType=VARCHAR}
         where id = #{id,jdbcType=VARCHAR}
     </update>
 </mapper>

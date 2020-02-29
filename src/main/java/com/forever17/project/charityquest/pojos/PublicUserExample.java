@@ -740,6 +740,76 @@ public class PublicUserExample {
             addCriterion("public_user.photo not between", value1, value2, "photo");
             return (Criteria) this;
         }
+
+        public Criteria andLocationIsNull() {
+            addCriterion("public_user.`location` is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocationIsNotNull() {
+            addCriterion("public_user.`location` is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocationEqualTo(String value) {
+            addCriterion("public_user.`location` =", value, "location");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocationNotEqualTo(String value) {
+            addCriterion("public_user.`location` <>", value, "location");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocationGreaterThan(String value) {
+            addCriterion("public_user.`location` >", value, "location");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocationGreaterThanOrEqualTo(String value) {
+            addCriterion("public_user.`location` >=", value, "location");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocationLessThan(String value) {
+            addCriterion("public_user.`location` <", value, "location");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocationLessThanOrEqualTo(String value) {
+            addCriterion("public_user.`location` <=", value, "location");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocationLike(String value) {
+            addCriterion("public_user.`location` like", value, "location");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocationNotLike(String value) {
+            addCriterion("public_user.`location` not like", value, "location");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocationIn(List<String> values) {
+            addCriterion("public_user.`location` in", values, "location");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocationNotIn(List<String> values) {
+            addCriterion("public_user.`location` not in", values, "location");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocationBetween(String value1, String value2) {
+            addCriterion("public_user.`location` between", value1, value2, "location");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocationNotBetween(String value1, String value2) {
+            addCriterion("public_user.`location` not between", value1, value2, "location");
+            return (Criteria) this;
+        }
     }
 
     /**

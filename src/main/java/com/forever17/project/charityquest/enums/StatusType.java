@@ -4,9 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * code of status:
+ * type of result status:
  * 0   FAIL
  * 1   SUCCESS
+ * 2   WARN
  *
  * @author MingLiu (MLiu54@sheffield.ac.uk)
  * @version 1.0
@@ -15,7 +16,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum StatusInfo {
+public enum StatusType {
     FAIL(0), SUCCESS(1), WARN(2);
 
     /**

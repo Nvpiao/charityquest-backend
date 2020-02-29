@@ -20,47 +20,59 @@ import java.io.Serializable;
 @Data
 @ApiModel
 public class PublicUser implements Serializable {
-    private static final long serialVersionUID = 1L;
     /**
      * id of public user
      */
     private String id;
+
     /**
      * email address of public user
      */
     @Email(message = CharityConstants.VALID_EMAIL_NOT_VALID_WARN)
     private String email;
+
     /**
      * password of public user
      */
     @NotBlank(message = CharityConstants.VALID_PASSWORD_BLANK_WARN)
     private String password;
+
     /**
      * title of public user, content:'Mr', 'Mrs', 'Miss', 'Ms', 'Dr', 'Other'. default: Mr
      */
     @NotBlank(message = CharityConstants.VALID_TITLE_BLANK_WARN)
     private String title;
+
     /**
      * first name of public user
      */
     private String firstName;
+
     /**
      * last name of public user
      */
     private String lastName;
+
     /**
      * telephone country code of public user
      */
     private String telPre;
+
     /**
      * telephone number of public user
      */
-    @NotBlank(message = CharityConstants.VALID_TEL_BLANK_WARN)
     private String tel;
+
     /**
      * avatar of public user
      */
     private String photo;
+
+    private static final long serialVersionUID = 1L;
+    /**
+     * location of public user
+     */
+    private String location;
 
     @Override
     public boolean equals(Object that) {
@@ -82,7 +94,8 @@ public class PublicUser implements Serializable {
                 && (this.getLastName() == null ? other.getLastName() == null : this.getLastName().equals(other.getLastName()))
                 && (this.getTelPre() == null ? other.getTelPre() == null : this.getTelPre().equals(other.getTelPre()))
                 && (this.getTel() == null ? other.getTel() == null : this.getTel().equals(other.getTel()))
-                && (this.getPhoto() == null ? other.getPhoto() == null : this.getPhoto().equals(other.getPhoto()));
+                && (this.getPhoto() == null ? other.getPhoto() == null : this.getPhoto().equals(other.getPhoto()))
+                && (this.getLocation() == null ? other.getLocation() == null : this.getLocation().equals(other.getLocation()));
     }
 
     @Override
@@ -98,6 +111,7 @@ public class PublicUser implements Serializable {
         result = prime * result + ((getTelPre() == null) ? 0 : getTelPre().hashCode());
         result = prime * result + ((getTel() == null) ? 0 : getTel().hashCode());
         result = prime * result + ((getPhoto() == null) ? 0 : getPhoto().hashCode());
+        result = prime * result + ((getLocation() == null) ? 0 : getLocation().hashCode());
         return result;
     }
 
@@ -115,6 +129,7 @@ public class PublicUser implements Serializable {
                 ", telPre=" + telPre +
                 ", tel=" + tel +
                 ", photo=" + photo +
+                ", location=" + location +
                 ", serialVersionUID=" + serialVersionUID +
                 "]";
     }

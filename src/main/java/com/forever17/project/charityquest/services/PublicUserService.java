@@ -17,7 +17,7 @@ public interface PublicUserService {
      * add a new public user into database
      *
      * @param publicUser object of public user
-     * @return class of ReturnStatus
+     * @return instance of ReturnStatus
      * @throws SystemInternalException exception
      */
     ReturnStatus addUser(PublicUser publicUser) throws SystemInternalException;
@@ -26,7 +26,16 @@ public interface PublicUserService {
      * check whether email has already been registered by other public or charity.
      *
      * @param email email address
-     * @return class of ReturnStatus
+     * @return instance of ReturnStatus
      */
     ReturnStatus checkEmail(String email);
+
+    /**
+     * check whether user exist and password is correct
+     *
+     * @param email    email of public user
+     * @param password password of user
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus signIn(String email, String password) throws SystemInternalException;
 }

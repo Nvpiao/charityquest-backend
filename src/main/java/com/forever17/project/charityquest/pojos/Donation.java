@@ -1,5 +1,6 @@
 package com.forever17.project.charityquest.pojos;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,36 +15,45 @@ import java.time.LocalDateTime;
  * @since 1.0
  */
 @Data
+@ApiModel
 public class Donation implements Serializable {
     private static final long serialVersionUID = 1L;
+
     /**
      * id of donation
      */
     private String id;
+
     /**
      * id of public (who donated)
      */
     private String publicId;
+
     /**
      * donation or fundraising. default donation
      */
     private String type;
+
     /**
      * id of charity (to who)
      */
     private String charityId;
+
     /**
      * id of fundraising
      */
     private String fundraisingId;
+
     /**
      * type of donation, types: once, weekly, monthly, quarterly, yearly, default: once
      */
     private String donateType;
+
     /**
      * money of donation
      */
     private Integer money;
+
     /**
      * time of donation
      */

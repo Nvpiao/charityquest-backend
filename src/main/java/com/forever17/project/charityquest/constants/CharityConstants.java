@@ -22,9 +22,13 @@ public class CharityConstants {
     // return messages
     public static final String RETURN_SYSTEM_INTERNAL_ERROR = "Internal System Error!";
     public static final String RETURN_VALID_ERROR = "Parameter Validation Failed.";
-    public static final String RETURN_USER_ADDED = "User Registered Successfully";
+    public static final String RETURN_PUBLIC_USER_ADDED = "Public User Registered Successfully!";
     public static final String RETURN_EMAIL_CAN_BE_USED = "Email Address can be used.";
     public static final String RETURN_EMAIL_CAN_NOT_BE_USED = "Email Address can Not be used!";
+    public static final String RETURN_USER_NOT_LOGIN = "User is not logged in!";
+    public static final String RETURN_USER_LOGIN_SUCCESS = "Public User login successfully";
+    public static final String RETURN_EMAIL_OR_PASSWORD_ERROR = "Email or Password is wrong!";
+    public static final String RETURN_USER_HAS_NO_PERMISSION = "User has no permission to access";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
@@ -42,4 +46,13 @@ public class CharityConstants {
     public static final String VALID_CHARITY_NAME_BLANK_WARN = "Charity name can not be blank!";
     public static final String VALID_CHARITY_NO_BLANK_WARN = "Charity No. can not be blank!";
     public static final String VALID_TITLE_BLANK_WARN = "Title can not be blank!";
+
+    // header
+    public static final String HEADER_REQUEST_TOKEN = "token";
+
+    // log
+    public static final String LOG_INCORRECT_PASSWORD = "UserEmail: {%s}, Error: Incorrect user password!";
+    public static final String LOG_USER_DOES_NOT_EXIST = "UserEmail: {%s}, Error: User does not exist!";
+    public static final String LOG_USER_LOGIN_SUCCESS = "UserEmail: {%s}, Info: User login successfully.";
+    public static final String LOG_USER_ALREADY_LOGIN = "UserEmail: {%s}, Info: User has already logged in.";
 }

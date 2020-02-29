@@ -1,7 +1,10 @@
 package com.forever17.project.charityquest.pojos;
 
+import com.forever17.project.charityquest.constants.CharityConstants;
 import lombok.Data;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -14,47 +17,53 @@ import java.io.Serializable;
  */
 @Data
 public class CharityUser implements Serializable {
-    private static final long serialVersionUID = 1L;
     /**
      * id of charity
      */
     private String id;
+
+    private static final long serialVersionUID = 1L;
     /**
      * email of charity
      */
+    @Email(message = CharityConstants.VALID_EMAIL_NOT_VALID_WARN)
     private String email;
     /**
      * password of charity
      */
+    @NotBlank(message = CharityConstants.VALID_PASSWORD_BLANK_WARN)
     private String password;
     /**
      * name of charity
      */
+    @NotBlank(message = CharityConstants.VALID_CHARITY_NAME_BLANK_WARN)
     private String name;
-    /**
-     * number of charity
-     */
-    private String number;
+
     /**
      * avatar of charity
      */
     private String photo;
     /**
-     * photo of charity case
+     * number of charity
      */
-    private String casePhoto;
+    @NotBlank(message = CharityConstants.VALID_CHARITY_NO_BLANK_WARN)
+    private String number;
     /**
-     * description of charity case
+     * description of charity
      */
     private String description;
     /**
-     * description of project
+     * case photo of charity
      */
-    private String projectDesc;
+    private String casePhoto;
     /**
-     * case video address of project
+     * case video address of charity
      */
     private String caseVideo;
+    /**
+     * case description of charity
+     */
+    private String caseDesc;
 
     @Override
     public boolean equals(Object that) {
@@ -74,10 +83,10 @@ public class CharityUser implements Serializable {
                 && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
                 && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()))
                 && (this.getPhoto() == null ? other.getPhoto() == null : this.getPhoto().equals(other.getPhoto()))
-                && (this.getCasePhoto() == null ? other.getCasePhoto() == null : this.getCasePhoto().equals(other.getCasePhoto()))
                 && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
-                && (this.getProjectDesc() == null ? other.getProjectDesc() == null : this.getProjectDesc().equals(other.getProjectDesc()))
-                && (this.getCaseVideo() == null ? other.getCaseVideo() == null : this.getCaseVideo().equals(other.getCaseVideo()));
+                && (this.getCasePhoto() == null ? other.getCasePhoto() == null : this.getCasePhoto().equals(other.getCasePhoto()))
+                && (this.getCaseVideo() == null ? other.getCaseVideo() == null : this.getCaseVideo().equals(other.getCaseVideo()))
+                && (this.getCaseDesc() == null ? other.getCaseDesc() == null : this.getCaseDesc().equals(other.getCaseDesc()));
     }
 
     @Override
@@ -90,10 +99,10 @@ public class CharityUser implements Serializable {
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getNumber() == null) ? 0 : getNumber().hashCode());
         result = prime * result + ((getPhoto() == null) ? 0 : getPhoto().hashCode());
-        result = prime * result + ((getCasePhoto() == null) ? 0 : getCasePhoto().hashCode());
         result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
-        result = prime * result + ((getProjectDesc() == null) ? 0 : getProjectDesc().hashCode());
+        result = prime * result + ((getCasePhoto() == null) ? 0 : getCasePhoto().hashCode());
         result = prime * result + ((getCaseVideo() == null) ? 0 : getCaseVideo().hashCode());
+        result = prime * result + ((getCaseDesc() == null) ? 0 : getCaseDesc().hashCode());
         return result;
     }
 
@@ -108,10 +117,10 @@ public class CharityUser implements Serializable {
                 ", name=" + name +
                 ", number=" + number +
                 ", photo=" + photo +
-                ", casePhoto=" + casePhoto +
                 ", description=" + description +
-                ", projectDesc=" + projectDesc +
+                ", casePhoto=" + casePhoto +
                 ", caseVideo=" + caseVideo +
+                ", caseDesc=" + caseDesc +
                 ", serialVersionUID=" + serialVersionUID +
                 "]";
     }

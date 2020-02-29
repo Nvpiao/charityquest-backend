@@ -19,4 +19,7 @@ public final class CharityCodes {
 
     // error
     public static final String EMAIL_ADDRESS_CAN_NOT_BE_USED = "00000010";
+    public static final String USER_STATUS_ERROR = "00000011";
+    public static final String LOGIN_PASSWORD_ERROR = "00000012";
+    public static final String LOGIN_EMAIL_DOES_NOT_EXIST = "00000013";
 }

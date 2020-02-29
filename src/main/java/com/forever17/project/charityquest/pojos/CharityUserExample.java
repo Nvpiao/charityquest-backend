@@ -22,20 +22,20 @@ public class CharityUserExample {
         oredCriteria = new ArrayList<>();
     }
 
-    public String getOrderByClause() {
-        return orderByClause;
-    }
-
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
     }
 
-    public boolean isDistinct() {
-        return distinct;
+    public String getOrderByClause() {
+        return orderByClause;
     }
 
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
+    }
+
+    public boolean isDistinct() {
+        return distinct;
     }
 
     public List<Criteria> getOredCriteria() {
@@ -531,76 +531,6 @@ public class CharityUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andCasePhotoIsNull() {
-            addCriterion("charity_user.case_photo is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCasePhotoIsNotNull() {
-            addCriterion("charity_user.case_photo is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCasePhotoEqualTo(String value) {
-            addCriterion("charity_user.case_photo =", value, "casePhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andCasePhotoNotEqualTo(String value) {
-            addCriterion("charity_user.case_photo <>", value, "casePhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andCasePhotoGreaterThan(String value) {
-            addCriterion("charity_user.case_photo >", value, "casePhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andCasePhotoGreaterThanOrEqualTo(String value) {
-            addCriterion("charity_user.case_photo >=", value, "casePhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andCasePhotoLessThan(String value) {
-            addCriterion("charity_user.case_photo <", value, "casePhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andCasePhotoLessThanOrEqualTo(String value) {
-            addCriterion("charity_user.case_photo <=", value, "casePhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andCasePhotoLike(String value) {
-            addCriterion("charity_user.case_photo like", value, "casePhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andCasePhotoNotLike(String value) {
-            addCriterion("charity_user.case_photo not like", value, "casePhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andCasePhotoIn(List<String> values) {
-            addCriterion("charity_user.case_photo in", values, "casePhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andCasePhotoNotIn(List<String> values) {
-            addCriterion("charity_user.case_photo not in", values, "casePhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andCasePhotoBetween(String value1, String value2) {
-            addCriterion("charity_user.case_photo between", value1, value2, "casePhoto");
-            return (Criteria) this;
-        }
-
-        public Criteria andCasePhotoNotBetween(String value1, String value2) {
-            addCriterion("charity_user.case_photo not between", value1, value2, "casePhoto");
-            return (Criteria) this;
-        }
-
         public Criteria andDescriptionIsNull() {
             addCriterion("charity_user.description is null");
             return (Criteria) this;
@@ -671,73 +601,73 @@ public class CharityUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andProjectDescIsNull() {
-            addCriterion("charity_user.project_desc is null");
+        public Criteria andCasePhotoIsNull() {
+            addCriterion("charity_user.case_photo is null");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDescIsNotNull() {
-            addCriterion("charity_user.project_desc is not null");
+        public Criteria andCasePhotoIsNotNull() {
+            addCriterion("charity_user.case_photo is not null");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDescEqualTo(String value) {
-            addCriterion("charity_user.project_desc =", value, "projectDesc");
+        public Criteria andCasePhotoEqualTo(String value) {
+            addCriterion("charity_user.case_photo =", value, "casePhoto");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDescNotEqualTo(String value) {
-            addCriterion("charity_user.project_desc <>", value, "projectDesc");
+        public Criteria andCasePhotoNotEqualTo(String value) {
+            addCriterion("charity_user.case_photo <>", value, "casePhoto");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDescGreaterThan(String value) {
-            addCriterion("charity_user.project_desc >", value, "projectDesc");
+        public Criteria andCasePhotoGreaterThan(String value) {
+            addCriterion("charity_user.case_photo >", value, "casePhoto");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDescGreaterThanOrEqualTo(String value) {
-            addCriterion("charity_user.project_desc >=", value, "projectDesc");
+        public Criteria andCasePhotoGreaterThanOrEqualTo(String value) {
+            addCriterion("charity_user.case_photo >=", value, "casePhoto");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDescLessThan(String value) {
-            addCriterion("charity_user.project_desc <", value, "projectDesc");
+        public Criteria andCasePhotoLessThan(String value) {
+            addCriterion("charity_user.case_photo <", value, "casePhoto");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDescLessThanOrEqualTo(String value) {
-            addCriterion("charity_user.project_desc <=", value, "projectDesc");
+        public Criteria andCasePhotoLessThanOrEqualTo(String value) {
+            addCriterion("charity_user.case_photo <=", value, "casePhoto");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDescLike(String value) {
-            addCriterion("charity_user.project_desc like", value, "projectDesc");
+        public Criteria andCasePhotoLike(String value) {
+            addCriterion("charity_user.case_photo like", value, "casePhoto");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDescNotLike(String value) {
-            addCriterion("charity_user.project_desc not like", value, "projectDesc");
+        public Criteria andCasePhotoNotLike(String value) {
+            addCriterion("charity_user.case_photo not like", value, "casePhoto");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDescIn(List<String> values) {
-            addCriterion("charity_user.project_desc in", values, "projectDesc");
+        public Criteria andCasePhotoIn(List<String> values) {
+            addCriterion("charity_user.case_photo in", values, "casePhoto");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDescNotIn(List<String> values) {
-            addCriterion("charity_user.project_desc not in", values, "projectDesc");
+        public Criteria andCasePhotoNotIn(List<String> values) {
+            addCriterion("charity_user.case_photo not in", values, "casePhoto");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDescBetween(String value1, String value2) {
-            addCriterion("charity_user.project_desc between", value1, value2, "projectDesc");
+        public Criteria andCasePhotoBetween(String value1, String value2) {
+            addCriterion("charity_user.case_photo between", value1, value2, "casePhoto");
             return (Criteria) this;
         }
 
-        public Criteria andProjectDescNotBetween(String value1, String value2) {
-            addCriterion("charity_user.project_desc not between", value1, value2, "projectDesc");
+        public Criteria andCasePhotoNotBetween(String value1, String value2) {
+            addCriterion("charity_user.case_photo not between", value1, value2, "casePhoto");
             return (Criteria) this;
         }
 
@@ -810,10 +740,79 @@ public class CharityUserExample {
             addCriterion("charity_user.case_video not between", value1, value2, "caseVideo");
             return (Criteria) this;
         }
+
+        public Criteria andCaseDescIsNull() {
+            addCriterion("charity_user.case_desc is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseDescIsNotNull() {
+            addCriterion("charity_user.case_desc is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseDescEqualTo(String value) {
+            addCriterion("charity_user.case_desc =", value, "caseDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseDescNotEqualTo(String value) {
+            addCriterion("charity_user.case_desc <>", value, "caseDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseDescGreaterThan(String value) {
+            addCriterion("charity_user.case_desc >", value, "caseDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseDescGreaterThanOrEqualTo(String value) {
+            addCriterion("charity_user.case_desc >=", value, "caseDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseDescLessThan(String value) {
+            addCriterion("charity_user.case_desc <", value, "caseDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseDescLessThanOrEqualTo(String value) {
+            addCriterion("charity_user.case_desc <=", value, "caseDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseDescLike(String value) {
+            addCriterion("charity_user.case_desc like", value, "caseDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseDescNotLike(String value) {
+            addCriterion("charity_user.case_desc not like", value, "caseDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseDescIn(List<String> values) {
+            addCriterion("charity_user.case_desc in", values, "caseDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseDescNotIn(List<String> values) {
+            addCriterion("charity_user.case_desc not in", values, "caseDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseDescBetween(String value1, String value2) {
+            addCriterion("charity_user.case_desc between", value1, value2, "caseDesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCaseDescNotBetween(String value1, String value2) {
+            addCriterion("charity_user.case_desc not between", value1, value2, "caseDesc");
+            return (Criteria) this;
+        }
     }
 
     /**
-     *
      */
     public static class Criteria extends GeneratedCriteria {
         protected Criteria() {
@@ -837,6 +836,38 @@ public class CharityUserExample {
         private boolean listValue;
 
         private String typeHandler;
+
+        public String getCondition() {
+            return condition;
+        }
+
+        public Object getValue() {
+            return value;
+        }
+
+        public Object getSecondValue() {
+            return secondValue;
+        }
+
+        public boolean isNoValue() {
+            return noValue;
+        }
+
+        public boolean isSingleValue() {
+            return singleValue;
+        }
+
+        public boolean isBetweenValue() {
+            return betweenValue;
+        }
+
+        public boolean isListValue() {
+            return listValue;
+        }
+
+        public String getTypeHandler() {
+            return typeHandler;
+        }
 
         protected Criterion(String condition) {
             super();
@@ -872,38 +903,6 @@ public class CharityUserExample {
 
         protected Criterion(String condition, Object value, Object secondValue) {
             this(condition, value, secondValue, null);
-        }
-
-        public String getCondition() {
-            return condition;
-        }
-
-        public Object getValue() {
-            return value;
-        }
-
-        public Object getSecondValue() {
-            return secondValue;
-        }
-
-        public boolean isNoValue() {
-            return noValue;
-        }
-
-        public boolean isSingleValue() {
-            return singleValue;
-        }
-
-        public boolean isBetweenValue() {
-            return betweenValue;
-        }
-
-        public boolean isListValue() {
-            return listValue;
-        }
-
-        public String getTypeHandler() {
-            return typeHandler;
         }
     }
 }

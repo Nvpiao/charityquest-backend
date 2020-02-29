@@ -1,7 +1,7 @@
 package com.forever17.project.charityquest.pojos.entity;
 
 import com.forever17.project.charityquest.constants.CharityCodes;
-import com.forever17.project.charityquest.enums.StatusInfo;
+import com.forever17.project.charityquest.enums.StatusType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,14 +39,14 @@ public class ReturnStatus {
     private String returnCode;
 
     /**
+     * state of request
+     */
+    private StatusType statusType = StatusType.SUCCESS;
+
+    /**
      * result data
      */
     private Object data;
-
-    /**
-     * state of request
-     */
-    private StatusInfo statusInfo = StatusInfo.SUCCESS;
 
     public ReturnStatus(String returnMsg) {
         this(returnMsg, CharityCodes.GLOBAL_SUCCESS);
@@ -56,15 +56,15 @@ public class ReturnStatus {
         this(Collections.singletonList(returnMsg), returnCode);
     }
 
-    public ReturnStatus(String returnMsg, String returnCode, StatusInfo statusInfo) {
-        this(Collections.singletonList(returnMsg), returnCode, null, statusInfo);
+    public ReturnStatus(String returnMsg, String returnCode, StatusType statusType) {
+        this(Collections.singletonList(returnMsg), returnCode, statusType, null);
     }
 
-    public ReturnStatus(String returnMsg, String returnCode, Object data, StatusInfo statusInfo) {
-        this(Collections.singletonList(returnMsg), returnCode, data, statusInfo);
+    public ReturnStatus(String returnMsg, String returnCode, StatusType statusType, Object data) {
+        this(Collections.singletonList(returnMsg), returnCode, statusType, data);
     }
 
-    public ReturnStatus(List<String> returnMsg, String returnCode, StatusInfo statusInfo) {
-        this(returnMsg, returnCode, null, statusInfo);
+    public ReturnStatus(List<String> returnMsg, String returnCode, StatusType statusType) {
+        this(returnMsg, returnCode, statusType, null);
     }
 }

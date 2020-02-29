@@ -1,5 +1,6 @@
 package com.forever17.project.charityquest.pojos;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,40 +15,51 @@ import java.time.LocalDateTime;
  * @since 1.0
  */
 @Data
+
+@ApiModel
 public class Message implements Serializable {
     private static final long serialVersionUID = 1L;
+
     /**
      * id of message
      */
     private String id;
+
     /**
      * id of charity, it is a foreign key
      */
     private String charityId;
+
     /**
      * time of creation
      */
     private LocalDateTime createTime;
+
     /**
      * time of modification
      */
     private LocalDateTime modifyTime;
+
     /**
      * lastest sending time
      */
     private LocalDateTime sentTime;
+
     /**
      * subject of message
      */
     private String subject;
+
     /**
      * content of message
      */
     private String content;
+
     /**
      * status of message. types: draft, sent, failed. default: draft.
      */
     private String status;
+
     /**
      * error message when it send failed.
      */

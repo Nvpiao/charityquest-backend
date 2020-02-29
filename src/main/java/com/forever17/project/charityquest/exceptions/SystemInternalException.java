@@ -11,5 +11,10 @@ package com.forever17.project.charityquest.exceptions;
  * @since 1.0
  */
 public class SystemInternalException extends Throwable {
+    public SystemInternalException() {
+    }
 
+    public SystemInternalException(String message) {
+        super(message);
+    }
 }
