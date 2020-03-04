@@ -9,6 +9,10 @@ spring:
       validation-timeout: 5000
       idle-timeout: 0
       maximum-pool-size: 10
+  jackson:
+    visibility.field: any
+    visibility.getter: none
+    visibility.setter: none
 
 server:
   port: 7777

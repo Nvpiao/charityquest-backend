@@ -1,5 +1,6 @@
 package com.forever17.project.charityquest.pojos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.forever17.project.charityquest.constants.CharityConstants;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class PublicUser implements Serializable {
     /**
      * id of public user
      */
+    @JsonProperty(value = "publicId")
     private String id;
 
     /**

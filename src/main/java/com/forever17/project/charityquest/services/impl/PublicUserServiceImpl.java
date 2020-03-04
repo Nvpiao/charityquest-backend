@@ -90,7 +90,7 @@ public class PublicUserServiceImpl implements PublicUserService {
             md5Password = MD5Util.md5(password);
         } catch (NoSuchAlgorithmException e) {
             log.error(CharityConstants.NO_SUCH_ALGORITHM_ERROR, e);
-            throw new SystemInternalException();
+            throw new SystemInternalException(CharityConstants.NO_SUCH_ALGORITHM_ERROR);
         }
         // set uuid
         publicUser.setId(userId);
@@ -147,17 +147,6 @@ public class PublicUserServiceImpl implements PublicUserService {
             String userPassword = publicUser.getPassword();
             String userId = publicUser.getId();
 
-            // success return
-            ReturnStatus successReturn = new ReturnStatus(CharityConstants.RETURN_USER_LOGIN_SUCCESS);
-
-//            // check if user has already logged in.
-//            String token = (String) httpSession.getAttribute(CharityConstants.HEADER_REQUEST_TOKEN);
-//            if (userId.equals(token)) {
-//                // early return
-//                log.warn(String.format(CharityConstants.LOG_USER_ALREADY_LOGIN, email));
-//                return successReturn;
-//            }
-
             // md5 incoming password
             String md5Password;
             try {
@@ -165,14 +154,15 @@ public class PublicUserServiceImpl implements PublicUserService {
                 md5Password = MD5Util.md5(password);
             } catch (NoSuchAlgorithmException e) {
                 log.error(CharityConstants.NO_SUCH_ALGORITHM_ERROR, e);
-                throw new SystemInternalException();
+                throw new SystemInternalException(CharityConstants.NO_SUCH_ALGORITHM_ERROR);
             }
 
             if (md5Password.equals(userPassword)) {
                 // correct && set to session
                 httpSession.setAttribute(CharityConstants.HEADER_REQUEST_TOKEN, userId);
                 log.info(String.format(CharityConstants.LOG_USER_LOGIN_SUCCESS, email));
-                return successReturn;
+                // success return
+                return new ReturnStatus(CharityConstants.RETURN_USER_LOGIN_SUCCESS, publicUser);
             } else {
                 // incorrect user password
                 log.error(String.format(CharityConstants.LOG_INCORRECT_PASSWORD, email));

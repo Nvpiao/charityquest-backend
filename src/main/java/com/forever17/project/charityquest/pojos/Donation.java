@@ -1,5 +1,6 @@
 package com.forever17.project.charityquest.pojos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -22,6 +23,7 @@ public class Donation implements Serializable {
     /**
      * id of donation
      */
+    @JsonProperty(value = "donationId")
     private String id;
 
     /**

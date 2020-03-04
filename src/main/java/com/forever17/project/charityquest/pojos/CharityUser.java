@@ -1,6 +1,8 @@
 package com.forever17.project.charityquest.pojos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.forever17.project.charityquest.constants.CharityConstants;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -16,10 +18,12 @@ import java.io.Serializable;
  * @since 1.0
  */
 @Data
+@ApiModel
 public class CharityUser implements Serializable {
     /**
      * id of charity
      */
+    @JsonProperty(value = "charityId")
     private String id;
 
     private static final long serialVersionUID = 1L;

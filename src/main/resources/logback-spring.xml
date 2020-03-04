@@ -7,7 +7,7 @@
     <!-- logback project name -->
     <property name="appName" value="CharityQuest"/>
 
-    <!-- log level: DEBUGER INFO WARN ERROR -->
+    <!-- log level: DEBUG INFO WARN ERROR -->
     <property name="logLevel" value="INFO"/>
 
     <!-- path of log files -->
@@ -19,7 +19,7 @@
     <!-- buffer of queue. default:256 -->
     <property name="queueSize" value="256"/>
 
-    <!-- lOGGER  PATTERN  -->
+    <!-- LOGGER  PATTERN  -->
     <property name="logPattern"
               value="[ %-5level] [%date{yyyy-MM-dd HH:mm:ss.SSS}] %logger{96} [%line] [%thread]- %msg%n"/>
     <!-- %d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger - %msg%n -->
@@ -37,7 +37,7 @@
         </encoder>
     </appender>
 
-    <!-- DUBUG log  -->
+    <!-- DEBUG log  -->
     <appender name="FILE_DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>DEBUG</level>
@@ -146,9 +146,10 @@
         <!--  console  -->
         <appender-ref ref="STDOUT"/>
 
-        <!--        <appender-ref ref="ASYNC_LOG_DEBUG"/>-->
-        <!--        <appender-ref ref="ASYNC_LOG_INFO"/>-->
-        <!--        <appender-ref ref="ASYNC_LOG_WARN"/>-->
-        <!--        <appender-ref ref="ASYNC_LOG_ERROR"/>-->
+        <!--  file  -->
+        <appender-ref ref="ASYNC_LOG_DEBUG"/>
+        <appender-ref ref="ASYNC_LOG_INFO"/>
+        <appender-ref ref="ASYNC_LOG_WARN"/>
+        <appender-ref ref="ASYNC_LOG_ERROR"/>
     </root>
 </configuration>

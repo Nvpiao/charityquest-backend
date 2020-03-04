@@ -1,5 +1,6 @@
 package com.forever17.project.charityquest.pojos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -15,7 +16,6 @@ import java.time.LocalDateTime;
  * @since 1.0
  */
 @Data
-
 @ApiModel
 public class Message implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -23,6 +23,7 @@ public class Message implements Serializable {
     /**
      * id of message
      */
+    @JsonProperty(value = "messageId")
     private String id;
 
     /**

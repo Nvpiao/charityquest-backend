@@ -48,12 +48,19 @@ public class ReturnStatus {
      */
     private Object data;
 
+    // success
     public ReturnStatus(String returnMsg) {
         this(returnMsg, CharityCodes.GLOBAL_SUCCESS);
     }
 
+    // success
     public ReturnStatus(String returnMsg, String returnCode) {
         this(Collections.singletonList(returnMsg), returnCode);
+    }
+
+    // success
+    public ReturnStatus(String returnMsg, Object data) {
+        this(Collections.singletonList(returnMsg), CharityCodes.GLOBAL_SUCCESS, StatusType.SUCCESS, data);
     }
 
     public ReturnStatus(String returnMsg, String returnCode, StatusType statusType) {
