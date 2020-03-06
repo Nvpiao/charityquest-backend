@@ -55,4 +55,7 @@ public class CharityConstants {
     public static final String LOG_USER_DOES_NOT_EXIST = "UserEmail: {%s}, Error: User does not exist!";
     public static final String LOG_USER_LOGIN_SUCCESS = "UserEmail: {%s}, Info: User login successfully.";
     public static final String LOG_USER_ALREADY_LOGIN = "UserEmail: {%s}, Info: User has already logged in.";
+
+    // prefix
+    public static final String CODE_PREFIX = "code";
 }

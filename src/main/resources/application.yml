@@ -34,6 +34,5 @@ jasypt:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 
-system:
-  code:
-    expire: 1440 # minutes
+code:
+  expire: 1440 # minutes
