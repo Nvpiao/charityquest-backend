@@ -13,6 +13,22 @@ spring:
     visibility.field: any
     visibility.getter: none
     visibility.setter: none
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: ENC(3aOVMaCdyNVk/NCm7DQky+wYQA3qdiipjpGs8Kg4Hxc=)
+    # ohfmwxisvspzgwxq
+    password: ENC(z7jkGBL3g8IyHyj1X/49FqnxF4Z33wn/aRTI4q5X5aU=)
+    properties:
+      mail:
+        smtp:
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 
 server:
   port: 7777

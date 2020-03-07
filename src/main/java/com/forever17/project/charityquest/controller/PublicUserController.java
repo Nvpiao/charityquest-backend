@@ -24,6 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
+/**
+ * Controller of Public user
+ *
+ * @author MingLiu (MLiu54@sheffield.ac.uk)
+ * @version 1.0
+ * @date 21 Feb 2020
+ * @since 1.0
+ */
 @Slf4j
 @CrossOrigin
 @RestController

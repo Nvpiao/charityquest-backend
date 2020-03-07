@@ -32,6 +32,7 @@ public class CharityConstants {
     public static final String RETURN_USER_DOES_NOT_EXIST_ERROR = "User Does not exist.";
     public static final String RETURN_PASSWORD_DUPLICATED_ERROR = "The new password cannot be duplicated with the original password!";
     public static final String RETURN_CHANGE_PASSWORD_SUCCESS = "Password reset complete!";
+    public static final String RETURN_SEND_RESET_EMAIL_SUCCESS = "Reset mail sent successfully";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
@@ -63,4 +64,8 @@ public class CharityConstants {
 
     // prefix
     public static final String CODE_PREFIX = "code";
+
+    // mail
+    public static final String MAIL_SUBJECT_RESET_PASSWORD = "Password Reset";
+    public static final String MAIL_TEXT_RESET_PASSWORD = "Use the following link to reset your password";
 }
