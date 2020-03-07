@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -171,9 +172,44 @@ public class PublicUserServiceImpl implements PublicUserService {
             }
         } else {
             // user does not exist
-            log.error(String.format(CharityConstants.LOG_USER_DOES_NOT_EXIST, email));
+            log.error(String.format(CharityConstants.LOG_USER_DOES_NOT_EXIST_EMAIL, email));
             return new ReturnStatus(CharityConstants.RETURN_EMAIL_OR_PASSWORD_ERROR,
                     CharityCodes.LOGIN_EMAIL_DOES_NOT_EXIST, StatusType.FAIL);
+        }
+    }
+
+    @Override
+    public ReturnStatus changePassword(String publicId, String password) throws SystemInternalException {
+        // query public user by id of public user
+        PublicUser publicUser = publicUserMapper.selectByPrimaryKey(publicId);
+
+        if (!Objects.isNull(publicUser)) {
+
+            // md5 incoming password
+            String md5Password;
+            try {
+                // convert password into md5 code
+                md5Password = MD5Util.md5(password);
+            } catch (NoSuchAlgorithmException e) {
+                log.error(CharityConstants.NO_SUCH_ALGORITHM_ERROR, e);
+                throw new SystemInternalException(CharityConstants.NO_SUCH_ALGORITHM_ERROR);
+            }
+
+            if (md5Password.equals(publicUser.getPassword())) {
+                // password can not be the same as previous.
+                log.warn(String.format(CharityConstants.LOG_CHANGE_PASSWORD_DUPLICATE, publicId));
+                return new ReturnStatus(CharityConstants.RETURN_PASSWORD_DUPLICATED_ERROR,
+                        CharityCodes.CHANGE_PASSWORD_DUPLICATE, StatusType.WARN);
+            }
+
+            // success return
+            return new ReturnStatus(CharityConstants.RETURN_CHANGE_PASSWORD_SUCCESS);
+
+        } else {
+            // user does not exist
+            log.error(String.format(CharityConstants.LOG_USER_DOES_NOT_EXIST_ID, publicId));
+            return new ReturnStatus(CharityConstants.RETURN_USER_DOES_NOT_EXIST_ERROR,
+                    CharityCodes.LOGIN_USER_DOES_NOT_EXIST, StatusType.FAIL);
         }
     }
 }

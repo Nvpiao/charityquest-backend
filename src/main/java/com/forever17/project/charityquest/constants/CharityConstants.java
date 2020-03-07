@@ -29,6 +29,9 @@ public class CharityConstants {
     public static final String RETURN_USER_LOGIN_SUCCESS = "Public User login successfully";
     public static final String RETURN_EMAIL_OR_PASSWORD_ERROR = "Email or Password is wrong!";
     public static final String RETURN_USER_HAS_NO_PERMISSION = "User has no permission to access";
+    public static final String RETURN_USER_DOES_NOT_EXIST_ERROR = "User Does not exist.";
+    public static final String RETURN_PASSWORD_DUPLICATED_ERROR = "The new password cannot be duplicated with the original password!";
+    public static final String RETURN_CHANGE_PASSWORD_SUCCESS = "Password reset complete!";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
@@ -52,9 +55,11 @@ public class CharityConstants {
 
     // log
     public static final String LOG_INCORRECT_PASSWORD = "UserEmail: {%s}, Error: Incorrect user password!";
-    public static final String LOG_USER_DOES_NOT_EXIST = "UserEmail: {%s}, Error: User does not exist!";
+    public static final String LOG_USER_DOES_NOT_EXIST_EMAIL = "UserEmail: {%s}, Error: User does not exist!";
     public static final String LOG_USER_LOGIN_SUCCESS = "UserEmail: {%s}, Info: User login successfully.";
     public static final String LOG_USER_ALREADY_LOGIN = "UserEmail: {%s}, Info: User has already logged in.";
+    public static final String LOG_USER_DOES_NOT_EXIST_ID = "UserID: {%s}, Error: User does not exist!";
+    public static final String LOG_CHANGE_PASSWORD_DUPLICATE = "UserID: {%s}, Error: Duplicate Password!";
 
     // prefix
     public static final String CODE_PREFIX = "code";

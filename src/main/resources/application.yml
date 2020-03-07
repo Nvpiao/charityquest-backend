@@ -36,3 +36,4 @@ mybatis:
 
 code:
   expire: 1440 # minutes
+  base-url: http://localhost:8080/

@@ -23,6 +23,11 @@ public class ResetPasswordCode {
     private int expire;
 
     /**
+     * url of reset password page
+     */
+    private String baseUrl;
+
+    /**
      * generate a new code for resetting password
      */
     public void generateCode() {
@@ -43,7 +48,7 @@ public class ResetPasswordCode {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    class Code {
+    private class Code {
 
         private String code;
 

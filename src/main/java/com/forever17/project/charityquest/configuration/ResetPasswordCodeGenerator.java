@@ -25,11 +25,16 @@ public class ResetPasswordCodeGenerator {
     @Getter
     private int expire;
 
+    @Setter
+    @Getter
+    private String baseUrl;
+
     @Bean
     public ResetPasswordCode getResetPasswordCodeBean() {
         return ResetPasswordCode.builder()
                 .codes(Lists.newArrayList())
                 .expire(expire)
+                .baseUrl(baseUrl)
                 .build();
     }
 }
