@@ -32,11 +32,16 @@ public class CharityConstants {
     public static final String RETURN_USER_DOES_NOT_EXIST_ERROR = "User Does not exist.";
     public static final String RETURN_PASSWORD_DUPLICATED_ERROR = "The new password cannot be duplicated with the original password!";
     public static final String RETURN_CHANGE_PASSWORD_SUCCESS = "Password reset complete!";
-    public static final String RETURN_SEND_RESET_EMAIL_SUCCESS = "Reset mail sent successfully";
+    public static final String RETURN_SEND_RESET_EMAIL_SUCCESS = "Reset mail sent successfully.";
+    public static final String RETURN_RESET_PASSWORD_CODE_EXPIRE_OR_USED = "Code has expired or is used!";
+    public static final String RETURN_RESET_PASSWORD_CODE_CAN_USE = "Code can be used.";
+    public static final String RETURN_RESET_PASSWORD_SUCCESS = "Password reset successful.";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
+    public static final String MD5_PASSWORD = "md5Password";
     public static final String NO_SUCH_ALGORITHM_ERROR = "No such algorithm error.";
+    public static final String UNSUPPORTED_ENCODING_ERROR = "Unsupported encoding error!";
 
     // validation information
     public static final String VALID_EMAIL_NOT_VALID_WARN = "Email not valid!";
@@ -68,4 +73,7 @@ public class CharityConstants {
     // mail
     public static final String MAIL_SUBJECT_RESET_PASSWORD = "Password Reset";
     public static final String MAIL_TEXT_RESET_PASSWORD = "Use the following link to reset your password";
+    public static final String MAIL_TEXT_RESET_PASSWORD_TYPE = "&type=";
+    public static final String MAIL_TEXT_RESET_PASSWORD_EMAIL = "&email=";
+    public static final String MAIL_TEXT_RESET_PASSWORD_CODE = "?code=";
 }

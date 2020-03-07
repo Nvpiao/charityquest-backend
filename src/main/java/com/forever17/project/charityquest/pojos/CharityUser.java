@@ -5,7 +5,6 @@ import com.forever17.project.charityquest.constants.CharityConstants;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
@@ -19,24 +18,16 @@ import java.io.Serializable;
  */
 @Data
 @ApiModel
-public class CharityUser implements Serializable {
+public class CharityUser extends User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     /**
      * id of charity
      */
     @JsonProperty(value = "charityId")
     private String id;
 
-    private static final long serialVersionUID = 1L;
-    /**
-     * email of charity
-     */
-    @Email(message = CharityConstants.VALID_EMAIL_NOT_VALID_WARN)
-    private String email;
-    /**
-     * password of charity
-     */
-    @NotBlank(message = CharityConstants.VALID_PASSWORD_BLANK_WARN)
-    private String password;
     /**
      * name of charity
      */
@@ -68,6 +59,11 @@ public class CharityUser implements Serializable {
      * case description of charity
      */
     private String caseDesc;
+
+    public CharityUser(String id, String password) {
+        super(id, password);
+        this.id = id;
+    }
 
     @Override
     public boolean equals(Object that) {

@@ -24,4 +24,5 @@ public final class CharityCodes {
     public static final String LOGIN_EMAIL_DOES_NOT_EXIST = "00000013";
     public static final String LOGIN_USER_DOES_NOT_EXIST = "00000014";
     public static final String CHANGE_PASSWORD_DUPLICATE = "00000015";
+    public static final String RESET_PASSWORD_CODE_EXPIRE_OR_USED = "00000016";
 }

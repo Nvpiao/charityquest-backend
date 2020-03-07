@@ -36,11 +36,6 @@ import java.util.UUID;
 public class PublicUserServiceImpl implements PublicUserService {
 
     /**
-     * uuid generator
-     */
-    private final UUID uuid;
-
-    /**
      * http session
      */
     private final HttpSession httpSession;
@@ -72,9 +67,8 @@ public class PublicUserServiceImpl implements PublicUserService {
     }
 
     @Autowired
-    public PublicUserServiceImpl(UUID uuid, HttpSession httpSession, PublicUserMapper publicUserMapper,
+    public PublicUserServiceImpl(HttpSession httpSession, PublicUserMapper publicUserMapper,
                                  CharityUserMapper charityUserMapper) {
-        this.uuid = uuid;
         this.httpSession = httpSession;
         this.publicUserMapper = publicUserMapper;
         this.charityUserMapper = charityUserMapper;
@@ -82,17 +76,10 @@ public class PublicUserServiceImpl implements PublicUserService {
 
     @Override
     public ReturnStatus addUser(PublicUser publicUser) throws SystemInternalException {
-        String userId = uuid.toString();
-        String md5Password;
+        String userId = UUID.randomUUID().toString();
         String password = publicUser.getPassword();
 
-        try {
-            // convert password into md5 code
-            md5Password = MD5Util.md5(password);
-        } catch (NoSuchAlgorithmException e) {
-            log.error(CharityConstants.NO_SUCH_ALGORITHM_ERROR, e);
-            throw new SystemInternalException(CharityConstants.NO_SUCH_ALGORITHM_ERROR);
-        }
+        String md5Password = convertPasswordToMd5(password);
         // set uuid
         publicUser.setId(userId);
         // set md5 password
@@ -149,14 +136,7 @@ public class PublicUserServiceImpl implements PublicUserService {
             String userId = publicUser.getId();
 
             // md5 incoming password
-            String md5Password;
-            try {
-                // convert password into md5 code
-                md5Password = MD5Util.md5(password);
-            } catch (NoSuchAlgorithmException e) {
-                log.error(CharityConstants.NO_SUCH_ALGORITHM_ERROR, e);
-                throw new SystemInternalException(CharityConstants.NO_SUCH_ALGORITHM_ERROR);
-            }
+            String md5Password = convertPasswordToMd5(password);
 
             if (md5Password.equals(userPassword)) {
                 // correct && set to session
@@ -184,16 +164,7 @@ public class PublicUserServiceImpl implements PublicUserService {
         PublicUser publicUser = publicUserMapper.selectByPrimaryKey(publicId);
 
         if (!Objects.isNull(publicUser)) {
-
-            // md5 incoming password
-            String md5Password;
-            try {
-                // convert password into md5 code
-                md5Password = MD5Util.md5(password);
-            } catch (NoSuchAlgorithmException e) {
-                log.error(CharityConstants.NO_SUCH_ALGORITHM_ERROR, e);
-                throw new SystemInternalException(CharityConstants.NO_SUCH_ALGORITHM_ERROR);
-            }
+            String md5Password = convertPasswordToMd5(password);
 
             if (md5Password.equals(publicUser.getPassword())) {
                 // password can not be the same as previous.
@@ -211,5 +182,25 @@ public class PublicUserServiceImpl implements PublicUserService {
             return new ReturnStatus(CharityConstants.RETURN_USER_DOES_NOT_EXIST_ERROR,
                     CharityCodes.LOGIN_USER_DOES_NOT_EXIST, StatusType.FAIL);
         }
+    }
+
+    /**
+     * convert password to md5 representation
+     *
+     * @param password password
+     * @return encrypt password with md5
+     * @throws SystemInternalException system internal exception
+     */
+    private String convertPasswordToMd5(String password) throws SystemInternalException {
+        // md5 incoming password
+        String md5Password;
+        try {
+            // convert password into md5 code
+            md5Password = MD5Util.md5(password);
+        } catch (NoSuchAlgorithmException e) {
+            log.error(CharityConstants.NO_SUCH_ALGORITHM_ERROR, e);
+            throw new SystemInternalException(CharityConstants.NO_SUCH_ALGORITHM_ERROR);
+        }
+        return md5Password;
     }
 }

@@ -5,12 +5,9 @@ import com.forever17.project.charityquest.pojos.entity.ResetPasswordCode;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 /**
  * reset password code generator
@@ -24,11 +21,6 @@ import java.util.UUID;
 @ConfigurationProperties(prefix = CharityConstants.CODE_PREFIX)
 public class ResetPasswordCodeGenerator {
 
-    /**
-     * uuid generator
-     */
-    private final UUID uuid;
-
     @Setter
     @Getter
     private int expire;
@@ -37,18 +29,12 @@ public class ResetPasswordCodeGenerator {
     @Getter
     private String baseUrl;
 
-    @Autowired
-    public ResetPasswordCodeGenerator(UUID uuid) {
-        this.uuid = uuid;
-    }
-
     @Bean
     public ResetPasswordCode getResetPasswordCodeBean() {
         return ResetPasswordCode.builder()
                 .codes(Lists.newArrayList())
                 .expire(expire)
                 .baseUrl(baseUrl)
-                .codeGenerator(uuid)
                 .build();
     }
 }

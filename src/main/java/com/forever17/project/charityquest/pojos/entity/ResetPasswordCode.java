@@ -26,11 +26,6 @@ public class ResetPasswordCode {
     private int expire;
 
     /**
-     * code generator
-     */
-    private UUID codeGenerator;
-
-    /**
      * url of reset password page
      */
     @Getter
@@ -43,7 +38,7 @@ public class ResetPasswordCode {
      */
     public String generateCode(String email) {
         // get code
-        String code = codeGenerator.toString().replaceAll("-", "");
+        String code = UUID.randomUUID().toString().replaceAll("-", "");
 
         // store code
         codes.add(new Code(code, email, LocalDateTime.now()));
@@ -71,8 +66,8 @@ public class ResetPasswordCode {
                 LocalDateTime now = LocalDateTime.now();
                 LocalDateTime createTime = sourceCode.getCreateTime();
                 // calculate minutes
-                long minutes = Duration.between(now, createTime).toMinutes();
-                if (minutes < expire) {
+                long minutes = Duration.between(createTime, now).toMinutes();
+                if (sourceCode.getEmail().equals(email) && minutes < expire) {
                     sourceCode.setAvailable(Boolean.FALSE);
                     return Boolean.TRUE;
                 }
