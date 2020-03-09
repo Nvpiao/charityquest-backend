@@ -7,7 +7,7 @@ spring:
     hikari:
       connection-test-query: SELECT 1
       validation-timeout: 5000
-      idle-timeout: 0
+      idle-timeout: 5000
       maximum-pool-size: 10
   jackson:
     visibility.field: any

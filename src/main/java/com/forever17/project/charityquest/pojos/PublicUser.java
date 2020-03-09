@@ -3,8 +3,11 @@ package com.forever17.project.charityquest.pojos;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.forever17.project.charityquest.constants.CharityConstants;
 import io.swagger.annotations.ApiModel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -20,6 +23,9 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @ApiModel
 public class PublicUser extends User implements Serializable {
 
@@ -70,24 +76,5 @@ public class PublicUser extends User implements Serializable {
     public PublicUser(String id, String password) {
         super(id, password);
         this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() +
-                " [" +
-                "Hash = " + hashCode() +
-                ", id=" + id +
-                ", email=" + email +
-                ", password=" + password +
-                ", title=" + title +
-                ", firstName=" + firstName +
-                ", lastName=" + lastName +
-                ", telPre=" + telPre +
-                ", tel=" + tel +
-                ", photo=" + photo +
-                ", location=" + location +
-                ", serialVersionUID=" + serialVersionUID +
-                "]";
     }
 }
