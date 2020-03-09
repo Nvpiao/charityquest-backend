@@ -46,7 +46,7 @@ public class CharityUserController {
     @PostMapping(path = "/register")
     public ReturnStatus register(@Valid @RequestBody CharityUser charityUser) {
         try {
-            return CharityUserService.addUser(charityUser);
+            return charityUserService.addUser(charityUser);
         } catch (SystemInternalException e) {
             return internalErrorStatus;
         }
@@ -75,7 +75,7 @@ public class CharityUserController {
     @PostMapping(path = "/signIn")
     public ReturnStatus signIn(@RequestParam("email") String email, @RequestParam("password") String password) {
         try {
-            return CharityUserService.signIn(email, password);
+            return charityUserService.signIn(email, password);
         } catch (SystemInternalException e) {
             return internalErrorStatus;
         }
