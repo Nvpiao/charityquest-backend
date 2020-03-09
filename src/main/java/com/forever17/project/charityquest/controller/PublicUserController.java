@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 /**
  * Controller of Public user
@@ -67,7 +66,7 @@ public class PublicUserController {
     @ApiImplicitParam(name = "email", value = "email address",
             dataTypeClass = String.class, paramType = "query", required = true)
     @GetMapping(path = "/checkEmail")
-    public ReturnStatus checkEmail(@PathParam("email") String email) {
+    public ReturnStatus checkEmail(@RequestParam("email") String email) {
         return publicUserService.checkEmail(email);
     }
 
@@ -109,5 +108,24 @@ public class PublicUserController {
         } catch (SystemInternalException e) {
             return internalErrorStatus;
         }
+    }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation(value = "show the profile of public user.",
+            consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "publicId", value = "id of public user",
+            dataTypeClass = String.class, paramType = "query", required = true)
+    @GetMapping(path = "/showProfile")
+    public ReturnStatus showProfile(@RequestParam("publicId") String id) {
+        return publicUserService.showProfile(id);
+    }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation("update profile of public user")
+    @PostMapping(path = "/update")
+    public ReturnStatus update(@RequestBody PublicUser publicUser) {
+        return publicUserService.updateUser(publicUser);
     }
 }

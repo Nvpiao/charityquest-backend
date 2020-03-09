@@ -16,6 +16,7 @@ import com.forever17.project.charityquest.utils.MD5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
@@ -75,6 +76,7 @@ public class PublicUserServiceImpl implements PublicUserService {
     }
 
     @Override
+    @Transactional
     public ReturnStatus addUser(PublicUser publicUser) throws SystemInternalException {
         String userId = UUID.randomUUID().toString();
         String password = publicUser.getPassword();
@@ -143,6 +145,7 @@ public class PublicUserServiceImpl implements PublicUserService {
                 httpSession.setAttribute(CharityConstants.HEADER_REQUEST_TOKEN, userId);
                 log.info(String.format(CharityConstants.LOG_USER_LOGIN_SUCCESS, email));
                 // success return
+                publicUser.setPassword(null);
                 return new ReturnStatus(CharityConstants.RETURN_USER_LOGIN_SUCCESS, publicUser);
             } else {
                 // incorrect user password
@@ -159,6 +162,7 @@ public class PublicUserServiceImpl implements PublicUserService {
     }
 
     @Override
+    @Transactional
     public ReturnStatus changePassword(String publicId, String password) throws SystemInternalException {
         // query public user by id of public user
         PublicUser publicUser = publicUserMapper.selectByPrimaryKey(publicId);
@@ -182,6 +186,34 @@ public class PublicUserServiceImpl implements PublicUserService {
             return new ReturnStatus(CharityConstants.RETURN_USER_DOES_NOT_EXIST_ERROR,
                     CharityCodes.LOGIN_USER_DOES_NOT_EXIST, StatusType.FAIL);
         }
+    }
+
+    @Override
+    public ReturnStatus showProfile(String id) {
+        PublicUser publicUser = publicUserMapper.selectByPrimaryKey(id);
+        if (Objects.isNull(publicUser)) {
+            // user does not exist
+            log.error(String.format(CharityConstants.LOG_USER_DOES_NOT_EXIST_ID, id));
+            return new ReturnStatus(CharityConstants.RETURN_USER_DOES_NOT_EXIST_ERROR,
+                    CharityCodes.LOGIN_USER_DOES_NOT_EXIST, StatusType.FAIL);
+        }
+        // hide password
+        publicUser.setPassword(null);
+        // return success
+        return new ReturnStatus(CharityConstants.RETURN_USER_INFO_GET_SUCCESS, publicUser);
+    }
+
+    @Override
+    @Transactional
+    public ReturnStatus updateUser(PublicUser publicUser) {
+        // set password && location null
+        publicUser.setPassword(null);
+        publicUser.setLocation(null);
+
+        publicUser.setEmail(null);
+        // update profile
+        publicUserMapper.updateByPrimaryKeySelective(publicUser);
+        return new ReturnStatus(CharityConstants.RETURN_USER_INFO_UPDATE_SUCCESS);
     }
 
     /**

@@ -5,10 +5,14 @@ spring:
     username: ENC(qZLZHAuivt5WKkSIBt13Xw==)
     password: ENC(tl4hpYD1qLYh9pV2VpJbVg37uXb9/+dHYW0x+3AVLvc=)
     hikari:
-      connection-test-query: SELECT 1
+      pool-name: CharityQuestHikariCP
+      auto-commit: true
+      max-lifetime: 1800000
       validation-timeout: 5000
       idle-timeout: 5000
       maximum-pool-size: 10
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
   jackson:
     visibility.field: any
     visibility.getter: none
@@ -29,6 +33,9 @@ spring:
           connectiontimeout: 5000
           timeout: 5000
           writetimeout: 5000
+  output:
+    ansi:
+      enabled: ALWAYS
 
 server:
   port: 7777

@@ -16,19 +16,19 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class User {
-    public String id;
+    protected String id;
 
     /**
      * email address of user
      */
     @Email(message = CharityConstants.VALID_EMAIL_NOT_VALID_WARN)
-    public String email;
+    protected String email;
 
     /**
      * password of user
      */
     @NotBlank(message = CharityConstants.VALID_PASSWORD_BLANK_WARN)
-    public String password;
+    protected String password;
 
     public User(String id, String password) {
         this.id = id;

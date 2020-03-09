@@ -29,13 +29,15 @@ public class CharityConstants {
     public static final String RETURN_USER_LOGIN_SUCCESS = "Public User login successfully";
     public static final String RETURN_EMAIL_OR_PASSWORD_ERROR = "Email or Password is wrong!";
     public static final String RETURN_USER_HAS_NO_PERMISSION = "User has no permission to access";
-    public static final String RETURN_USER_DOES_NOT_EXIST_ERROR = "User Does not exist.";
+    public static final String RETURN_USER_DOES_NOT_EXIST_ERROR = "User Does not exist!";
     public static final String RETURN_PASSWORD_DUPLICATED_ERROR = "The new password cannot be duplicated with the original password!";
     public static final String RETURN_CHANGE_PASSWORD_SUCCESS = "Password reset complete!";
     public static final String RETURN_SEND_RESET_EMAIL_SUCCESS = "Reset mail sent successfully.";
     public static final String RETURN_RESET_PASSWORD_CODE_EXPIRE_OR_USED = "Code has expired or is used!";
     public static final String RETURN_RESET_PASSWORD_CODE_CAN_USE = "Code can be used.";
     public static final String RETURN_RESET_PASSWORD_SUCCESS = "Password reset successful.";
+    public static final String RETURN_USER_INFO_GET_SUCCESS = "User information obtained successfully.";
+    public static final String RETURN_USER_INFO_UPDATE_SUCCESS = "User information updated successfully.";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
