@@ -38,4 +38,29 @@ public interface PublicUserService {
      * @return instance of ReturnStatus
      */
     ReturnStatus signIn(String email, String password) throws SystemInternalException;
+
+    /**
+     * change password of public user
+     *
+     * @param publicId id of public user
+     * @param password password of public user
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus changePassword(String publicId, String password) throws SystemInternalException;
+
+    /**
+     * show the profile of public user
+     *
+     * @param id id of public user
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus showProfile(String id);
+
+    /**
+     * update profile of public user
+     *
+     * @param publicUser instance of public user
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus updateUser(PublicUser publicUser);
 }

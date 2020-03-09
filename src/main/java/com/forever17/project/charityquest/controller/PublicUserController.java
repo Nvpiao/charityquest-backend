@@ -1,5 +1,6 @@
 package com.forever17.project.charityquest.controller;
 
+import com.forever17.project.charityquest.aop.annotation.LoginCheck;
 import com.forever17.project.charityquest.exceptions.SystemInternalException;
 import com.forever17.project.charityquest.pojos.PublicUser;
 import com.forever17.project.charityquest.pojos.entity.ReturnStatus;
@@ -21,8 +22,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
+/**
+ * Controller of Public user
+ *
+ * @author MingLiu (MLiu54@sheffield.ac.uk)
+ * @version 1.0
+ * @date 21 Feb 2020
+ * @since 1.0
+ */
 @Slf4j
 @CrossOrigin
 @RestController
@@ -55,10 +63,10 @@ public class PublicUserController {
     @ResponseBody
     @ApiOperation(value = "check whether email has already been registered by other public or charity.",
             consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiImplicitParam(name = "email", value = "email address", dataTypeClass = String.class,
-            paramType = "query", required = true)
+    @ApiImplicitParam(name = "email", value = "email address",
+            dataTypeClass = String.class, paramType = "query", required = true)
     @GetMapping(path = "/checkEmail")
-    public ReturnStatus checkEmail(@PathParam("email") String email) {
+    public ReturnStatus checkEmail(@RequestParam("email") String email) {
         return publicUserService.checkEmail(email);
     }
 
@@ -67,17 +75,57 @@ public class PublicUserController {
     @ApiOperation(value = "check if email exist and does email match password.",
             consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "email", value = "email address", dataTypeClass = String.class,
-                    paramType = "query", required = true),
-            @ApiImplicitParam(name = "password", value = "password of user", dataTypeClass = String.class,
-                    paramType = "query", required = true)
+            @ApiImplicitParam(name = "email", value = "email address",
+                    dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "password", value = "password of user",
+                    dataTypeClass = String.class, paramType = "query", required = true)
     })
     @PostMapping(path = "/signIn")
-    public ReturnStatus signIn(@RequestParam("email") String email, @RequestParam("password") String password) {
+    public ReturnStatus signIn(@RequestParam("email") String email,
+                               @RequestParam("password") String password) {
         try {
             return publicUserService.signIn(email, password);
         } catch (SystemInternalException e) {
             return internalErrorStatus;
         }
+    }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation(value = "change password of public user.",
+            consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "publicId", value = "id of public user",
+                    dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "password", value = "password of user",
+                    dataTypeClass = String.class, paramType = "query", required = true)
+    })
+    @PostMapping(path = "changePassword")
+    public ReturnStatus changePassword(@RequestParam("publicId") String publicId,
+                                       @RequestParam("password") String password) {
+        try {
+            return publicUserService.changePassword(publicId, password);
+        } catch (SystemInternalException e) {
+            return internalErrorStatus;
+        }
+    }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation(value = "show the profile of public user.",
+            consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "publicId", value = "id of public user",
+            dataTypeClass = String.class, paramType = "query", required = true)
+    @GetMapping(path = "/showProfile")
+    public ReturnStatus showProfile(@RequestParam("publicId") String id) {
+        return publicUserService.showProfile(id);
+    }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation("update profile of public user")
+    @PostMapping(path = "/update")
+    public ReturnStatus update(@RequestBody PublicUser publicUser) {
+        return publicUserService.updateUser(publicUser);
     }
 }

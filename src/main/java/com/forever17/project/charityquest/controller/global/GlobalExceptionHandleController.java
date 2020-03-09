@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Exception Handler
@@ -75,11 +76,18 @@ public class GlobalExceptionHandleController {
     @ExceptionHandler(value = {Exception.class})
     protected ReturnStatus handleExtraException(Throwable ex) {
         Throwable cause = ex.getCause();
+
         if (cause instanceof UserNotLogInException) {
             return handleUserNotLoginExceptions((UserNotLogInException) cause);
         }
+
         // log
         log.error(CharityConstants.RETURN_SYSTEM_INTERNAL_ERROR, ex);
+        // directly throw
+        if (Objects.isNull(cause)) {
+            return new ReturnStatus(ex.getMessage(),
+                    CharityCodes.GLOBAL_SYSTEM_INTERNAL_ERROR, StatusType.FAIL);
+        }
         return new ReturnStatus(CharityConstants.RETURN_SYSTEM_INTERNAL_ERROR,
                 CharityCodes.GLOBAL_SYSTEM_INTERNAL_ERROR, StatusType.FAIL);
     }
