@@ -198,7 +198,8 @@ public class CharityUserServiceImpl implements CharityUserService {
                 return new ReturnStatus(CharityConstants.RETURN_PASSWORD_DUPLICATED_ERROR,
                         CharityCodes.CHANGE_PASSWORD_DUPLICATE, StatusType.WARN);
             }
-
+            
+            charityUserMapper.updateByPrimaryKeySelective(new CharityUser(charityId, md5Password));
             // success return
             return new ReturnStatus(CharityConstants.RETURN_CHANGE_PASSWORD_SUCCESS);
 

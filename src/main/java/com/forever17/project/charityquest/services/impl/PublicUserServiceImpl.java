@@ -177,6 +177,7 @@ public class PublicUserServiceImpl implements PublicUserService {
                         CharityCodes.CHANGE_PASSWORD_DUPLICATE, StatusType.WARN);
             }
 
+            publicUserMapper.updateByPrimaryKeySelective(new PublicUser(publicId, md5Password));
             // success return
             return new ReturnStatus(CharityConstants.RETURN_CHANGE_PASSWORD_SUCCESS);
 
