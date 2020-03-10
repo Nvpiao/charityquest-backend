@@ -21,7 +21,7 @@
 
     <!-- LOGGER  PATTERN  -->
     <property name="logPattern"
-              value="[ %-5level] [%date{yyyy-MM-dd HH:mm:ss.SSS}] %logger{96} [%line] [%thread]- %msg%n"/>
+              value="%highlight([ %-5level]) %boldYellow([%date{yyyy-MM-dd HH:mm:ss.SSS}]) %cyan(%logger{96}) %boldMagenta([%line]) %green([%thread])- %highlight(%msg) %n"/>
     <!-- %d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger - %msg%n -->
     <!-- %d{yyyy-MM-dd HH:mm:ss} %-4relative [%thread] %-5level %logger{35} - %msg %n -->
     <!-- [ %-5level] [%date{yyyy-MM-dd HH:mm:ss.SSS}] %logger{96} [%line] [%thread]- %msg%n  -->
@@ -31,6 +31,7 @@
 
     <!-- stander output -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <withJansi>true</withJansi>
         <encoder>
             <charset>UTF-8</charset>
             <pattern>${logPattern}</pattern>
@@ -147,7 +148,7 @@
         <appender-ref ref="STDOUT"/>
 
         <!--  file  -->
-        <appender-ref ref="ASYNC_LOG_DEBUG"/>
+        <!--        <appender-ref ref="ASYNC_LOG_DEBUG"/>-->
         <appender-ref ref="ASYNC_LOG_INFO"/>
         <appender-ref ref="ASYNC_LOG_WARN"/>
         <appender-ref ref="ASYNC_LOG_ERROR"/>
