@@ -6,10 +6,16 @@ import com.forever17.project.charityquest.enums.MessageType;
 import com.forever17.project.charityquest.enums.StatusType;
 import com.forever17.project.charityquest.exceptions.SystemInternalException;
 import com.forever17.project.charityquest.mapper.CharityUserMapper;
+import com.forever17.project.charityquest.mapper.DonationMapper;
+import com.forever17.project.charityquest.mapper.FundraisingMapper;
 import com.forever17.project.charityquest.mapper.MessageMapper;
 import com.forever17.project.charityquest.mapper.PublicUserMapper;
 import com.forever17.project.charityquest.pojos.CharityUser;
 import com.forever17.project.charityquest.pojos.CharityUserExample;
+import com.forever17.project.charityquest.pojos.Donation;
+import com.forever17.project.charityquest.pojos.DonationExample;
+import com.forever17.project.charityquest.pojos.Fundraising;
+import com.forever17.project.charityquest.pojos.FundraisingExample;
 import com.forever17.project.charityquest.pojos.Message;
 import com.forever17.project.charityquest.pojos.MessageExample;
 import com.forever17.project.charityquest.pojos.PublicUser;
@@ -21,7 +27,12 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of CharityUserService
@@ -52,6 +64,11 @@ public class CharityUserServiceImpl implements CharityUserService {
     private final HttpSession httpSession;
 
     /**
+     * java mail sender
+     */
+    private final JavaMailSender javaMailSender;
+
+    /**
      * public user mapper
      */
     private final PublicUserMapper publicUserMapper;
@@ -65,6 +82,16 @@ public class CharityUserServiceImpl implements CharityUserService {
      * message mapper
      */
     private final MessageMapper messageMapper;
+
+    /**
+     * donation mapper
+     */
+    private final DonationMapper donationMapper;
+
+    /**
+     * fundraising mapper
+     */
+    private final FundraisingMapper fundraisingMapper;
 
     /**
      * Example of PublicUser class
@@ -81,24 +108,41 @@ public class CharityUserServiceImpl implements CharityUserService {
      */
     private MessageExample messageExample;
 
+    /**
+     * Example of Donation
+     */
+    private DonationExample donationExample;
+
+    /**
+     * Example of Fundraising
+     */
+    private FundraisingExample fundraisingExample;
+
     {
         // static initialization
         publicUserExample = new PublicUserExample();
         charityUserExample = new CharityUserExample();
         messageExample = new MessageExample();
+        donationExample = new DonationExample();
+        fundraisingExample = new FundraisingExample();
     }
 
     @Autowired
-    public CharityUserServiceImpl(HttpSession httpSession, PublicUserMapper publicUserMapper,
-                                  CharityUserMapper charityUserMapper, MessageMapper messageMapper) {
+    public CharityUserServiceImpl(HttpSession httpSession, JavaMailSender javaMailSender,
+                                  PublicUserMapper publicUserMapper, CharityUserMapper charityUserMapper,
+                                  MessageMapper messageMapper, DonationMapper donationMapper,
+                                  FundraisingMapper fundraisingMapper) {
         this.httpSession = httpSession;
+        this.javaMailSender = javaMailSender;
         this.publicUserMapper = publicUserMapper;
         this.charityUserMapper = charityUserMapper;
         this.messageMapper = messageMapper;
+        this.donationMapper = donationMapper;
+        this.fundraisingMapper = fundraisingMapper;
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ReturnStatus addUser(CharityUser charityUser) throws SystemInternalException {
         String userId = UUID.randomUUID().toString();
         String password = charityUser.getPassword();
@@ -184,7 +228,7 @@ public class CharityUserServiceImpl implements CharityUserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ReturnStatus changePassword(String charityId, String password) throws SystemInternalException {
         // query charity user by id of charity user
         CharityUser charityUser = charityUserMapper.selectByPrimaryKey(charityId);
@@ -198,7 +242,7 @@ public class CharityUserServiceImpl implements CharityUserService {
                 return new ReturnStatus(CharityConstants.RETURN_PASSWORD_DUPLICATED_ERROR,
                         CharityCodes.CHANGE_PASSWORD_DUPLICATE, StatusType.WARN);
             }
-            
+
             charityUserMapper.updateByPrimaryKeySelective(new CharityUser(charityId, md5Password));
             // success return
             return new ReturnStatus(CharityConstants.RETURN_CHANGE_PASSWORD_SUCCESS);
@@ -227,7 +271,7 @@ public class CharityUserServiceImpl implements CharityUserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ReturnStatus updateUser(CharityUser charityUser) {
         // set password && email null
         charityUser.setPassword(null);
@@ -248,6 +292,78 @@ public class CharityUserServiceImpl implements CharityUserService {
     public ReturnStatus getSendMessageList(String id, int pageNum, int pageSize) {
         return getMessageList(id, pageNum, pageSize,
                 Arrays.asList(MessageType.SENT.name(), MessageType.FAILED.name()));
+    }
+
+    @Override
+    public ReturnStatus resendMessage(String id) {
+        Message message = messageMapper.selectByPrimaryKey(id);
+        if (Objects.isNull(message)) {
+            log.error(String.format(CharityConstants.LOG_MESSAGE_DOES_NOT_EXIST, id));
+            return new ReturnStatus(CharityConstants.RETURN_MESSAGE_DOES_NOT_EXIST,
+                    CharityCodes.MESSAGE_DOES_NOT_EXIST, StatusType.FAIL);
+        }
+        sendMessageToAllPublic(message);
+        return new ReturnStatus(CharityConstants.RETURN_MESSAGE_SEND_SUCCESS);
+    }
+
+    private void sendMessageToAllPublic(Message message) {
+        // query fundraising
+        fundraisingExample.clear();
+        fundraisingExample.createCriteria()
+                .andCharityIdEqualTo(message.getCharityId());
+        List<Fundraising> fundraisings = fundraisingMapper.selectByExample(fundraisingExample);
+
+        // query donation
+        donationExample.clear();
+        donationExample.createCriteria()
+                .andCharityIdEqualTo(message.getCharityId());
+        donationExample.or()
+                .andFundraisingIdIn(fundraisings.stream()
+                        .map(Fundraising::getId)
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList()));
+        List<Donation> donations = donationMapper.selectByExample(donationExample);
+
+        if (!donations.isEmpty()) {
+            // get all public id
+            List<String> publicIds = donations.stream()
+                    .map(Donation::getPublicId)
+                    .distinct()
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+
+            // query all public information through id of public
+            publicUserExample.clear();
+            publicUserExample.createCriteria()
+                    .andIdIn(publicIds);
+            List<PublicUser> publicUsers = publicUserMapper.selectByExample(publicUserExample);
+
+            // get current proxy
+            CharityUserServiceImpl charityUserService = (CharityUserServiceImpl) AopContext.currentProxy();
+            // send message
+            publicUsers.forEach(publicUser -> charityUserService.sendMessage(publicUser, message));
+        }
+    }
+
+    @Async(value = "ThreadPoolTaskExecutor")
+    public void sendMessage(PublicUser publicUser, Message message) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo(publicUser.getEmail());
+        msg.setSubject(message.getSubject());
+
+        // replace template
+        String content = message.getContent();
+        content = content.replace(CharityConstants.MESSAGE_TEMPLATE_FIRST_NAME, publicUser.getFirstName())
+                .replace(CharityConstants.MESSAGE_TEMPLATE_LAST_NAME, publicUser.getLastName());
+        msg.setText(content);
+
+        try {
+            // send email
+            javaMailSender.send(msg);
+        } catch (MailException e) {
+            log.error(String.format(CharityConstants.LOG_MESSAGE_SEND_FAILED,
+                    message.getId(), publicUser.getEmail()), e);
+        }
     }
 
     /**

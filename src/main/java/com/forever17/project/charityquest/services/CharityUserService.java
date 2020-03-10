@@ -83,4 +83,12 @@ public interface CharityUserService {
      * @return instance of ReturnStatus
      */
     ReturnStatus getSendMessageList(String id, int pageNum, int pageSize);
+
+    /**
+     * send message
+     *
+     * @param id id of message
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus resendMessage(String id);
 }

@@ -41,6 +41,8 @@ public class CharityConstants {
     public static final String RETURN_GET_DRAFT_MESSAGE_SUCCESS = "Got draft list successfully.";
     public static final String RETURN_CHARITY_USER_ADDED = "Charity User Registered Successfully!";
     public static final String RETURN_CharityUSER_LOGIN_SUCCESS = "Charity User login successfully";
+    public static final String RETURN_MESSAGE_DOES_NOT_EXIST = "Message does not exist!";
+    public static final String RETURN_MESSAGE_SEND_SUCCESS = "Messages sent successfully.";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
@@ -68,6 +70,8 @@ public class CharityConstants {
     public static final String LOG_USER_ALREADY_LOGIN = "UserEmail: {%s}, Info: User has already logged in.";
     public static final String LOG_USER_DOES_NOT_EXIST_ID = "UserID: {%s}, Error: User does not exist!";
     public static final String LOG_CHANGE_PASSWORD_DUPLICATE = "UserID: {%s}, Error: Duplicate Password!";
+    public static final String LOG_MESSAGE_DOES_NOT_EXIST = "MessageID: {%s}, Error: Message Does not exist!";
+    public static final String LOG_MESSAGE_SEND_FAILED = "MessageID: {%s}, SendTo: {%s}, Error: Message sending failed!";
 
     // mail
     public static final String MAIL_SUBJECT_RESET_PASSWORD = "Password Reset";
@@ -91,4 +95,11 @@ public class CharityConstants {
     // sql
     public static final String SQL_ORDER_MODIFY_TIME_DESC = "modify_time desc";
 
+    // thread pool
+    public static final String THREAD_POOL_NAME_PREFIX = "ThreadPoolTaskExecutor-";
+    public static final String THREAD_POOL_PREFIX = "thread";
+
+    // email template
+    public static final String MESSAGE_TEMPLATE_FIRST_NAME = "$FirstName";
+    public static final String MESSAGE_TEMPLATE_LAST_NAME = "$LastName";
 }

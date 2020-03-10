@@ -156,4 +156,15 @@ public class CharityUserController {
                                            @RequestParam("pageSize") int pageSize) {
         return charityUserService.getSendMessageList(id, pageNum, pageSize);
     }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation(value = "re send message.",
+            consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "messageId", value = "id of message",
+            dataTypeClass = String.class, paramType = "query", required = true)
+    @GetMapping(path = "/resendMessage")
+    public ReturnStatus resendMessage(@RequestParam("messageId") String id) {
+        return charityUserService.resendMessage(id);
+    }
 }

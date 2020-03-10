@@ -76,7 +76,7 @@ public class PublicUserServiceImpl implements PublicUserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ReturnStatus addUser(PublicUser publicUser) throws SystemInternalException {
         String userId = UUID.randomUUID().toString();
         String password = publicUser.getPassword();
@@ -162,7 +162,7 @@ public class PublicUserServiceImpl implements PublicUserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ReturnStatus changePassword(String publicId, String password) throws SystemInternalException {
         // query public user by id of public user
         PublicUser publicUser = publicUserMapper.selectByPrimaryKey(publicId);
@@ -205,7 +205,7 @@ public class PublicUserServiceImpl implements PublicUserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ReturnStatus updateUser(PublicUser publicUser) {
         // set password && location null
         publicUser.setPassword(null);

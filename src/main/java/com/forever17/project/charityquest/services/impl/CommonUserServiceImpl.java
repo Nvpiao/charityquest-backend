@@ -147,7 +147,7 @@ public class CommonUserServiceImpl implements CommonUserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ReturnStatus resetPassword(String email, String password, String code, UserType userType)
             throws SystemInternalException {
         if (userType.equals(UserType.PUBLIC)) {

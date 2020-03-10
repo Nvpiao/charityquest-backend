@@ -59,3 +59,11 @@ mybatis:
 code:
   expire: 1440 # minutes
   base-url: http://localhost:8080/
+
+thread:
+  corePoolSize: 10
+  maxPoolSize: 15
+  queueCapacity: 200
+  keepAliveSeconds: 60
+  waitForTasksToComplete: true
+  awaitTermination: 600
