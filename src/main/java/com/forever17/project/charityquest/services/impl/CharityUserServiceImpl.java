@@ -27,6 +27,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -38,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -119,7 +121,7 @@ public class CharityUserServiceImpl implements CharityUserService {
     private FundraisingExample fundraisingExample;
 
     {
-        // static initialization
+        // initialization
         publicUserExample = new PublicUserExample();
         charityUserExample = new CharityUserExample();
         messageExample = new MessageExample();
@@ -285,28 +287,47 @@ public class CharityUserServiceImpl implements CharityUserService {
     @Override
     public ReturnStatus getDraftMessageList(String id, int pageNum, int pageSize) {
         return getMessageList(id, pageNum, pageSize,
-                Collections.singletonList(MessageType.DRAFT.name()));
+                Collections.singletonList(MessageType.DRAFT.name().toLowerCase()));
     }
 
     @Override
     public ReturnStatus getSendMessageList(String id, int pageNum, int pageSize) {
         return getMessageList(id, pageNum, pageSize,
-                Arrays.asList(MessageType.SENT.name(), MessageType.FAILED.name()));
+                Arrays.asList(MessageType.SENT.name().toLowerCase(), MessageType.FAILED.name().toLowerCase()));
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ReturnStatus resendMessage(String id) {
         Message message = messageMapper.selectByPrimaryKey(id);
         if (Objects.isNull(message)) {
             log.error(String.format(CharityConstants.LOG_MESSAGE_DOES_NOT_EXIST, id));
-            return new ReturnStatus(CharityConstants.RETURN_MESSAGE_DOES_NOT_EXIST,
-                    CharityCodes.MESSAGE_DOES_NOT_EXIST, StatusType.FAIL);
+            return new ReturnStatus(CharityConstants.RETURN_MESSAGE_DOES_NOT_SAVED,
+                    CharityCodes.MESSAGE_DOES_NOT_EXIST, StatusType.WARN);
         }
-        sendMessageToAllPublic(message);
-        return new ReturnStatus(CharityConstants.RETURN_MESSAGE_SEND_SUCCESS);
+        return sendMessageToAllPublic(message);
     }
 
-    private void sendMessageToAllPublic(Message message) {
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ReturnStatus saveOrUpdateMessage(Message message) {
+        if (StringUtils.isNotBlank(message.getId())) {
+            // reset modify time
+            message.setModifyTime(LocalDateTime.now());
+            messageMapper.updateByPrimaryKeySelective(message);
+            return new ReturnStatus(CharityConstants.RETURN_UPDATE_MESSAGE_SUCCESS);
+        } else {
+            // set id && time && status
+            message.setId(UUID.randomUUID().toString());
+            message.setCreateTime(LocalDateTime.now());
+            message.setModifyTime(LocalDateTime.now());
+            message.setStatus(MessageType.DRAFT.name().toLowerCase());
+            messageMapper.insertSelective(message);
+            return new ReturnStatus(CharityConstants.RETURN_CREATE_MESSAGE_SUCCESS);
+        }
+    }
+
+    private ReturnStatus sendMessageToAllPublic(Message message) {
         // query fundraising
         fundraisingExample.clear();
         fundraisingExample.createCriteria()
@@ -343,8 +364,11 @@ public class CharityUserServiceImpl implements CharityUserService {
             // send message
             publicUsers.forEach(publicUser -> charityUserService.sendMessage(publicUser, message));
             // update send status
-            messageMapper.updateByPrimaryKeySelective(new Message(message.getId(), MessageType.SENT.name()));
+            messageMapper.updateByPrimaryKeySelective(new Message(message.getId(), MessageType.SENT.name().toLowerCase()));
+            return new ReturnStatus(CharityConstants.RETURN_MESSAGE_SEND_SUCCESS);
         }
+        return new ReturnStatus(CharityConstants.RETURN_MESSAGE_NOTHING_SEND,
+                CharityCodes.MESSAGE_NOTHING_SEND, StatusType.WARN);
     }
 
     @Async(value = "ThreadPoolTaskExecutor")

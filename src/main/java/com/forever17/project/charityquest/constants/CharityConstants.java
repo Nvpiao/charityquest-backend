@@ -41,8 +41,11 @@ public class CharityConstants {
     public static final String RETURN_GET_DRAFT_MESSAGE_SUCCESS = "Got draft list successfully.";
     public static final String RETURN_CHARITY_USER_ADDED = "Charity User Registered Successfully!";
     public static final String RETURN_CharityUSER_LOGIN_SUCCESS = "Charity User login successfully";
-    public static final String RETURN_MESSAGE_DOES_NOT_EXIST = "Message does not exist!";
-    public static final String RETURN_MESSAGE_SEND_SUCCESS = "Messages sent successfully.";
+    public static final String RETURN_MESSAGE_DOES_NOT_SAVED = "Message not saved!";
+    public static final String RETURN_MESSAGE_SEND_SUCCESS = "Message sent successfully.";
+    public static final String RETURN_CREATE_MESSAGE_SUCCESS = "Message created successfully.";
+    public static final String RETURN_UPDATE_MESSAGE_SUCCESS = "Message updated successfully.";
+    public static final String RETURN_MESSAGE_NOTHING_SEND = "No message will be sent.";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
@@ -62,6 +65,9 @@ public class CharityConstants {
     public static final String VALID_CHARITY_NAME_BLANK_WARN = "Charity name can not be blank!";
     public static final String VALID_CHARITY_NO_BLANK_WARN = "Charity No. can not be blank!";
     public static final String VALID_TITLE_BLANK_WARN = "Title can not be blank!";
+    public static final String VALID_MESSAGE_CONTENT_CANNOT_BLANK = "Content can not be blank!";
+    public static final String VALID_CHARITY_ID_BLANK_WARN = "Charity ID can not be blank!";
+    public static final String VALID_MESSAGE_SUBJECT_CANNOT_BLANK = "Subject can not be blank!";
 
     // log
     public static final String LOG_INCORRECT_PASSWORD = "UserEmail: {%s}, Error: Incorrect user password!";

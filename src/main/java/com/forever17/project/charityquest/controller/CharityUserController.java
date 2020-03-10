@@ -3,6 +3,7 @@ package com.forever17.project.charityquest.controller;
 import com.forever17.project.charityquest.aop.annotation.LoginCheck;
 import com.forever17.project.charityquest.exceptions.SystemInternalException;
 import com.forever17.project.charityquest.pojos.CharityUser;
+import com.forever17.project.charityquest.pojos.Message;
 import com.forever17.project.charityquest.pojos.entity.ReturnStatus;
 import com.forever17.project.charityquest.services.CharityUserService;
 import io.swagger.annotations.Api;
@@ -166,5 +167,14 @@ public class CharityUserController {
     @GetMapping(path = "/resendMessage")
     public ReturnStatus resendMessage(@RequestParam("messageId") String id) {
         return charityUserService.resendMessage(id);
+    }
+
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation("save message")
+    @PostMapping(path = "/saveMessage")
+    public ReturnStatus saveOrUpdateMessage(@Valid @RequestBody Message message) {
+        return charityUserService.saveOrUpdateMessage(message);
     }
 }

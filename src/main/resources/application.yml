@@ -6,7 +6,7 @@ spring:
     password: ENC(tl4hpYD1qLYh9pV2VpJbVg37uXb9/+dHYW0x+3AVLvc=)
     hikari:
       pool-name: CharityQuestHikariCP
-      auto-commit: true
+      auto-commit: false
       max-lifetime: 1800000
       validation-timeout: 5000
       maximum-pool-size: 10
