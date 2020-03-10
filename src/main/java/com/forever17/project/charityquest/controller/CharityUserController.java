@@ -1,11 +1,10 @@
 package com.forever17.project.charityquest.controller;
+
 import com.forever17.project.charityquest.aop.annotation.LoginCheck;
 import com.forever17.project.charityquest.exceptions.SystemInternalException;
 import com.forever17.project.charityquest.pojos.CharityUser;
-import com.forever17.project.charityquest.pojos.PublicUser;
 import com.forever17.project.charityquest.pojos.entity.ReturnStatus;
 import com.forever17.project.charityquest.services.CharityUserService;
-import com.forever17.project.charityquest.services.PublicUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

@@ -2,7 +2,6 @@ package com.forever17.project.charityquest.services;
 
 import com.forever17.project.charityquest.exceptions.SystemInternalException;
 import com.forever17.project.charityquest.pojos.CharityUser;
-import com.forever17.project.charityquest.pojos.PublicUser;
 import com.forever17.project.charityquest.pojos.entity.ReturnStatus;
 
 /**
