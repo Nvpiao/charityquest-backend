@@ -9,7 +9,6 @@ spring:
       auto-commit: true
       max-lifetime: 1800000
       validation-timeout: 5000
-      idle-timeout: 5000
       maximum-pool-size: 10
       connection-timeout: 30000
       connection-test-query: SELECT 1

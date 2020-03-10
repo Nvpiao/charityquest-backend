@@ -121,4 +121,39 @@ public class CharityUserController {
         return charityUserService.updateUser(charityUser);
     }
 
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation("get list of draft message")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "charityId", value = "id of charity",
+                    dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageNum", value = "number of page",
+                    dataTypeClass = Integer.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "size of a page",
+                    dataTypeClass = Integer.class, paramType = "query", required = true)
+    })
+    @GetMapping(path = "/getDraftMessageList")
+    public ReturnStatus getDraftMessageList(@RequestParam("charityId") String id,
+                                            @RequestParam("pageNum") int pageNum,
+                                            @RequestParam("pageSize") int pageSize) {
+        return charityUserService.getDraftMessageList(id, pageNum, pageSize);
+    }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation("get list of sent message")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "charityId", value = "id of charity",
+                    dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageNum", value = "number of page",
+                    dataTypeClass = Integer.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "size of a page",
+                    dataTypeClass = Integer.class, paramType = "query", required = true)
+    })
+    @GetMapping(path = "/getSendMessageList")
+    public ReturnStatus getSendMessageList(@RequestParam("charityId") String id,
+                                           @RequestParam("pageNum") int pageNum,
+                                           @RequestParam("pageSize") int pageSize) {
+        return charityUserService.getSendMessageList(id, pageNum, pageSize);
+    }
 }

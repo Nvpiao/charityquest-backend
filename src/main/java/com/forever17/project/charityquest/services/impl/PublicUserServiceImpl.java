@@ -54,12 +54,12 @@ public class PublicUserServiceImpl implements PublicUserService {
     /**
      * Example of PublicUser class
      */
-    PublicUserExample publicUserExample;
+    private PublicUserExample publicUserExample;
 
     /**
      * Example of CharityUser class
      */
-    CharityUserExample charityUserExample;
+    private CharityUserExample charityUserExample;
 
     {
         // static initialization

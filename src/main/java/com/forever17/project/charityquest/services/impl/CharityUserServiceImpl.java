@@ -2,17 +2,24 @@ package com.forever17.project.charityquest.services.impl;
 
 import com.forever17.project.charityquest.constants.CharityCodes;
 import com.forever17.project.charityquest.constants.CharityConstants;
+import com.forever17.project.charityquest.enums.MessageType;
 import com.forever17.project.charityquest.enums.StatusType;
 import com.forever17.project.charityquest.exceptions.SystemInternalException;
 import com.forever17.project.charityquest.mapper.CharityUserMapper;
+import com.forever17.project.charityquest.mapper.MessageMapper;
 import com.forever17.project.charityquest.mapper.PublicUserMapper;
 import com.forever17.project.charityquest.pojos.CharityUser;
 import com.forever17.project.charityquest.pojos.CharityUserExample;
+import com.forever17.project.charityquest.pojos.Message;
+import com.forever17.project.charityquest.pojos.MessageExample;
 import com.forever17.project.charityquest.pojos.PublicUser;
 import com.forever17.project.charityquest.pojos.PublicUserExample;
 import com.forever17.project.charityquest.pojos.entity.ReturnStatus;
 import com.forever17.project.charityquest.services.CharityUserService;
 import com.forever17.project.charityquest.utils.MD5Util;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +27,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -52,27 +62,39 @@ public class CharityUserServiceImpl implements CharityUserService {
     private final CharityUserMapper charityUserMapper;
 
     /**
-     * Example of PublicUser class
+     * message mapper
      */
-    CharityUserExample charityUserExample;
+    private final MessageMapper messageMapper;
 
     /**
      * Example of PublicUser class
      */
-    PublicUserExample publicUserExample;
+    private CharityUserExample charityUserExample;
+
+    /**
+     * Example of PublicUser class
+     */
+    private PublicUserExample publicUserExample;
+
+    /**
+     * Example of Message
+     */
+    private MessageExample messageExample;
 
     {
         // static initialization
         publicUserExample = new PublicUserExample();
         charityUserExample = new CharityUserExample();
+        messageExample = new MessageExample();
     }
 
     @Autowired
     public CharityUserServiceImpl(HttpSession httpSession, PublicUserMapper publicUserMapper,
-                                  CharityUserMapper charityUserMapper) {
+                                  CharityUserMapper charityUserMapper, MessageMapper messageMapper) {
         this.httpSession = httpSession;
         this.publicUserMapper = publicUserMapper;
         this.charityUserMapper = charityUserMapper;
+        this.messageMapper = messageMapper;
     }
 
     @Override
@@ -208,11 +230,56 @@ public class CharityUserServiceImpl implements CharityUserService {
     public ReturnStatus updateUser(CharityUser charityUser) {
         // set password && email null
         charityUser.setPassword(null);
-
         charityUser.setEmail(null);
+
         // update profile
         charityUserMapper.updateByPrimaryKeySelective(charityUser);
         return new ReturnStatus(CharityConstants.RETURN_USER_INFO_UPDATE_SUCCESS);
+    }
+
+    @Override
+    public ReturnStatus getDraftMessageList(String id, int pageNum, int pageSize) {
+        return getMessageList(id, pageNum, pageSize,
+                Collections.singletonList(MessageType.DRAFT.name()));
+    }
+
+    @Override
+    public ReturnStatus getSendMessageList(String id, int pageNum, int pageSize) {
+        return getMessageList(id, pageNum, pageSize,
+                Arrays.asList(MessageType.SENT.name(), MessageType.FAILED.name()));
+    }
+
+    /**
+     * get list of messages given status
+     *
+     * @param id       id of charity
+     * @param pageNum  number of page
+     * @param pageSize size of page
+     * @param status   status list of message type
+     * @return instance of ReturnStatus
+     */
+    private ReturnStatus getMessageList(String id, int pageNum, int pageSize,
+                                        List<String> status) {
+        // criteria
+        messageExample.clear();
+        messageExample.createCriteria()
+                .andCharityIdEqualTo(id)
+                .andStatusIn(status);
+        messageExample.setOrderByClause(CharityConstants.SQL_ORDER_MODIFY_TIME_DESC);
+
+        // page helper
+        Page<Message> page = PageHelper.startPage(pageNum, pageSize);
+        List<Message> messages = messageMapper.selectByExample(messageExample);
+
+        // assembly data
+        Map<String, Object> dataMap = Maps.newHashMap();
+        dataMap.put(CharityConstants.PAGE_HELPER_TOTAL_NUMS, page.getTotal());
+        dataMap.put(CharityConstants.PAGE_HELPER_TOTAL_PAGES, page.getPages());
+        dataMap.put(CharityConstants.PAGE_HELPER_NOW_PAGE, page.getPageNum());
+        dataMap.put(CharityConstants.PAGE_HELPER_DATA, messages);
+
+        // return result
+        return new ReturnStatus(CharityConstants.RETURN_GET_DRAFT_MESSAGE_SUCCESS, dataMap);
     }
 
     /**

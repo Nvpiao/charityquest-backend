@@ -38,9 +38,10 @@ public class CharityConstants {
     public static final String RETURN_RESET_PASSWORD_SUCCESS = "Password reset successful.";
     public static final String RETURN_USER_INFO_GET_SUCCESS = "User information obtained successfully.";
     public static final String RETURN_USER_INFO_UPDATE_SUCCESS = "User information updated successfully.";
-    // charity
+    public static final String RETURN_GET_DRAFT_MESSAGE_SUCCESS = "Got draft list successfully.";
     public static final String RETURN_CHARITY_USER_ADDED = "Charity User Registered Successfully!";
     public static final String RETURN_CharityUSER_LOGIN_SUCCESS = "Charity User login successfully";
+
     // md5 algorithm string
     public static final String MD5 = "MD5";
     public static final String MD5_PASSWORD = "md5Password";
@@ -60,9 +61,6 @@ public class CharityConstants {
     public static final String VALID_CHARITY_NO_BLANK_WARN = "Charity No. can not be blank!";
     public static final String VALID_TITLE_BLANK_WARN = "Title can not be blank!";
 
-    // header
-    public static final String HEADER_REQUEST_TOKEN = "token";
-
     // log
     public static final String LOG_INCORRECT_PASSWORD = "UserEmail: {%s}, Error: Incorrect user password!";
     public static final String LOG_USER_DOES_NOT_EXIST_EMAIL = "UserEmail: {%s}, Error: User does not exist!";
@@ -71,13 +69,26 @@ public class CharityConstants {
     public static final String LOG_USER_DOES_NOT_EXIST_ID = "UserID: {%s}, Error: User does not exist!";
     public static final String LOG_CHANGE_PASSWORD_DUPLICATE = "UserID: {%s}, Error: Duplicate Password!";
 
-    // prefix
-    public static final String CODE_PREFIX = "code";
-
     // mail
     public static final String MAIL_SUBJECT_RESET_PASSWORD = "Password Reset";
     public static final String MAIL_TEXT_RESET_PASSWORD = "Use the following link to reset your password";
     public static final String MAIL_TEXT_RESET_PASSWORD_TYPE = "&type=";
     public static final String MAIL_TEXT_RESET_PASSWORD_EMAIL = "&email=";
     public static final String MAIL_TEXT_RESET_PASSWORD_CODE = "?code=";
+
+    // pageHelper
+    public static final String PAGE_HELPER_NOW_PAGE = "nowPage";
+    public static final String PAGE_HELPER_TOTAL_NUMS = "totalNums";
+    public static final String PAGE_HELPER_TOTAL_PAGES = "totalPages";
+    public static final String PAGE_HELPER_DATA = "data";
+
+    // header
+    public static final String HEADER_REQUEST_TOKEN = "token";
+
+    // prefix
+    public static final String CODE_PREFIX = "code";
+
+    // sql
+    public static final String SQL_ORDER_MODIFY_TIME_DESC = "modify_time desc";
+
 }

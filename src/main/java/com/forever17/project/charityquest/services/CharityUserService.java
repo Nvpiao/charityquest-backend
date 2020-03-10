@@ -59,8 +59,28 @@ public interface CharityUserService {
     /**
      * update profile of charity user
      *
-     * @param charityUser instance of public user
+     * @param charityUser instance of charity user
      * @return instance of ReturnStatus
      */
     ReturnStatus updateUser(CharityUser charityUser);
+
+    /**
+     * get list of draft messages
+     *
+     * @param id       id of charity
+     * @param pageNum  number of page
+     * @param pageSize size of page
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus getDraftMessageList(String id, int pageNum, int pageSize);
+
+    /**
+     * get list of sent messages
+     *
+     * @param id       id of charity
+     * @param pageNum  number of page
+     * @param pageSize size of page
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus getSendMessageList(String id, int pageNum, int pageSize);
 }
