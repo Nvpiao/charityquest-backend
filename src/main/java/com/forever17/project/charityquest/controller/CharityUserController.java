@@ -1,9 +1,11 @@
 package com.forever17.project.charityquest.controller;
-
+import com.forever17.project.charityquest.aop.annotation.LoginCheck;
 import com.forever17.project.charityquest.exceptions.SystemInternalException;
 import com.forever17.project.charityquest.pojos.CharityUser;
+import com.forever17.project.charityquest.pojos.PublicUser;
 import com.forever17.project.charityquest.pojos.entity.ReturnStatus;
 import com.forever17.project.charityquest.services.CharityUserService;
+import com.forever17.project.charityquest.services.PublicUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -80,4 +82,44 @@ public class CharityUserController {
             return internalErrorStatus;
         }
     }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation(value = "change password of charity user.",
+            consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "charityId", value = "id of charity user",
+                    dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "password", value = "password of user",
+                    dataTypeClass = String.class, paramType = "query", required = true)
+    })
+    @PostMapping(path = "changePassword")
+    public ReturnStatus changePassword(@RequestParam("charityId") String charityId,
+                                       @RequestParam("password") String password) {
+        try {
+            return charityUserService.changePassword(charityId, password);
+        } catch (SystemInternalException e) {
+            return internalErrorStatus;
+        }
+    }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation(value = "show the profile of charity user.",
+            consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "charityId", value = "id of charity user",
+            dataTypeClass = String.class, paramType = "query", required = true)
+    @GetMapping(path = "/showProfile")
+    public ReturnStatus showProfile(@RequestParam("charityId") String id) {
+        return charityUserService.showProfile(id);
+    }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation("update profile of charity user")
+    @PostMapping(path = "/update")
+    public ReturnStatus update(@RequestBody CharityUser charityUser) {
+        return charityUserService.updateUser(charityUser);
+    }
+
 }

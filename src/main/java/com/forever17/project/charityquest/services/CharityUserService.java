@@ -2,6 +2,7 @@ package com.forever17.project.charityquest.services;
 
 import com.forever17.project.charityquest.exceptions.SystemInternalException;
 import com.forever17.project.charityquest.pojos.CharityUser;
+import com.forever17.project.charityquest.pojos.PublicUser;
 import com.forever17.project.charityquest.pojos.entity.ReturnStatus;
 
 /**
@@ -38,4 +39,29 @@ public interface CharityUserService {
      * @return instance of ReturnStatus
      */
     ReturnStatus signIn(String email, String password) throws SystemInternalException;
+
+    /**
+     * change password of public user
+     *
+     * @param charityId id of charity user
+     * @param password  password of charity user
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus changePassword(String charityId, String password) throws SystemInternalException;
+
+    /**
+     * show the profile of charity user
+     *
+     * @param id id of charity user
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus showProfile(String id);
+
+    /**
+     * update profile of charity user
+     *
+     * @param charityUser instance of public user
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus updateUser(CharityUser charityUser);
 }

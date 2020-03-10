@@ -38,7 +38,9 @@ public class CharityConstants {
     public static final String RETURN_RESET_PASSWORD_SUCCESS = "Password reset successful.";
     public static final String RETURN_USER_INFO_GET_SUCCESS = "User information obtained successfully.";
     public static final String RETURN_USER_INFO_UPDATE_SUCCESS = "User information updated successfully.";
-
+    // charity
+    public static final String RETURN_CHARITY_USER_ADDED = "Charity User Registered Successfully!";
+    public static final String RETURN_CharityUSER_LOGIN_SUCCESS = "Charity User login successfully";
     // md5 algorithm string
     public static final String MD5 = "MD5";
     public static final String MD5_PASSWORD = "md5Password";
