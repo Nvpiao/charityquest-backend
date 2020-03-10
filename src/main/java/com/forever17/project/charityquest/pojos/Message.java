@@ -71,4 +71,9 @@ public class Message implements Serializable {
      * error message when it send failed.
      */
     private String error;
+
+    public Message(String id, String status) {
+        this.id = id;
+        this.status = status;
+    }
 }

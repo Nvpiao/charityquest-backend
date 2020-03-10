@@ -342,6 +342,8 @@ public class CharityUserServiceImpl implements CharityUserService {
             CharityUserServiceImpl charityUserService = (CharityUserServiceImpl) AopContext.currentProxy();
             // send message
             publicUsers.forEach(publicUser -> charityUserService.sendMessage(publicUser, message));
+            // update send status
+            messageMapper.updateByPrimaryKeySelective(new Message(message.getId(), MessageType.SENT.name()));
         }
     }
 
