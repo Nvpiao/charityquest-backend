@@ -86,11 +86,12 @@ public class CharityConstants {
     public static final String MAIL_TEXT_RESET_PASSWORD_EMAIL = "&email=";
     public static final String MAIL_TEXT_RESET_PASSWORD_CODE = "?code=";
 
-    // pageHelper
-    public static final String PAGE_HELPER_NOW_PAGE = "nowPage";
-    public static final String PAGE_HELPER_TOTAL_NUMS = "totalNums";
-    public static final String PAGE_HELPER_TOTAL_PAGES = "totalPages";
-    public static final String PAGE_HELPER_DATA = "data";
+    // return data
+    public static final String DATA_PAGE_HELPER_NOW_PAGE = "nowPage";
+    public static final String DATA_PAGE_HELPER_TOTAL_NUMS = "totalNums";
+    public static final String DATA_PAGE_HELPER_TOTAL_PAGES = "totalPages";
+    public static final String DATA_PAGE_HELPER_DATA = "data";
+    public static final String DATA_MESSAGE_ID = "messageId";
 
     // header
     public static final String HEADER_REQUEST_TOKEN = "token";

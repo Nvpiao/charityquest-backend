@@ -25,6 +25,7 @@ import com.forever17.project.charityquest.services.CharityUserService;
 import com.forever17.project.charityquest.utils.MD5Util;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -315,7 +316,8 @@ public class CharityUserServiceImpl implements CharityUserService {
             // reset modify time
             message.setModifyTime(LocalDateTime.now());
             messageMapper.updateByPrimaryKeySelective(message);
-            return new ReturnStatus(CharityConstants.RETURN_UPDATE_MESSAGE_SUCCESS);
+            return new ReturnStatus(CharityConstants.RETURN_UPDATE_MESSAGE_SUCCESS,
+                    ImmutableMap.of(CharityConstants.DATA_MESSAGE_ID, message.getId()));
         } else {
             // set id && time && status
             message.setId(UUID.randomUUID().toString());
@@ -323,7 +325,8 @@ public class CharityUserServiceImpl implements CharityUserService {
             message.setModifyTime(LocalDateTime.now());
             message.setStatus(MessageType.DRAFT.name().toLowerCase());
             messageMapper.insertSelective(message);
-            return new ReturnStatus(CharityConstants.RETURN_CREATE_MESSAGE_SUCCESS);
+            return new ReturnStatus(CharityConstants.RETURN_CREATE_MESSAGE_SUCCESS,
+                    ImmutableMap.of(CharityConstants.DATA_MESSAGE_ID, message.getId()));
         }
     }
 
@@ -416,10 +419,10 @@ public class CharityUserServiceImpl implements CharityUserService {
 
         // assembly data
         Map<String, Object> dataMap = Maps.newHashMap();
-        dataMap.put(CharityConstants.PAGE_HELPER_TOTAL_NUMS, page.getTotal());
-        dataMap.put(CharityConstants.PAGE_HELPER_TOTAL_PAGES, page.getPages());
-        dataMap.put(CharityConstants.PAGE_HELPER_NOW_PAGE, page.getPageNum());
-        dataMap.put(CharityConstants.PAGE_HELPER_DATA, messages);
+        dataMap.put(CharityConstants.DATA_PAGE_HELPER_TOTAL_NUMS, page.getTotal());
+        dataMap.put(CharityConstants.DATA_PAGE_HELPER_TOTAL_PAGES, page.getPages());
+        dataMap.put(CharityConstants.DATA_PAGE_HELPER_NOW_PAGE, page.getPageNum());
+        dataMap.put(CharityConstants.DATA_PAGE_HELPER_DATA, messages);
 
         // return result
         return new ReturnStatus(CharityConstants.RETURN_GET_DRAFT_MESSAGE_SUCCESS, dataMap);

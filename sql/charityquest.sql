@@ -11,7 +11,7 @@
  Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 29/02/2020 20:42:55
+ Date: 13/03/2020 00:55:44
 */
 
 SET NAMES utf8mb4;
@@ -28,11 +28,11 @@ CREATE TABLE `charity_user`
     `password`    varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'password of charity',
     `name`        varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'name of charity',
     `number`      varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'number of charity',
-    `photo`       text COLLATE utf8mb4_unicode_ci COMMENT 'avatar of charity',
-    `description` text COLLATE utf8mb4_unicode_ci COMMENT 'description of charity',
-    `case_photo`  text COLLATE utf8mb4_unicode_ci COMMENT 'case photo of charity',
-    `case_video`  text COLLATE utf8mb4_unicode_ci COMMENT 'case video address of charity',
-    `case_desc`   text COLLATE utf8mb4_unicode_ci COMMENT 'case description of charity',
+    `photo`       longtext COLLATE utf8mb4_unicode_ci COMMENT 'avatar of charity',
+    `description` longtext COLLATE utf8mb4_unicode_ci COMMENT 'description of charity',
+    `case_photo`  longtext COLLATE utf8mb4_unicode_ci COMMENT 'case photo of charity',
+    `case_video`  longtext COLLATE utf8mb4_unicode_ci COMMENT 'case video address of charity',
+    `case_desc`   longtext COLLATE utf8mb4_unicode_ci COMMENT 'case description of charity',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -120,7 +120,7 @@ CREATE TABLE `public_user`
     `last_name`  varchar(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL COMMENT 'last name of public user',
     `tel_pre`    varchar(5) COLLATE utf8mb4_unicode_ci            DEFAULT NULL COMMENT 'telephone country code of public user',
     `tel`        varchar(20) COLLATE utf8mb4_unicode_ci           DEFAULT NULL COMMENT 'telephone number of public user',
-    `photo`      text COLLATE utf8mb4_unicode_ci COMMENT 'avatar of public user',
+    `photo`      longtext COLLATE utf8mb4_unicode_ci COMMENT 'avatar of public user',
     `location`   varchar(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL COMMENT 'location of public user',
     PRIMARY KEY (`id`),
     UNIQUE KEY `public_user_id_uindex` (`id`)

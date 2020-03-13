@@ -58,7 +58,7 @@ mybatis:
 
 code:
   expire: 1440 # minutes
-  base-url: http://localhost:8080/
+  base-url: http://teamwork/Charity/#/en-gb/reset-password
 
 thread:
   corePoolSize: 10
