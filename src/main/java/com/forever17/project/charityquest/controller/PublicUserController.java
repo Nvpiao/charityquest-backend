@@ -32,7 +32,7 @@ import javax.validation.Valid;
  * @since 1.0
  */
 @Slf4j
-@CrossOrigin
+@CrossOrigin(allowCredentials = "true")
 @RestController
 @Api(tags = "PublicUser")
 @RequestMapping(path = "/publicUser", consumes = MediaType.ALL_VALUE,

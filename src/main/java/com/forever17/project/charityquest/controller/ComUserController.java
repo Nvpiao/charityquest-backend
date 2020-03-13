@@ -30,7 +30,7 @@ import javax.websocket.server.PathParam;
  * @since 1.0
  */
 @Slf4j
-@CrossOrigin
+@CrossOrigin(allowCredentials = "true")
 @RestController
 @Api(tags = "ComUser")
 @RequestMapping(path = "/comUser", consumes = MediaType.ALL_VALUE,

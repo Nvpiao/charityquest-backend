@@ -26,7 +26,7 @@ import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
 @Slf4j
-@CrossOrigin
+@CrossOrigin(allowCredentials = "true")
 @RestController
 @Api(tags = "CharityUser")
 @RequestMapping(path = "/charityUser", consumes = MediaType.ALL_VALUE,
