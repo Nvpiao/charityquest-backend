@@ -341,11 +341,16 @@ public class CharityUserServiceImpl implements CharityUserService {
         donationExample.clear();
         donationExample.createCriteria()
                 .andCharityIdEqualTo(message.getCharityId());
-        donationExample.or()
-                .andFundraisingIdIn(fundraisings.stream()
-                        .map(Fundraising::getId)
-                        .filter(Objects::nonNull)
-                        .collect(Collectors.toList()));
+        if (!fundraisings.isEmpty()) {
+            List<String> fundraisingIds = fundraisings.stream()
+                    .map(Fundraising::getId)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+            // bug: check null
+            if (!fundraisingIds.isEmpty()) {
+                donationExample.or().andFundraisingIdIn(fundraisingIds);
+            }
+        }
         List<Donation> donations = donationMapper.selectByExample(donationExample);
 
         if (!donations.isEmpty()) {
