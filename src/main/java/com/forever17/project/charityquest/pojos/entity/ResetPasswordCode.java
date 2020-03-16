@@ -13,6 +13,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Code for resetting password
+ *
+ * @author MingLiu (MLiu54@sheffield.ac.uk)
+ * @version 1.0
+ * @date 14 Feb 2020
+ * @since 1.0
+ */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

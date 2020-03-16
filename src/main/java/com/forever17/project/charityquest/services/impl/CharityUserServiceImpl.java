@@ -20,6 +20,7 @@ import com.forever17.project.charityquest.pojos.Message;
 import com.forever17.project.charityquest.pojos.MessageExample;
 import com.forever17.project.charityquest.pojos.PublicUser;
 import com.forever17.project.charityquest.pojos.PublicUserExample;
+import com.forever17.project.charityquest.pojos.entity.LocationTimes;
 import com.forever17.project.charityquest.pojos.entity.ReturnStatus;
 import com.forever17.project.charityquest.services.CharityUserService;
 import com.forever17.project.charityquest.utils.MD5Util;
@@ -396,8 +397,12 @@ public class CharityUserServiceImpl implements CharityUserService {
 
             donations.stream()
                     // group by time and sum result
-                    .collect(Collectors.groupingBy(donation -> donation.getTime().toLocalDate().toString(),
-                            Collectors.summingLong(Donation::getMoney)))
+                    .collect(
+                            Collectors.groupingBy(
+                                    donation -> donation.getTime().toLocalDate().toString(),
+                                    Collectors.summingLong(Donation::getMoney)
+                            )
+                    )
                     // split key and value
                     .forEach((date, money) -> {
                         dates.add(date);
@@ -408,6 +413,36 @@ public class CharityUserServiceImpl implements CharityUserService {
         return new ReturnStatus(CharityConstants.RETURN_DASHBOARD_DONATION_HISTORY_GET_SUCCESS,
                 ImmutableMap.of(CharityConstants.DATA_DATE, dates,
                         CharityConstants.DATA_DONATION, moneys));
+    }
+
+    @Override
+    public ReturnStatus showDonationLocation(String id) {
+        List<Donation> donations = getDonationByCharityId(id);
+        List<LocationTimes> locationTimes = Lists.newArrayList();
+
+        if (!donations.isEmpty()) {
+            // query user
+            publicUserExample.clear();
+            publicUserExample.createCriteria()
+                    .andIdIn(donations.stream()
+                            .map(Donation::getPublicId)
+                            .distinct()
+                            .filter(Objects::nonNull)
+                            .collect(Collectors.toList()));
+
+            List<PublicUser> publicUsers = publicUserMapper.selectByExample(publicUserExample);
+            publicUsers.stream()
+                    .collect(
+                            Collectors.groupingBy(
+                                    PublicUser::getLocation,
+                                    Collectors.counting()
+                            )
+                    ).forEach((location, times) -> {
+                locationTimes.add(new LocationTimes(location, times));
+            });
+        }
+
+        return new ReturnStatus(CharityConstants.RETURN_DASHBOARD_DONATION_LOCATION_GET_SUCCESS, locationTimes);
     }
 
     /**

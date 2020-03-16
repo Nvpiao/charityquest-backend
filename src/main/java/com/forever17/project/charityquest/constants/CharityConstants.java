@@ -49,6 +49,7 @@ public class CharityConstants {
     public static final String RETURN_HOME_DETAIL_GET_SUCCESS = "Homepage information obtained successfully.";
     public static final String RETURN_DASHBOARD_DONATION_AMOUNT_GET_SUCCESS = "Dashboard: donation amount obtained successfully.";
     public static final String RETURN_DASHBOARD_DONATION_HISTORY_GET_SUCCESS = "Dashboard: donation history obtained successfully.";
+    public static final String RETURN_DASHBOARD_DONATION_LOCATION_GET_SUCCESS = "Dashboard: donation location obtained successfully.";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
