@@ -19,6 +19,8 @@ import java.util.List;
 public interface DonationMapper {
     long countByExample(DonationExample example);
 
+    long sumByMoney();
+
     int deleteByExample(DonationExample example);
 
     int deleteByPrimaryKey(String id);

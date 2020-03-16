@@ -19,6 +19,7 @@ public interface CommonUserService {
      *
      * @param email email
      * @return instance of ReturnStatus
+     * @throws SystemInternalException system internal exception
      */
     ReturnStatus sendResetPassword(String email) throws SystemInternalException;
 

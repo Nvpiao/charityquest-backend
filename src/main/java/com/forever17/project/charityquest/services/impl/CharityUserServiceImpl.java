@@ -215,7 +215,7 @@ public class CharityUserServiceImpl implements CharityUserService {
                 log.info(String.format(CharityConstants.LOG_USER_LOGIN_SUCCESS, email));
                 // success return
                 charityUser.setPassword(null);
-                return new ReturnStatus(CharityConstants.RETURN_CharityUSER_LOGIN_SUCCESS, charityUser);
+                return new ReturnStatus(CharityConstants.RETURN_CHARITY_USER_LOGIN_SUCCESS, charityUser);
             } else {
                 // incorrect user password
                 log.error(String.format(CharityConstants.LOG_INCORRECT_PASSWORD, email));

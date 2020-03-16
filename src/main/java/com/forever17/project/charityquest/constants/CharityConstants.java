@@ -40,12 +40,13 @@ public class CharityConstants {
     public static final String RETURN_USER_INFO_UPDATE_SUCCESS = "User information updated successfully.";
     public static final String RETURN_GET_DRAFT_MESSAGE_SUCCESS = "Got draft list successfully.";
     public static final String RETURN_CHARITY_USER_ADDED = "Charity User Registered Successfully!";
-    public static final String RETURN_CharityUSER_LOGIN_SUCCESS = "Charity User login successfully";
+    public static final String RETURN_CHARITY_USER_LOGIN_SUCCESS = "Charity User login successfully";
     public static final String RETURN_MESSAGE_DOES_NOT_SAVED = "Message not saved!";
     public static final String RETURN_MESSAGE_SEND_SUCCESS = "Message sent successfully.";
     public static final String RETURN_CREATE_MESSAGE_SUCCESS = "Message created successfully.";
     public static final String RETURN_UPDATE_MESSAGE_SUCCESS = "Message updated successfully.";
     public static final String RETURN_MESSAGE_NOTHING_SEND = "No message will be sent.";
+    public static final String RETURN_HOME_DETAIL_GET_SUCCESS = "Homepage information obtained successfully.";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
@@ -92,6 +93,8 @@ public class CharityConstants {
     public static final String DATA_PAGE_HELPER_TOTAL_PAGES = "totalPages";
     public static final String DATA_PAGE_HELPER_DATA = "data";
     public static final String DATA_MESSAGE_ID = "messageId";
+    public static final String DATA_TOTAL_DONATION = "totalDonation";
+    public static final String DATA_TOTAL_DONATOR = "totalDonators";
 
     // header
     public static final String HEADER_REQUEST_TOKEN = "token";
