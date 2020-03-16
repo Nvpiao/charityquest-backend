@@ -40,7 +40,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -330,17 +332,76 @@ public class CharityUserServiceImpl implements CharityUserService {
         }
     }
 
-    private ReturnStatus sendMessageToAllPublic(Message message) {
+    @Override
+    public ReturnStatus showDonationAmount(String id) {
+
+        int totalDonation = 0;
+        int momRatio = 0;
+        int yoyRatio = 0;
+
+        List<Donation> donations = getDonationByCharityId(id);
+        if (!donations.isEmpty()) {
+            // total donation
+            totalDonation = donations.stream()
+                    .mapToInt(Donation::getMoney)
+                    .sum();
+
+            // Month-On-Month
+            int thisMonth = 0;
+            int lastMonth = 0;
+
+            //Year-On-Year
+            int thisYear = 0;
+            int lastYear = 0;
+
+            // split year and month
+            LocalDate now = LocalDate.now();
+            int year = now.getYear();
+            Month month = now.getMonth();
+
+            for (Donation donation : donations) {
+                LocalDateTime donationTime = donation.getTime();
+                if (donationTime.getYear() == year) {
+                    // this year
+                    thisYear += donation.getMoney();
+                    if (donationTime.getMonth() == month) {
+                        thisMonth += donation.getMoney();
+                    }
+                } else if (donationTime.getYear() == year - 1) {
+                    // last year.
+                    lastYear += donation.getMoney();
+                    if (donationTime.getMonth() == month) {
+                        lastMonth += donation.getMoney();
+                    }
+                }
+            }
+            momRatio = lastMonth == 0 ? 0 : (thisMonth - lastMonth) / lastMonth;
+            yoyRatio = lastYear == 0 ? 0 : (thisYear - lastYear) / lastYear;
+        }
+
+        return new ReturnStatus(CharityConstants.RETURN_DASHBOARD_DONATION_AMOUNT_GET_SUCCESS,
+                ImmutableMap.of(CharityConstants.DATA_TOTAL_DONATION, totalDonation,
+                        CharityConstants.DATA_MOM_RATIO, momRatio,
+                        CharityConstants.DATA_YOY_RATIO, yoyRatio));
+    }
+
+    /**
+     * query donation by charity id
+     *
+     * @param id id of charity
+     * @return list of donation
+     */
+    private List<Donation> getDonationByCharityId(String id) {
         // query fundraising
         fundraisingExample.clear();
         fundraisingExample.createCriteria()
-                .andCharityIdEqualTo(message.getCharityId());
+                .andCharityIdEqualTo(id);
         List<Fundraising> fundraisings = fundraisingMapper.selectByExample(fundraisingExample);
 
         // query donation
         donationExample.clear();
         donationExample.createCriteria()
-                .andCharityIdEqualTo(message.getCharityId());
+                .andCharityIdEqualTo(id);
         if (!fundraisings.isEmpty()) {
             List<String> fundraisingIds = fundraisings.stream()
                     .map(Fundraising::getId)
@@ -351,7 +412,11 @@ public class CharityUserServiceImpl implements CharityUserService {
                 donationExample.or().andFundraisingIdIn(fundraisingIds);
             }
         }
-        List<Donation> donations = donationMapper.selectByExample(donationExample);
+        return donationMapper.selectByExample(donationExample);
+    }
+
+    private ReturnStatus sendMessageToAllPublic(Message message) {
+        List<Donation> donations = getDonationByCharityId(message.getId());
 
         if (!donations.isEmpty()) {
             // get all public id

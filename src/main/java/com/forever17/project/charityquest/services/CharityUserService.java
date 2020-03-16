@@ -100,4 +100,12 @@ public interface CharityUserService {
      * @return instance of ReturnStatus
      */
     ReturnStatus saveOrUpdateMessage(Message message);
+
+    /**
+     * Dashboard: show total donation amount.
+     *
+     * @param id id of charity
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus showDonationAmount(String id);
 }

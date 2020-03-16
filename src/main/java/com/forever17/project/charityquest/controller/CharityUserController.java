@@ -177,4 +177,15 @@ public class CharityUserController {
     public ReturnStatus saveOrUpdateMessage(@Valid @RequestBody Message message) {
         return charityUserService.saveOrUpdateMessage(message);
     }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation(value = "Dashboard: show total donation amount.",
+            consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "charityId", value = "id of charity user",
+            dataTypeClass = String.class, paramType = "query", required = true)
+    @GetMapping(path = "/showDonationAmount")
+    public ReturnStatus showDonationAmount(@RequestParam("charityId") String id) {
+        return charityUserService.showDonationAmount(id);
+    }
 }
