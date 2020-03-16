@@ -108,4 +108,12 @@ public interface CharityUserService {
      * @return instance of ReturnStatus
      */
     ReturnStatus showDonationAmount(String id);
+
+    /**
+     * Dashboard: show history of donation.
+     *
+     * @param id id of charity
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus showDonationHistory(String id);
 }

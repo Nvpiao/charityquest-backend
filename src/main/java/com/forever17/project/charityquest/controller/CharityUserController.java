@@ -188,4 +188,15 @@ public class CharityUserController {
     public ReturnStatus showDonationAmount(@RequestParam("charityId") String id) {
         return charityUserService.showDonationAmount(id);
     }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation(value = "Dashboard: show history of donation.",
+            consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "charityId", value = "id of charity user",
+            dataTypeClass = String.class, paramType = "query", required = true)
+    @GetMapping(path = "/showDonationHistory")
+    public ReturnStatus showDonationHistory(@RequestParam("charityId") String id) {
+        return charityUserService.showDonationHistory(id);
+    }
 }

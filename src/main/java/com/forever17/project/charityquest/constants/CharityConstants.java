@@ -47,7 +47,8 @@ public class CharityConstants {
     public static final String RETURN_UPDATE_MESSAGE_SUCCESS = "Message updated successfully.";
     public static final String RETURN_MESSAGE_NOTHING_SEND = "No message will be sent.";
     public static final String RETURN_HOME_DETAIL_GET_SUCCESS = "Homepage information obtained successfully.";
-    public static final String RETURN_DASHBOARD_DONATION_AMOUNT_GET_SUCCESS = "Dashboard: donation amount obtained successfully";
+    public static final String RETURN_DASHBOARD_DONATION_AMOUNT_GET_SUCCESS = "Dashboard: donation amount obtained successfully.";
+    public static final String RETURN_DASHBOARD_DONATION_HISTORY_GET_SUCCESS = "Dashboard: donation history obtained successfully.";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
@@ -98,6 +99,8 @@ public class CharityConstants {
     public static final String DATA_TOTAL_DONATOR = "totalDonators";
     public static final String DATA_MOM_RATIO = "momRatio";
     public static final String DATA_YOY_RATIO = "yoyRatio";
+    public static final String DATA_DATE = "date";
+    public static final String DATA_DONATION = "donation";
 
     // header
     public static final String HEADER_REQUEST_TOKEN = "token";

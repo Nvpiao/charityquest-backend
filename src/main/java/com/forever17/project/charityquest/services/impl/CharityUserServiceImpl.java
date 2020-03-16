@@ -26,6 +26,7 @@ import com.forever17.project.charityquest.utils.MD5Util;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -335,9 +336,9 @@ public class CharityUserServiceImpl implements CharityUserService {
     @Override
     public ReturnStatus showDonationAmount(String id) {
 
-        int totalDonation = 0;
-        int momRatio = 0;
-        int yoyRatio = 0;
+        long totalDonation = 0;
+        long momRatio = 0;
+        long yoyRatio = 0;
 
         List<Donation> donations = getDonationByCharityId(id);
         if (!donations.isEmpty()) {
@@ -347,16 +348,16 @@ public class CharityUserServiceImpl implements CharityUserService {
                     .sum();
 
             // Month-On-Month
-            int thisMonth = 0;
-            int lastMonth = 0;
+            long thisMonth = 0;
+            long lastMonth = 0;
 
             //Year-On-Year
-            int thisYear = 0;
-            int lastYear = 0;
+            long thisYear = 0;
+            long lastYear = 0;
 
             // split year and month
             LocalDate now = LocalDate.now();
-            int year = now.getYear();
+            long year = now.getYear();
             Month month = now.getMonth();
 
             for (Donation donation : donations) {
@@ -383,6 +384,30 @@ public class CharityUserServiceImpl implements CharityUserService {
                 ImmutableMap.of(CharityConstants.DATA_TOTAL_DONATION, totalDonation,
                         CharityConstants.DATA_MOM_RATIO, momRatio,
                         CharityConstants.DATA_YOY_RATIO, yoyRatio));
+    }
+
+    @Override
+    public ReturnStatus showDonationHistory(String id) {
+        List<String> dates = Lists.newArrayList();
+        List<Long> moneys = Lists.newArrayList();
+
+        List<Donation> donations = getDonationByCharityId(id);
+        if (!donations.isEmpty()) {
+
+            donations.stream()
+                    // group by time and sum result
+                    .collect(Collectors.groupingBy(donation -> donation.getTime().toLocalDate().toString(),
+                            Collectors.summingLong(Donation::getMoney)))
+                    // split key and value
+                    .forEach((date, money) -> {
+                        dates.add(date);
+                        moneys.add(money);
+                    });
+        }
+
+        return new ReturnStatus(CharityConstants.RETURN_DASHBOARD_DONATION_HISTORY_GET_SUCCESS,
+                ImmutableMap.of(CharityConstants.DATA_DATE, dates,
+                        CharityConstants.DATA_DONATION, moneys));
     }
 
     /**
