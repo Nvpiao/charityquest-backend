@@ -105,6 +105,8 @@ public class CharityConstants {
 
     // header
     public static final String HEADER_REQUEST_TOKEN = "token";
+    public static final String HEADER_SAME_SITE_COOKIE = "Set-Cookie";
+    public static final String HEADER_VALUE_SAME_SITE_NONE = "HttpOnly; SameSite=None";
 
     // prefix
     public static final String CODE_PREFIX = "code";

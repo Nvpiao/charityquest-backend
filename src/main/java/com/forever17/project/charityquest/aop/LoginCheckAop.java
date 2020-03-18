@@ -51,18 +51,18 @@ public class LoginCheckAop {
                 ((ServletRequestAttributes) Objects.requireNonNull(
                         RequestContextHolder.getRequestAttributes())).getRequest();
         // from header to get token
-        String request_token = request.getHeader(CharityConstants.HEADER_REQUEST_TOKEN);
+        String requestToken = request.getHeader(CharityConstants.HEADER_REQUEST_TOKEN);
         // from session to get token
-        String session_token = (String) httpSession.getAttribute(CharityConstants.HEADER_REQUEST_TOKEN);
+        String sessionToken = (String) httpSession.getAttribute(CharityConstants.HEADER_REQUEST_TOKEN);
 
         // check whether session expired or not
-        if (Objects.isNull(session_token)) {
+        if (Objects.isNull(sessionToken)) {
             log.error(CharityConstants.RETURN_USER_NOT_LOGIN);
             throw new UserNotLogInException(CharityConstants.RETURN_USER_NOT_LOGIN);
         }
 
         // check if it is a logged in user
-        if (!session_token.equals(request_token)) {
+        if (!sessionToken.equals(requestToken)) {
             log.error(CharityConstants.RETURN_USER_HAS_NO_PERMISSION);
             throw new UserNotLogInException(CharityConstants.RETURN_USER_HAS_NO_PERMISSION);
         }
