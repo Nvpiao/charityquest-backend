@@ -476,7 +476,7 @@ public class CharityUserServiceImpl implements CharityUserService {
     }
 
     private ReturnStatus sendMessageToAllPublic(Message message) {
-        List<Donation> donations = getDonationByCharityId(message.getId());
+        List<Donation> donations = getDonationByCharityId(message.getCharityId());
 
         if (!donations.isEmpty()) {
             // get all public id
