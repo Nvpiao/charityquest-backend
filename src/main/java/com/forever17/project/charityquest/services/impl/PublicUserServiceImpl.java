@@ -5,9 +5,12 @@ import com.forever17.project.charityquest.constants.CharityConstants;
 import com.forever17.project.charityquest.enums.StatusType;
 import com.forever17.project.charityquest.exceptions.SystemInternalException;
 import com.forever17.project.charityquest.mapper.CharityUserMapper;
+import com.forever17.project.charityquest.mapper.FundraisingMapper;
 import com.forever17.project.charityquest.mapper.PublicUserMapper;
 import com.forever17.project.charityquest.pojos.CharityUser;
 import com.forever17.project.charityquest.pojos.CharityUserExample;
+import com.forever17.project.charityquest.pojos.Fundraising;
+import com.forever17.project.charityquest.pojos.FundraisingExample;
 import com.forever17.project.charityquest.pojos.Message;
 import com.forever17.project.charityquest.pojos.PublicUser;
 import com.forever17.project.charityquest.pojos.PublicUserExample;
@@ -19,6 +22,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,6 +62,11 @@ public class PublicUserServiceImpl implements PublicUserService {
     private final CharityUserMapper charityUserMapper;
 
     /**
+     * fundraising mapper
+     */
+    private final FundraisingMapper fundraisingMapper;
+
+    /**
      * Example of PublicUser class
      */
     private PublicUserExample publicUserExample;
@@ -67,18 +76,25 @@ public class PublicUserServiceImpl implements PublicUserService {
      */
     private CharityUserExample charityUserExample;
 
+    /**
+     * Example of Fundraising class
+     */
+    private FundraisingExample fundraisingExample;
+
     {
         // static initialization
         publicUserExample = new PublicUserExample();
         charityUserExample = new CharityUserExample();
+        fundraisingExample = new FundraisingExample();
     }
 
     @Autowired
     public PublicUserServiceImpl(HttpSession httpSession, PublicUserMapper publicUserMapper,
-                                 CharityUserMapper charityUserMapper) {
+                                 CharityUserMapper charityUserMapper, FundraisingMapper fundraisingMapper) {
         this.httpSession = httpSession;
         this.publicUserMapper = publicUserMapper;
         this.charityUserMapper = charityUserMapper;
+        this.fundraisingMapper = fundraisingMapper;
     }
 
     @Override
@@ -250,6 +266,28 @@ public class PublicUserServiceImpl implements PublicUserService {
 
         // return result
         return new ReturnStatus(CharityConstants.RETURN_CHARITY_LIST_GET_SUCCESS, dataMap);
+    }
+
+    @Override
+    public ReturnStatus checkLink(String link) {
+        // null check
+        if (StringUtils.isBlank(link)) {
+            return new ReturnStatus(CharityConstants.RETURN_URL_CAN_NOT_BLANK,
+                    CharityCodes.PROPERTY_CAN_NOT_BE_BLANK, StatusType.FAIL);
+        }
+
+        fundraisingExample.clear();
+        fundraisingExample.createCriteria()
+                .andUrlEqualTo(link);
+        List<Fundraising> fundraisings = fundraisingMapper.selectByExample(fundraisingExample);
+
+        if (fundraisings.isEmpty()) {
+            return new ReturnStatus(CharityConstants.RETURN_URL_CAN_BE_USED);
+        } else {
+            log.error(String.format(CharityConstants.LOG_FUNDRAISING_URL_CAN_NOT_BE_USED, link));
+            return new ReturnStatus(CharityConstants.RETURN_URL_CAN_NOT_BE_USED,
+                    CharityCodes.URL_CAN_NOT_BE_USED, StatusType.FAIL);
+        }
     }
 
     /**

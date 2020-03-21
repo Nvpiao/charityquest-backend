@@ -27,4 +27,6 @@ public final class CharityCodes {
     public static final String RESET_PASSWORD_CODE_EXPIRE_OR_USED = "00000016";
     public static final String MESSAGE_DOES_NOT_EXIST = "00000017";
     public static final String MESSAGE_NOTHING_SEND = "00000018";
+    public static final String PROPERTY_CAN_NOT_BE_BLANK = "00000019";
+    public static final String URL_CAN_NOT_BE_USED = "00000020";
 }

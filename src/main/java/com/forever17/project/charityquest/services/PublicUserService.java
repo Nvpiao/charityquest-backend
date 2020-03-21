@@ -70,7 +70,15 @@ public interface PublicUserService {
      * @param search   searching criteria
      * @param pageNum  num of page
      * @param pageSize size of page
-     * @return instance of ReturnStatus {@see ReturnStatus}
+     * @return instance of ReturnStatus
      */
     ReturnStatus showCharityList(String search, int pageNum, int pageSize);
+
+    /**
+     * check if the link  exist
+     *
+     * @param link link of fundraising
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus checkLink(String link);
 }

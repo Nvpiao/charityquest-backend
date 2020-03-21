@@ -51,6 +51,9 @@ public class CharityConstants {
     public static final String RETURN_DASHBOARD_DONATION_HISTORY_GET_SUCCESS = "Dashboard: donation history obtained successfully.";
     public static final String RETURN_DASHBOARD_DONATION_LOCATION_GET_SUCCESS = "Dashboard: donation location obtained successfully.";
     public static final String RETURN_CHARITY_LIST_GET_SUCCESS = "List of Charities get successfully.";
+    public static final String RETURN_URL_CAN_NOT_BLANK = "URL can not be blank!";
+    public static final String RETURN_URL_CAN_NOT_BE_USED = "URL can not be used!";
+    public static final String RETURN_URL_CAN_BE_USED = "URL can be used.";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
@@ -83,6 +86,7 @@ public class CharityConstants {
     public static final String LOG_CHANGE_PASSWORD_DUPLICATE = "UserID: {%s}, Error: Duplicate Password!";
     public static final String LOG_MESSAGE_DOES_NOT_EXIST = "MessageID: {%s}, Error: Message Does not exist!";
     public static final String LOG_MESSAGE_SEND_FAILED = "MessageID: {%s}, SendTo: {%s}, Error: Message sending failed!";
+    public static final String LOG_FUNDRAISING_URL_CAN_NOT_BE_USED = "URL: {%s}, ERROR: Url already exists!";
 
     // mail
     public static final String MAIL_SUBJECT_RESET_PASSWORD = "Password Reset";

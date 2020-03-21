@@ -139,10 +139,22 @@ public class PublicUserController {
             @ApiImplicitParam(name = "pageSize", value = "size of a page",
                     dataTypeClass = Integer.class, paramType = "query", required = true)
     })
+
     @GetMapping(path = "/showCharityList")
     public ReturnStatus showCharityList(@RequestParam("search") String search,
                                         @RequestParam("pageNum") int pageNum,
                                         @RequestParam("pageSize") int pageSize) {
         return publicUserService.showCharityList(search, pageNum, pageSize);
+    }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation(value = "show the profile of public user.",
+            consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "link", value = "link of fundraising",
+            dataTypeClass = String.class, paramType = "query", required = true)
+    @GetMapping(path = "/checkLink")
+    public ReturnStatus checkLink(@RequestParam("link") String link) {
+        return publicUserService.checkLink(link);
     }
 }
