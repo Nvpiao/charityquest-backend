@@ -1,6 +1,9 @@
 package com.forever17.project.charityquest.configuration;
 
 import com.forever17.project.charityquest.constants.CharityConstants;
+import org.springframework.context.annotation.Bean;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -21,6 +24,15 @@ import java.io.IOException;
  */
 @Component
 public class CookiesFilter extends GenericFilterBean {
+
+    @Bean
+    public CookieSerializer httpSessionIdResolver() {
+        DefaultCookieSerializer cookieSerializer = new DefaultCookieSerializer();
+        cookieSerializer.setUseHttpOnlyCookie(true);
+        cookieSerializer.setSameSite(null);
+        return cookieSerializer;
+    }
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {

@@ -76,10 +76,18 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- auto configuration -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+
+        <!-- spring session -->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-core</artifactId>
+            <version>2.2.2.RELEASE</version>
         </dependency>
 
         <!-- lombok -->
