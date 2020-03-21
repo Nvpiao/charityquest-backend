@@ -52,7 +52,7 @@ public class Message implements Serializable {
     private LocalDateTime modifyTime;
 
     /**
-     * lastest sending time
+     * latest sending time
      */
     private LocalDateTime sentTime;
 

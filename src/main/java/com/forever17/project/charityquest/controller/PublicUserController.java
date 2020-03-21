@@ -2,6 +2,7 @@ package com.forever17.project.charityquest.controller;
 
 import com.forever17.project.charityquest.aop.annotation.LoginCheck;
 import com.forever17.project.charityquest.exceptions.SystemInternalException;
+import com.forever17.project.charityquest.pojos.Fundraising;
 import com.forever17.project.charityquest.pojos.PublicUser;
 import com.forever17.project.charityquest.pojos.entity.ReturnStatus;
 import com.forever17.project.charityquest.services.PublicUserService;
@@ -166,5 +167,13 @@ public class PublicUserController {
     @GetMapping(path = "/getFundraisingByLink")
     public ReturnStatus getFundraisingByLink(@RequestParam("link") String link) {
         return publicUserService.getFundraisingByLink(link);
+    }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation("create a fundraising")
+    @PostMapping(path = "/createFundraising")
+    public ReturnStatus createFundraising(@Valid @RequestBody Fundraising fundraising) {
+        return publicUserService.createFundraising(fundraising);
     }
 }

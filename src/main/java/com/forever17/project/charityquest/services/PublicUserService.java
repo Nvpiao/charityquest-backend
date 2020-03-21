@@ -1,6 +1,7 @@
 package com.forever17.project.charityquest.services;
 
 import com.forever17.project.charityquest.exceptions.SystemInternalException;
+import com.forever17.project.charityquest.pojos.Fundraising;
 import com.forever17.project.charityquest.pojos.PublicUser;
 import com.forever17.project.charityquest.pojos.entity.ReturnStatus;
 
@@ -89,4 +90,12 @@ public interface PublicUserService {
      * @return instance of ReturnStatus
      */
     ReturnStatus getFundraisingByLink(String link);
+
+    /**
+     * create a fundraising
+     *
+     * @param fundraising instance of fundraising
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus createFundraising(Fundraising fundraising);
 }

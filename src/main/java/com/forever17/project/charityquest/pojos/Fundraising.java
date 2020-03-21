@@ -50,13 +50,11 @@ public class Fundraising implements Serializable {
     /**
      * start time of fundraising.
      */
-    @NotBlank(message = CharityConstants.VALID_START_TIME_BLANK_WARN)
     private LocalDateTime startTime;
 
     /**
      * end time of fundraising.
      */
-    @NotBlank(message = CharityConstants.VALID_END_TIME_BLANK_WARN)
     private LocalDateTime endTime;
 
     /**

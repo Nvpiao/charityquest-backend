@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -317,6 +318,39 @@ public class PublicUserServiceImpl implements PublicUserService {
             return new ReturnStatus(CharityConstants.RETURN_FUNDRAISING_DOES_NOT_EXIST,
                     CharityCodes.FUNDRAISING_DOES_NOT_EXIST, StatusType.FAIL);
         }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ReturnStatus createFundraising(Fundraising fundraising) {
+        // check link first
+        ReturnStatus linkStatus = checkLink(fundraising.getUrl());
+        if (linkStatus.getStatusType() == StatusType.FAIL) {
+            return linkStatus;
+        }
+
+        // check charity
+        CharityUser charityUser = charityUserMapper.selectByPrimaryKey(fundraising.getCharityId());
+        if (Objects.isNull(charityUser)) {
+            log.error(String.format(CharityConstants.LOG_CHARITY_DOES_NOT_EXIST, fundraising.getCharityId()));
+            return new ReturnStatus(CharityConstants.RETURN_CHARITY_DOES_NOT_EXIST,
+                    CharityCodes.CHARITY_DOES_NOT_EXIST, StatusType.FAIL);
+        }
+
+        // check duration
+        long days = Duration.between(fundraising.getStartTime(), fundraising.getEndTime()).toDays();
+        if (days < 1) {
+            log.error(String.format(CharityConstants.LOG_FUNDRAISING_LAST_LESS_THAN_ONE_DAY, fundraising.getCharityId()));
+            return new ReturnStatus(CharityConstants.RETURN_FUNDRAISING_LAST_LESS_THAN_ONE_DAY,
+                    CharityCodes.FUNDRAISING_LAST_LESS_THAN_ONE_DAY, StatusType.FAIL);
+        }
+
+        // set fundraising id
+        fundraising.setId(UUID.randomUUID().toString());
+        // insert into database
+        fundraisingMapper.insertSelective(fundraising);
+
+        return getFundraisingByLink(fundraising.getUrl());
     }
 
     /**

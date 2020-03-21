@@ -56,6 +56,8 @@ public class CharityConstants {
     public static final String RETURN_URL_CAN_BE_USED = "URL can be used.";
     public static final String RETURN_FUNDRAISING_DOES_NOT_EXIST = "Fundraising does not exist!";
     public static final String RETURN_FUNDRAISING_DETAILS_GET_SUCCESS = "Fundraising details get successfully.";
+    public static final String RETURN_CHARITY_DOES_NOT_EXIST = "Charity does not exist!";
+    public static final String RETURN_FUNDRAISING_LAST_LESS_THAN_ONE_DAY = "Fundraising cannot be less than one day!";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
@@ -66,7 +68,6 @@ public class CharityConstants {
     // validation information
     public static final String VALID_EMAIL_NOT_VALID_WARN = "Email not valid!";
     public static final String VALID_PASSWORD_BLANK_WARN = "Password can not be blank!";
-    public static final String VALID_TEL_BLANK_WARN = "Telephone number can not be blank!";
     public static final String VALID_URL_BLANK_WARN = "URL can not be blank!";
     public static final String VALID_START_TIME_BLANK_WARN = "Start time can not be blank!";
     public static final String VALID_END_TIME_BLANK_WARN = "End time can not be blank!";
@@ -83,13 +84,14 @@ public class CharityConstants {
     public static final String LOG_INCORRECT_PASSWORD = "UserEmail: {%s}, Error: Incorrect user password!";
     public static final String LOG_USER_DOES_NOT_EXIST_EMAIL = "UserEmail: {%s}, Error: User does not exist!";
     public static final String LOG_USER_LOGIN_SUCCESS = "UserEmail: {%s}, Info: User login successfully.";
-    public static final String LOG_USER_ALREADY_LOGIN = "UserEmail: {%s}, Info: User has already logged in.";
     public static final String LOG_USER_DOES_NOT_EXIST_ID = "UserID: {%s}, Error: User does not exist!";
     public static final String LOG_CHANGE_PASSWORD_DUPLICATE = "UserID: {%s}, Error: Duplicate Password!";
     public static final String LOG_MESSAGE_DOES_NOT_EXIST = "MessageID: {%s}, Error: Message Does not exist!";
     public static final String LOG_MESSAGE_SEND_FAILED = "MessageID: {%s}, SendTo: {%s}, Error: Message sending failed!";
     public static final String LOG_FUNDRAISING_URL_CAN_NOT_BE_USED = "URL: {%s}, ERROR: Url already exists!";
     public static final String LOG_FUNDRAISING_DOES_NOT_EXIST = "URL: {%s}, ERROR: Fundraising does not exists!";
+    public static final String LOG_CHARITY_DOES_NOT_EXIST = "CharityId: {%s}, ERROR: Charity does not exist!";
+    public static final String LOG_FUNDRAISING_LAST_LESS_THAN_ONE_DAY = "CharityId: {%s}, ERROR: Fundraising cannot be less than one day!";
 
     // mail
     public static final String MAIL_SUBJECT_RESET_PASSWORD = "Password Reset";
@@ -110,9 +112,6 @@ public class CharityConstants {
     public static final String DATA_YOY_RATIO = "yoyRatio";
     public static final String DATA_DATE = "date";
     public static final String DATA_DONATION = "donation";
-    public static final String DATA_CHARITY_DESC = "charityDesc";
-    public static final String DATA_DESC = "description";
-    public static final String DATA_FUNDRAISING_DESC = "fundraisingDesc";
 
     // header
     public static final String HEADER_REQUEST_TOKEN = "token";
