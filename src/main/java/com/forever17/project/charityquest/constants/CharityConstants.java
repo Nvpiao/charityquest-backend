@@ -50,6 +50,7 @@ public class CharityConstants {
     public static final String RETURN_DASHBOARD_DONATION_AMOUNT_GET_SUCCESS = "Dashboard: donation amount obtained successfully.";
     public static final String RETURN_DASHBOARD_DONATION_HISTORY_GET_SUCCESS = "Dashboard: donation history obtained successfully.";
     public static final String RETURN_DASHBOARD_DONATION_LOCATION_GET_SUCCESS = "Dashboard: donation location obtained successfully.";
+    public static final String RETURN_CHARITY_LIST_GET_SUCCESS = "List of Charities get successfully.";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
@@ -121,4 +122,9 @@ public class CharityConstants {
     // email template
     public static final String MESSAGE_TEMPLATE_FIRST_NAME = "$FirstName";
     public static final String MESSAGE_TEMPLATE_LAST_NAME = "$LastName";
+
+    // mysql
+    public static final String SEARCH_WILD_CARD = "%";
+    public static final String ESCAPE_REPLACE = "\\";
+    public static final String[] ESCAPE_STRINGS = {"\\", "$", "|", "%", "_", "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}"};
 }

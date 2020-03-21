@@ -8,11 +8,16 @@ import com.forever17.project.charityquest.mapper.CharityUserMapper;
 import com.forever17.project.charityquest.mapper.PublicUserMapper;
 import com.forever17.project.charityquest.pojos.CharityUser;
 import com.forever17.project.charityquest.pojos.CharityUserExample;
+import com.forever17.project.charityquest.pojos.Message;
 import com.forever17.project.charityquest.pojos.PublicUser;
 import com.forever17.project.charityquest.pojos.PublicUserExample;
 import com.forever17.project.charityquest.pojos.entity.ReturnStatus;
 import com.forever17.project.charityquest.services.PublicUserService;
+import com.forever17.project.charityquest.utils.EscapeUtils;
 import com.forever17.project.charityquest.utils.MD5Util;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -215,6 +221,35 @@ public class PublicUserServiceImpl implements PublicUserService {
         // update profile
         publicUserMapper.updateByPrimaryKeySelective(publicUser);
         return new ReturnStatus(CharityConstants.RETURN_USER_INFO_UPDATE_SUCCESS);
+    }
+
+    @Override
+    public ReturnStatus showCharityList(String search, int pageNum, int pageSize) {
+
+        // escape
+        search = EscapeUtils.escapeMysql(search);
+
+        // search criteria
+        search = CharityConstants.SEARCH_WILD_CARD + search + CharityConstants.SEARCH_WILD_CARD;
+
+        // charity example
+        charityUserExample.clear();
+        charityUserExample.createCriteria()
+                .andNameLike(search);
+
+        // page helper
+        Page<Message> page = PageHelper.startPage(pageNum, pageSize);
+        List<CharityUser> charityUsers = charityUserMapper.selectByExample(charityUserExample);
+
+        // assembly data
+        Map<String, Object> dataMap = Maps.newHashMap();
+        dataMap.put(CharityConstants.DATA_PAGE_HELPER_TOTAL_NUMS, page.getTotal());
+        dataMap.put(CharityConstants.DATA_PAGE_HELPER_TOTAL_PAGES, page.getPages());
+        dataMap.put(CharityConstants.DATA_PAGE_HELPER_NOW_PAGE, page.getPageNum());
+        dataMap.put(CharityConstants.DATA_PAGE_HELPER_DATA, charityUsers);
+
+        // return result
+        return new ReturnStatus(CharityConstants.RETURN_CHARITY_LIST_GET_SUCCESS, dataMap);
     }
 
     /**

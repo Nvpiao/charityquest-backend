@@ -63,4 +63,14 @@ public interface PublicUserService {
      * @return instance of ReturnStatus
      */
     ReturnStatus updateUser(PublicUser publicUser);
+
+    /**
+     * get list of charity with searching criteria
+     *
+     * @param search   searching criteria
+     * @param pageNum  num of page
+     * @param pageSize size of page
+     * @return instance of ReturnStatus {@see ReturnStatus}
+     */
+    ReturnStatus showCharityList(String search, int pageNum, int pageSize);
 }

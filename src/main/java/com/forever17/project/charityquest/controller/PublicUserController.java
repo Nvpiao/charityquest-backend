@@ -128,4 +128,21 @@ public class PublicUserController {
     public ReturnStatus update(@RequestBody PublicUser publicUser) {
         return publicUserService.updateUser(publicUser);
     }
+
+    @ResponseBody
+    @ApiOperation("get list of charity with searching criteria")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "search", value = "criteria of searching",
+                    dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageNum", value = "number of page",
+                    dataTypeClass = Integer.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "size of a page",
+                    dataTypeClass = Integer.class, paramType = "query", required = true)
+    })
+    @GetMapping(path = "/showCharityList")
+    public ReturnStatus showCharityList(@RequestParam("search") String search,
+                                        @RequestParam("pageNum") int pageNum,
+                                        @RequestParam("pageSize") int pageSize) {
+        return publicUserService.showCharityList(search, pageNum, pageSize);
+    }
 }
