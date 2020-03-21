@@ -81,4 +81,12 @@ public interface PublicUserService {
      * @return instance of ReturnStatus
      */
     ReturnStatus checkLink(String link);
+
+    /**
+     * get fundraising details by link.
+     *
+     * @param link link of fundraising
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus getFundraisingByLink(String link);
 }

@@ -149,12 +149,22 @@ public class PublicUserController {
 
     @LoginCheck
     @ResponseBody
-    @ApiOperation(value = "show the profile of public user.",
+    @ApiOperation(value = "check if link already been used.",
             consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiImplicitParam(name = "link", value = "link of fundraising",
             dataTypeClass = String.class, paramType = "query", required = true)
     @GetMapping(path = "/checkLink")
     public ReturnStatus checkLink(@RequestParam("link") String link) {
         return publicUserService.checkLink(link);
+    }
+
+    @ResponseBody
+    @ApiOperation(value = "get fundraising details by link.",
+            consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "link", value = "link of fundraising",
+            dataTypeClass = String.class, paramType = "query", required = true)
+    @GetMapping(path = "/getFundraisingByLink")
+    public ReturnStatus getFundraisingByLink(@RequestParam("link") String link) {
+        return publicUserService.getFundraisingByLink(link);
     }
 }

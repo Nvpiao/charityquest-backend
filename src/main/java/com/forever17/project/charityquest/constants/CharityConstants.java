@@ -54,6 +54,8 @@ public class CharityConstants {
     public static final String RETURN_URL_CAN_NOT_BLANK = "URL can not be blank!";
     public static final String RETURN_URL_CAN_NOT_BE_USED = "URL can not be used!";
     public static final String RETURN_URL_CAN_BE_USED = "URL can be used.";
+    public static final String RETURN_FUNDRAISING_DOES_NOT_EXIST = "Fundraising does not exist!";
+    public static final String RETURN_FUNDRAISING_DETAILS_GET_SUCCESS = "Fundraising details get successfully.";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
@@ -87,6 +89,7 @@ public class CharityConstants {
     public static final String LOG_MESSAGE_DOES_NOT_EXIST = "MessageID: {%s}, Error: Message Does not exist!";
     public static final String LOG_MESSAGE_SEND_FAILED = "MessageID: {%s}, SendTo: {%s}, Error: Message sending failed!";
     public static final String LOG_FUNDRAISING_URL_CAN_NOT_BE_USED = "URL: {%s}, ERROR: Url already exists!";
+    public static final String LOG_FUNDRAISING_DOES_NOT_EXIST = "URL: {%s}, ERROR: Fundraising does not exists!";
 
     // mail
     public static final String MAIL_SUBJECT_RESET_PASSWORD = "Password Reset";
@@ -107,6 +110,9 @@ public class CharityConstants {
     public static final String DATA_YOY_RATIO = "yoyRatio";
     public static final String DATA_DATE = "date";
     public static final String DATA_DONATION = "donation";
+    public static final String DATA_CHARITY_DESC = "charityDesc";
+    public static final String DATA_DESC = "description";
+    public static final String DATA_FUNDRAISING_DESC = "fundraisingDesc";
 
     // header
     public static final String HEADER_REQUEST_TOKEN = "token";

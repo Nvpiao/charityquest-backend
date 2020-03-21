@@ -14,6 +14,7 @@ import com.forever17.project.charityquest.pojos.FundraisingExample;
 import com.forever17.project.charityquest.pojos.Message;
 import com.forever17.project.charityquest.pojos.PublicUser;
 import com.forever17.project.charityquest.pojos.PublicUserExample;
+import com.forever17.project.charityquest.pojos.entity.FundraisingDetails;
 import com.forever17.project.charityquest.pojos.entity.ReturnStatus;
 import com.forever17.project.charityquest.services.PublicUserService;
 import com.forever17.project.charityquest.utils.EscapeUtils;
@@ -287,6 +288,34 @@ public class PublicUserServiceImpl implements PublicUserService {
             log.error(String.format(CharityConstants.LOG_FUNDRAISING_URL_CAN_NOT_BE_USED, link));
             return new ReturnStatus(CharityConstants.RETURN_URL_CAN_NOT_BE_USED,
                     CharityCodes.URL_CAN_NOT_BE_USED, StatusType.FAIL);
+        }
+    }
+
+    @Override
+    public ReturnStatus getFundraisingByLink(String link) {
+        // null check
+        if (StringUtils.isBlank(link)) {
+            return new ReturnStatus(CharityConstants.RETURN_URL_CAN_NOT_BLANK,
+                    CharityCodes.PROPERTY_CAN_NOT_BE_BLANK, StatusType.FAIL);
+        }
+
+        fundraisingExample.clear();
+        fundraisingExample.createCriteria()
+                .andUrlEqualTo(link);
+        List<Fundraising> fundraisings = fundraisingMapper.selectByExample(fundraisingExample);
+        if (!fundraisings.isEmpty()) {
+            // at most one
+            assert fundraisings.size() == 1;
+            Fundraising fundraising = fundraisings.get(0);
+            CharityUser charityUser = charityUserMapper.selectByPrimaryKey(fundraising.getCharityId());
+
+            assert charityUser != null;
+            return new ReturnStatus(CharityConstants.RETURN_FUNDRAISING_DETAILS_GET_SUCCESS,
+                    new FundraisingDetails(fundraising, charityUser));
+        } else {
+            log.error(String.format(CharityConstants.LOG_FUNDRAISING_DOES_NOT_EXIST, link));
+            return new ReturnStatus(CharityConstants.RETURN_FUNDRAISING_DOES_NOT_EXIST,
+                    CharityCodes.FUNDRAISING_DOES_NOT_EXIST, StatusType.FAIL);
         }
     }
 

@@ -46,23 +46,28 @@ public class CharityUser extends User implements Serializable {
      * avatar of charity
      */
     private String photo;
+
     /**
      * number of charity
      */
     @NotBlank(message = CharityConstants.VALID_CHARITY_NO_BLANK_WARN)
     private String number;
+
     /**
      * description of charity
      */
     private String description;
+
     /**
      * case photo of charity
      */
     private String casePhoto;
+
     /**
      * case video address of charity
      */
     private String caseVideo;
+
     /**
      * case description of charity
      */
