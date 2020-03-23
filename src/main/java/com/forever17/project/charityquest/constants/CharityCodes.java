@@ -32,4 +32,7 @@ public final class CharityCodes {
     public static final String FUNDRAISING_DOES_NOT_EXIST = "00000021";
     public static final String CHARITY_DOES_NOT_EXIST = "00000022";
     public static final String FUNDRAISING_LAST_LESS_THAN_ONE_DAY = "00000023";
+    public static final String PAYPAL_PAY_LINK_GET_FAILED = "00000024";
+    public static final String PAYPAL_PAY_STATUS_FAILED = "00000025";
+    public static final String FUNDRAISING_OR_PUBLIC_CAN_NOT_FOUND = "00000026";
 }

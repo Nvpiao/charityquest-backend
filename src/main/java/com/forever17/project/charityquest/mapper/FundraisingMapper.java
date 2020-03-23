@@ -38,4 +38,6 @@ public interface FundraisingMapper {
     int updateByPrimaryKeySelective(Fundraising record);
 
     int updateByPrimaryKey(Fundraising record);
+
+    int updateMoney(@Param("id") String fundraisingId, @Param("raiseMoney") double money);
 }

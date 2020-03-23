@@ -3,6 +3,7 @@ package com.forever17.project.charityquest.pojos;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel
+@Builder
 public class Donation implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -60,7 +62,7 @@ public class Donation implements Serializable {
     /**
      * money of donation
      */
-    private Integer money;
+    private Double money;
 
     /**
      * time of donation

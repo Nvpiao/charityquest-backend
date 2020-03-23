@@ -254,13 +254,18 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.forever17.project.charityquest.pojos.Fundraising">
         update fundraising
-        set charity_id   = #{charityId,jdbcType=VARCHAR},
-            url          = #{url,jdbcType=VARCHAR},
-            start_time   = #{startTime,jdbcType=TIMESTAMP},
-            end_time     = #{endTime,jdbcType=TIMESTAMP},
-            raise_money  = #{raiseMoney,jdbcType=INTEGER},
-            target_money = #{targetMoney,jdbcType=INTEGER},
-            description  = #{description,jdbcType=VARCHAR}
+        set charity_id = #{charityId,jdbcType=VARCHAR},
+        url = #{url,jdbcType=VARCHAR},
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+        raise_money = #{raiseMoney,jdbcType=INTEGER},
+        target_money = #{targetMoney,jdbcType=INTEGER},
+        description = #{description,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateMoney">
+        update fundraising
+        set raise_money = raise_money + #{raiseMoney,jdbcType=INTEGER}
         where id = #{id,jdbcType=VARCHAR}
     </update>
 </mapper>

@@ -11,7 +11,7 @@
  Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 13/03/2020 00:55:44
+ Date: 23/03/2020 19:18:21
 */
 
 SET NAMES utf8mb4;
@@ -50,7 +50,7 @@ CREATE TABLE `donation`
     `charity_id`     varchar(36) COLLATE utf8mb4_unicode_ci          DEFAULT NULL COMMENT 'id of charity (to who)',
     `fundraising_id` varchar(36) COLLATE utf8mb4_unicode_ci          DEFAULT NULL COMMENT 'id of fundraising',
     `donate_type`    varchar(9) COLLATE utf8mb4_unicode_ci           DEFAULT 'once' COMMENT 'type of donation, types: once, weekly, monthly, quarterly, yearly, default: once',
-    `money`          int(255) unsigned                      NOT NULL DEFAULT '0' COMMENT 'money of donation',
+    `money`          float(255, 0) unsigned                 NOT NULL DEFAULT '0' COMMENT 'money of donation',
     `time`           datetime                               NOT NULL COMMENT 'time of donation',
     PRIMARY KEY (`id`),
     KEY `public_id_donation` (`public_id`),

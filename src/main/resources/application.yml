@@ -1,4 +1,6 @@
 spring:
+  thymeleaf:
+    cache: false
   datasource:
     url: ENC(YERBAnLL11Ndw9b1MUpn490fKSpdtxmz84clnVEgjh+i2QK6x8v7U5KX8vbZaJONsf0jTradg5NR94jcVxFQCdDyK/jfEY5FWR4Q5/mh/f+cdcGju1gqaoNuaDXibcDwaHhGfwqi7Pe+sU6ZFbos0/5LspZVSTHp)
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -57,7 +59,7 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
 
 code:
-  expire: 1440 # minutes
+  expire: 10 # minutes
   base-url: http://teamwork/Charity/#/en-gb/reset-password
 
 thread:
@@ -67,3 +69,11 @@ thread:
   keepAliveSeconds: 60
   waitForTasksToComplete: true
   awaitTermination: 600
+
+paypal:
+  client-id: AdMmtUkdAHsfDVjTV9cgsQL25Nf0EvpPuuXzoNlnXTDuCX4AmknbN47sB3HgaIY4jlsWyqhaX6R2waVq
+  client-secret: EHNAs8JDFwkX_2l_qb4HVCSyKUhGDNwepEUd9Wou0hKO72DaEJGxztjEggKutwMpXBWX_bVxUrnreFJx
+  mode: sandbox
+  cancel-url: http://teamwork/Charity/#/en-gb/
+  success-url: http://localhost:7777/CharityQuest/
+#  successUrl: http://teamwork/Charity/#/en-gb/fundraising

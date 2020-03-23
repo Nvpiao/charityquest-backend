@@ -2,13 +2,16 @@ package com.forever17.project.charityquest.services.impl;
 
 import com.forever17.project.charityquest.constants.CharityCodes;
 import com.forever17.project.charityquest.constants.CharityConstants;
+import com.forever17.project.charityquest.enums.DonationType;
 import com.forever17.project.charityquest.enums.StatusType;
 import com.forever17.project.charityquest.exceptions.SystemInternalException;
 import com.forever17.project.charityquest.mapper.CharityUserMapper;
+import com.forever17.project.charityquest.mapper.DonationMapper;
 import com.forever17.project.charityquest.mapper.FundraisingMapper;
 import com.forever17.project.charityquest.mapper.PublicUserMapper;
 import com.forever17.project.charityquest.pojos.CharityUser;
 import com.forever17.project.charityquest.pojos.CharityUserExample;
+import com.forever17.project.charityquest.pojos.Donation;
 import com.forever17.project.charityquest.pojos.Fundraising;
 import com.forever17.project.charityquest.pojos.FundraisingExample;
 import com.forever17.project.charityquest.pojos.Message;
@@ -17,11 +20,16 @@ import com.forever17.project.charityquest.pojos.PublicUserExample;
 import com.forever17.project.charityquest.pojos.entity.FundraisingDetails;
 import com.forever17.project.charityquest.pojos.entity.ReturnStatus;
 import com.forever17.project.charityquest.services.PublicUserService;
+import com.forever17.project.charityquest.tools.paypal.service.PaypalService;
 import com.forever17.project.charityquest.utils.EscapeUtils;
 import com.forever17.project.charityquest.utils.MD5Util;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Payment;
+import com.paypal.base.rest.PayPalRESTException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -54,6 +63,11 @@ public class PublicUserServiceImpl implements PublicUserService {
     private final HttpSession httpSession;
 
     /**
+     * paypal service
+     */
+    private final PaypalService paypalService;
+
+    /**
      * public user mapper
      */
     private final PublicUserMapper publicUserMapper;
@@ -67,6 +81,11 @@ public class PublicUserServiceImpl implements PublicUserService {
      * fundraising mapper
      */
     private final FundraisingMapper fundraisingMapper;
+
+    /**
+     * donation mapper
+     */
+    private final DonationMapper donationMapper;
 
     /**
      * Example of PublicUser class
@@ -91,12 +110,15 @@ public class PublicUserServiceImpl implements PublicUserService {
     }
 
     @Autowired
-    public PublicUserServiceImpl(HttpSession httpSession, PublicUserMapper publicUserMapper,
-                                 CharityUserMapper charityUserMapper, FundraisingMapper fundraisingMapper) {
+    public PublicUserServiceImpl(HttpSession httpSession, PaypalService paypalService,
+                                 PublicUserMapper publicUserMapper, CharityUserMapper charityUserMapper,
+                                 FundraisingMapper fundraisingMapper, DonationMapper donationMapper) {
         this.httpSession = httpSession;
+        this.paypalService = paypalService;
         this.publicUserMapper = publicUserMapper;
         this.charityUserMapper = charityUserMapper;
         this.fundraisingMapper = fundraisingMapper;
+        this.donationMapper = donationMapper;
     }
 
     @Override
@@ -333,6 +355,73 @@ public class PublicUserServiceImpl implements PublicUserService {
     @Override
     public ReturnStatus getFundraisingById(String id) {
         return getFundraising(id, CharityConstants.FUNDRAISING_ID);
+    }
+
+
+    @Override
+    public ReturnStatus donateThroughPaypal(String fundraisingId, String publicId, float money) throws SystemInternalException {
+        // check exist
+        Fundraising fundraising = fundraisingMapper.selectByPrimaryKey(fundraisingId);
+        PublicUser publicUser = publicUserMapper.selectByPrimaryKey(publicId);
+        if (Objects.isNull(fundraising) || Objects.isNull(publicUser)) {
+            log.error(String.format(CharityConstants.LOG_FUNDRAISING_OR_PUBLIC_CAN_NOT_FOUND, fundraisingId, publicId));
+            return new ReturnStatus(CharityConstants.RETURN_FUNDRAISING_OR_PUBLIC_CAN_NOT_FOUND,
+                    CharityCodes.FUNDRAISING_OR_PUBLIC_CAN_NOT_FOUND, StatusType.FAIL);
+        }
+
+        try {
+            // create payment
+            Payment payment = paypalService.createPayment(money, fundraisingId, publicId);
+            for (Links links : payment.getLinks()) {
+                if (links.getRel().equals(CharityConstants.PAYPAL_APPROVAL_LINK)) {
+                    return new ReturnStatus(CharityConstants.RETURN_PAY_REDIRECTION_GET_SUCCESS,
+                            ImmutableMap.of(CharityConstants.DATA_PAYPAL_REDIRECT, links.getHref()));
+                }
+            }
+        } catch (PayPalRESTException e) {
+            // exception
+            log.error(CharityConstants.RETURN_PAY_REDIRECTION_GET_FAILED, e);
+            throw new SystemInternalException(CharityConstants.RETURN_PAY_REDIRECTION_GET_FAILED);
+        }
+
+        // noting happen
+        return new ReturnStatus(CharityConstants.RETURN_PAY_REDIRECTION_GET_FAILED,
+                CharityCodes.PAYPAL_PAY_LINK_GET_FAILED, StatusType.FAIL);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ReturnStatus executePayment(String fundraisingId, String publicId, String paymentId,
+                                       String payerId, double money) throws SystemInternalException {
+        try {
+            Payment payment = paypalService.executePayment(paymentId, payerId);
+            if (payment.getState().equals(CharityConstants.PAYPAL_STATUS_APPROVED)) {
+                // update money
+                fundraisingMapper.updateMoney(fundraisingId, money);
+
+                // create donation
+                Donation donation = Donation.builder()
+                        .id(UUID.randomUUID().toString())
+                        .publicId(publicId)
+                        .type(DonationType.FUNDRAISING.name().toLowerCase())
+                        .fundraisingId(fundraisingId)
+                        .money(money)
+                        .time(LocalDateTime.now())
+                        .build();
+                // add donation history
+                donationMapper.insertSelective(donation);
+
+                // return details of fundraising
+                return getFundraisingById(fundraisingId);
+            }
+        } catch (PayPalRESTException e) {
+            // exception
+            log.error(CharityConstants.RETURN_PAYMENT_STATUS_FAILED, e);
+            throw new SystemInternalException(CharityConstants.RETURN_PAYMENT_STATUS_FAILED);
+        }
+        // noting happen
+        return new ReturnStatus(CharityConstants.RETURN_PAYMENT_STATUS_FAILED,
+                CharityCodes.PAYPAL_PAY_STATUS_FAILED, StatusType.FAIL);
     }
 
     /**

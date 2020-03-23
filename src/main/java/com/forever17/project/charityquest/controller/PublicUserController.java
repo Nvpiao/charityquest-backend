@@ -140,7 +140,6 @@ public class PublicUserController {
             @ApiImplicitParam(name = "pageSize", value = "size of a page",
                     dataTypeClass = Integer.class, paramType = "query", required = true)
     })
-
     @GetMapping(path = "/showCharityList")
     public ReturnStatus showCharityList(@RequestParam("search") String search,
                                         @RequestParam("pageNum") int pageNum,
@@ -184,5 +183,57 @@ public class PublicUserController {
     @GetMapping(path = "/getFundraisingDetail")
     public ReturnStatus getFundraisingDetail(@RequestParam("fundraisingId") String id) {
         return publicUserService.getFundraisingById(id);
+    }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation(value = "donate through paypal.",
+            consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "fundraisingId", value = "id of fundraising",
+                    dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "publicId", value = "id of public",
+                    dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "money", value = "money of donation",
+                    dataTypeClass = Integer.class, paramType = "query", required = true)
+    })
+    @GetMapping(path = "/donateThroughPaypal")
+    public ReturnStatus donateThroughPaypal(@RequestParam("fundraisingId") String fundraisingId,
+                                            @RequestParam("publicId") String publicId,
+                                            @RequestParam("money") float money) {
+        try {
+            return publicUserService.donateThroughPaypal(fundraisingId, publicId, money);
+        } catch (SystemInternalException e) {
+            return internalErrorStatus;
+        }
+    }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation(value = "finish transaction through paypal.",
+            consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "fundraisingId", value = "id of fundraising",
+                    dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "publicId", value = "id of public",
+                    dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "paymentId", value = "id of payment",
+                    dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "payerId", value = "id of payer",
+                    dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "money", value = "money of donation",
+                    dataTypeClass = Integer.class, paramType = "query", required = true)
+    })
+    @GetMapping(path = "/finishPaypalTransForFundraising")
+    public ReturnStatus finishPaypalTransForFundraising(@RequestParam("fundraisingId") String fundraisingId,
+                                                        @RequestParam("publicId") String publicId,
+                                                        @RequestParam("paymentId") String paymentId,
+                                                        @RequestParam("PayerID") String payerId,
+                                                        @RequestParam("money") double money) {
+        try {
+            return publicUserService.executePayment(fundraisingId, publicId, paymentId, payerId, money);
+        } catch (SystemInternalException e) {
+            return internalErrorStatus;
+        }
     }
 }

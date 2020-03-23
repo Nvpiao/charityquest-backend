@@ -106,4 +106,27 @@ public interface PublicUserService {
      * @return instance of ReturnStatus
      */
     ReturnStatus getFundraisingById(String id);
+
+    /**
+     * donate through paypal.
+     *
+     * @param fundraisingId id of fundraising
+     * @param publicId      id of public
+     * @param money         money of donation
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus donateThroughPaypal(String fundraisingId, String publicId, float money) throws SystemInternalException;
+
+    /**
+     * finish transaction through paypal.
+     *
+     * @param fundraisingId id of fundraising
+     * @param publicId      id of public
+     * @param paymentId     id of payment
+     * @param payerId       id of payer
+     * @param money         money of donation
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus executePayment(String fundraisingId, String publicId, String paymentId,
+                                String payerId, double money) throws SystemInternalException;
 }

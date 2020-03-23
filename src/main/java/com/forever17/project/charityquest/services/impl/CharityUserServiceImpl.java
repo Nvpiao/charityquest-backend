@@ -337,7 +337,7 @@ public class CharityUserServiceImpl implements CharityUserService {
     @Override
     public ReturnStatus showDonationAmount(String id) {
 
-        long totalDonation = 0;
+        double totalDonation = 0;
         long momRatio = 0;
         long yoyRatio = 0;
 
@@ -345,7 +345,7 @@ public class CharityUserServiceImpl implements CharityUserService {
         if (!donations.isEmpty()) {
             // total donation
             totalDonation = donations.stream()
-                    .mapToInt(Donation::getMoney)
+                    .mapToDouble(Donation::getMoney)
                     .sum();
 
             // Month-On-Month
@@ -390,7 +390,7 @@ public class CharityUserServiceImpl implements CharityUserService {
     @Override
     public ReturnStatus showDonationHistory(String id) {
         List<String> dates = Lists.newArrayList();
-        List<Long> moneys = Lists.newArrayList();
+        List<Double> moneys = Lists.newArrayList();
 
         List<Donation> donations = getDonationByCharityId(id);
         if (!donations.isEmpty()) {
@@ -400,7 +400,7 @@ public class CharityUserServiceImpl implements CharityUserService {
                     .collect(
                             Collectors.groupingBy(
                                     donation -> donation.getTime().toLocalDate().toString(),
-                                    Collectors.summingLong(Donation::getMoney)
+                                    Collectors.summingDouble(Donation::getMoney)
                             )
                     )
                     // split key and value

@@ -59,6 +59,10 @@ public class CharityConstants {
     public static final String RETURN_FUNDRAISING_DETAILS_GET_SUCCESS = "Fundraising details get successfully.";
     public static final String RETURN_CHARITY_DOES_NOT_EXIST = "Charity does not exist!";
     public static final String RETURN_FUNDRAISING_LAST_LESS_THAN_ONE_DAY = "Fundraising cannot be less than one day!";
+    public static final String RETURN_PAY_REDIRECTION_GET_SUCCESS = "Direction of payment get successfully.";
+    public static final String RETURN_PAY_REDIRECTION_GET_FAILED = "Direction of payment get failed!";
+    public static final String RETURN_PAYMENT_STATUS_FAILED = "Payment via PayPal failed!";
+    public static final String RETURN_FUNDRAISING_OR_PUBLIC_CAN_NOT_FOUND = "Fundraising or Public can not be found!";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
@@ -93,6 +97,7 @@ public class CharityConstants {
     public static final String LOG_FUNDRAISING_DOES_NOT_EXIST = "URL or ID: {%s}, ERROR: Fundraising does not exists!";
     public static final String LOG_CHARITY_DOES_NOT_EXIST = "CharityId: {%s}, ERROR: Charity does not exist!";
     public static final String LOG_FUNDRAISING_LAST_LESS_THAN_ONE_DAY = "CharityId: {%s}, ERROR: Fundraising cannot be less than one day!";
+    public static final String LOG_FUNDRAISING_OR_PUBLIC_CAN_NOT_FOUND = "FundraisingID： {%s}, PublicID: {%s}, ERROR: Fundraising or Public user can not be found!";
 
     // mail
     public static final String MAIL_SUBJECT_RESET_PASSWORD = "Password Reset";
@@ -113,6 +118,7 @@ public class CharityConstants {
     public static final String DATA_YOY_RATIO = "yoyRatio";
     public static final String DATA_DATE = "date";
     public static final String DATA_DONATION = "donation";
+    public static final String DATA_PAYPAL_REDIRECT = "redirect";
 
     // header
     public static final String HEADER_REQUEST_TOKEN = "token";
@@ -141,4 +147,18 @@ public class CharityConstants {
     // type of fundraising
     public static final String FUNDRAISING_ID = "ID";
     public static final String FUNDRAISING_LINK = "LINK";
+
+    // paypal
+    public static final String PAYPAL_PREFIX = "paypal";
+    public static final String PAYPAL_CONFIG_MODE = "mode";
+    public static final String PAYPAL_METHOD_PAYPAL = "paypal";
+    public static final String PAYPAL_INTENT_SALE = "sale";
+    public static final String PAYPAL_CURRENCY = "GBP";
+    public static final String PAYPAL_PAY_DESCRIPTION = "Donation for this Charity";
+    public static final String PAYPAL_APPROVAL_LINK = "approval_url";
+    public static final String PAYPAL_SUCCESS_LINK_FLAG = "?flag=paypal";
+    public static final String PAYPAL_SUCCESS_LINK_FUNDRAISING_ID = "&fundraisingId=";
+    public static final String PAYPAL_SUCCESS_LINK_PUBLIC_ID = "&publicId=";
+    public static final String PAYPAL_SUCCESS_LINK_MONEY = "&money=";
+    public static final String PAYPAL_STATUS_APPROVED = "approved";
 }
