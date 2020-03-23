@@ -148,7 +148,6 @@ public class PublicUserController {
         return publicUserService.showCharityList(search, pageNum, pageSize);
     }
 
-    @LoginCheck
     @ResponseBody
     @ApiOperation(value = "check if link already been used.",
             consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
