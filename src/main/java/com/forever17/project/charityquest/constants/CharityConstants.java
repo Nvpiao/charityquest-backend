@@ -52,6 +52,7 @@ public class CharityConstants {
     public static final String RETURN_DASHBOARD_DONATION_LOCATION_GET_SUCCESS = "Dashboard: donation location obtained successfully.";
     public static final String RETURN_CHARITY_LIST_GET_SUCCESS = "List of Charities get successfully.";
     public static final String RETURN_URL_CAN_NOT_BLANK = "URL can not be blank!";
+    public static final String RETURN_ID_CAN_NOT_BLANK = "ID can not be blank!";
     public static final String RETURN_URL_CAN_NOT_BE_USED = "URL can not be used!";
     public static final String RETURN_URL_CAN_BE_USED = "URL can be used.";
     public static final String RETURN_FUNDRAISING_DOES_NOT_EXIST = "Fundraising does not exist!";
@@ -89,7 +90,7 @@ public class CharityConstants {
     public static final String LOG_MESSAGE_DOES_NOT_EXIST = "MessageID: {%s}, Error: Message Does not exist!";
     public static final String LOG_MESSAGE_SEND_FAILED = "MessageID: {%s}, SendTo: {%s}, Error: Message sending failed!";
     public static final String LOG_FUNDRAISING_URL_CAN_NOT_BE_USED = "URL: {%s}, ERROR: Url already exists!";
-    public static final String LOG_FUNDRAISING_DOES_NOT_EXIST = "URL: {%s}, ERROR: Fundraising does not exists!";
+    public static final String LOG_FUNDRAISING_DOES_NOT_EXIST = "URL or ID: {%s}, ERROR: Fundraising does not exists!";
     public static final String LOG_CHARITY_DOES_NOT_EXIST = "CharityId: {%s}, ERROR: Charity does not exist!";
     public static final String LOG_FUNDRAISING_LAST_LESS_THAN_ONE_DAY = "CharityId: {%s}, ERROR: Fundraising cannot be less than one day!";
 
@@ -136,4 +137,8 @@ public class CharityConstants {
     public static final String SEARCH_WILD_CARD = "%";
     public static final String ESCAPE_REPLACE = "\\";
     public static final String[] ESCAPE_STRINGS = {"\\", "$", "|", "%", "_", "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}"};
+
+    // type of fundraising
+    public static final String FUNDRAISING_ID = "ID";
+    public static final String FUNDRAISING_LINK = "LINK";
 }

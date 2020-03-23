@@ -98,4 +98,12 @@ public interface PublicUserService {
      * @return instance of ReturnStatus
      */
     ReturnStatus createFundraising(Fundraising fundraising);
+
+    /**
+     * get fundraising details by id.
+     *
+     * @param id id of fundraising
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus getFundraisingById(String id);
 }

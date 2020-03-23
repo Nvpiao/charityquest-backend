@@ -294,30 +294,7 @@ public class PublicUserServiceImpl implements PublicUserService {
 
     @Override
     public ReturnStatus getFundraisingByLink(String link) {
-        // null check
-        if (StringUtils.isBlank(link)) {
-            return new ReturnStatus(CharityConstants.RETURN_URL_CAN_NOT_BLANK,
-                    CharityCodes.PROPERTY_CAN_NOT_BE_BLANK, StatusType.FAIL);
-        }
-
-        fundraisingExample.clear();
-        fundraisingExample.createCriteria()
-                .andUrlEqualTo(link);
-        List<Fundraising> fundraisings = fundraisingMapper.selectByExample(fundraisingExample);
-        if (!fundraisings.isEmpty()) {
-            // at most one
-            assert fundraisings.size() == 1;
-            Fundraising fundraising = fundraisings.get(0);
-            CharityUser charityUser = charityUserMapper.selectByPrimaryKey(fundraising.getCharityId());
-
-            assert charityUser != null;
-            return new ReturnStatus(CharityConstants.RETURN_FUNDRAISING_DETAILS_GET_SUCCESS,
-                    new FundraisingDetails(fundraising, charityUser));
-        } else {
-            log.error(String.format(CharityConstants.LOG_FUNDRAISING_DOES_NOT_EXIST, link));
-            return new ReturnStatus(CharityConstants.RETURN_FUNDRAISING_DOES_NOT_EXIST,
-                    CharityCodes.FUNDRAISING_DOES_NOT_EXIST, StatusType.FAIL);
-        }
+        return getFundraising(link, CharityConstants.FUNDRAISING_LINK);
     }
 
     @Override
@@ -351,6 +328,58 @@ public class PublicUserServiceImpl implements PublicUserService {
         fundraisingMapper.insertSelective(fundraising);
 
         return getFundraisingByLink(fundraising.getUrl());
+    }
+
+    @Override
+    public ReturnStatus getFundraisingById(String id) {
+        return getFundraising(id, CharityConstants.FUNDRAISING_ID);
+    }
+
+    /**
+     * get fundraising details by id or link
+     *
+     * @param data id or link
+     * @param type type
+     * @return instance of ReturnStatus
+     */
+    private ReturnStatus getFundraising(String data, String type) {
+        // null check
+        if (type.equals(CharityConstants.FUNDRAISING_LINK) && StringUtils.isBlank(data)) {
+            return new ReturnStatus(CharityConstants.RETURN_URL_CAN_NOT_BLANK,
+                    CharityCodes.PROPERTY_CAN_NOT_BE_BLANK, StatusType.FAIL);
+        }
+        // null check
+        if (type.equals(CharityConstants.FUNDRAISING_ID) && StringUtils.isBlank(data)) {
+            return new ReturnStatus(CharityConstants.RETURN_ID_CAN_NOT_BLANK,
+                    CharityCodes.PROPERTY_CAN_NOT_BE_BLANK, StatusType.FAIL);
+        }
+
+        fundraisingExample.clear();
+        FundraisingExample.Criteria criteria = fundraisingExample.createCriteria();
+        // link
+        if (type.equals(CharityConstants.FUNDRAISING_LINK)) {
+            criteria.andUrlEqualTo(data);
+        }
+        // id
+        if (type.equals(CharityConstants.FUNDRAISING_ID)) {
+            criteria.andIdEqualTo(data);
+        }
+
+        List<Fundraising> fundraisings = fundraisingMapper.selectByExample(fundraisingExample);
+        if (!fundraisings.isEmpty()) {
+            // at most one
+            assert fundraisings.size() == 1;
+            Fundraising fundraising = fundraisings.get(0);
+            CharityUser charityUser = charityUserMapper.selectByPrimaryKey(fundraising.getCharityId());
+
+            assert charityUser != null;
+            return new ReturnStatus(CharityConstants.RETURN_FUNDRAISING_DETAILS_GET_SUCCESS,
+                    new FundraisingDetails(fundraising, charityUser));
+        } else {
+            log.error(String.format(CharityConstants.LOG_FUNDRAISING_DOES_NOT_EXIST, data));
+            return new ReturnStatus(CharityConstants.RETURN_FUNDRAISING_DOES_NOT_EXIST,
+                    CharityCodes.FUNDRAISING_DOES_NOT_EXIST, StatusType.FAIL);
+        }
     }
 
     /**

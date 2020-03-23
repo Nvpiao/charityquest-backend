@@ -175,4 +175,14 @@ public class PublicUserController {
     public ReturnStatus createFundraising(@Valid @RequestBody Fundraising fundraising) {
         return publicUserService.createFundraising(fundraising);
     }
+
+    @ResponseBody
+    @ApiOperation(value = "get fundraising details by id.",
+            consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "fundraisingId", value = "id of fundraising",
+            dataTypeClass = String.class, paramType = "query", required = true)
+    @GetMapping(path = "/getFundraisingDetail")
+    public ReturnStatus getFundraisingDetail(@RequestParam("fundraisingId") String id) {
+        return publicUserService.getFundraisingById(id);
+    }
 }
