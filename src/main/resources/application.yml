@@ -75,5 +75,4 @@ paypal:
   client-secret: EHNAs8JDFwkX_2l_qb4HVCSyKUhGDNwepEUd9Wou0hKO72DaEJGxztjEggKutwMpXBWX_bVxUrnreFJx
   mode: sandbox
   cancel-url: http://teamwork/Charity/#/en-gb/
-  success-url: http://localhost:7777/CharityQuest/
-#  successUrl: http://teamwork/Charity/#/en-gb/fundraising
+  successUrl: http://teamwork/Charity/#/en-gb/fundraising
