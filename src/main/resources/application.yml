@@ -76,3 +76,14 @@ paypal:
   mode: sandbox
   cancel-url: http://teamwork/Charity/#/en-gb/
   successUrl: http://teamwork/Charity/#/en-gb/fundraising
+
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAIV67Y4MZNNSHHF4Q
+      secret-key: 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
+    region:
+      static: eu-central-1
+      auto: false
+    stack:
+      auto: false

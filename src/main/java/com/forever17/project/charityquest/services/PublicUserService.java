@@ -129,4 +129,13 @@ public interface PublicUserService {
      */
     ReturnStatus executePayment(String fundraisingId, String publicId, String paymentId,
                                 String payerId, double money) throws SystemInternalException;
+
+    /**
+     * share fundraising though sms
+     *
+     * @param url url of fundraising
+     * @param tel telephone number of a user
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus shareThroughSms(String url, String tel);
 }

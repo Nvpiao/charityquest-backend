@@ -236,4 +236,20 @@ public class PublicUserController {
             return internalErrorStatus;
         }
     }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation(value = "share fundraising through sms.",
+            consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "url", value = "url of fundraising",
+                    dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "tel", value = "tel of a user",
+                    dataTypeClass = String.class, paramType = "query", required = true)
+    })
+    @GetMapping(path = "/shareThroughSms")
+    public ReturnStatus shareThroughSms(@RequestParam("url") String url,
+                                        @RequestParam("tel") String tel) {
+        return publicUserService.shareThroughSms(url, tel);
+    }
 }

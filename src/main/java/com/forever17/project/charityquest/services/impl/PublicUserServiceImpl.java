@@ -1,5 +1,10 @@
 package com.forever17.project.charityquest.services.impl;
 
+import com.amazonaws.services.sns.AmazonSNS;
+import com.amazonaws.services.sns.AmazonSNSClient;
+import com.amazonaws.services.sns.model.MessageAttributeValue;
+import com.amazonaws.services.sns.model.PublishRequest;
+import com.amazonaws.services.sns.model.PublishResult;
 import com.forever17.project.charityquest.constants.CharityCodes;
 import com.forever17.project.charityquest.constants.CharityConstants;
 import com.forever17.project.charityquest.enums.DonationType;
@@ -68,6 +73,11 @@ public class PublicUserServiceImpl implements PublicUserService {
     private final PaypalService paypalService;
 
     /**
+     * client of amazon sns
+     */
+    private final AmazonSNS amazonSNSClient;
+
+    /**
      * public user mapper
      */
     private final PublicUserMapper publicUserMapper;
@@ -111,10 +121,12 @@ public class PublicUserServiceImpl implements PublicUserService {
 
     @Autowired
     public PublicUserServiceImpl(HttpSession httpSession, PaypalService paypalService,
-                                 PublicUserMapper publicUserMapper, CharityUserMapper charityUserMapper,
-                                 FundraisingMapper fundraisingMapper, DonationMapper donationMapper) {
+                                 AmazonSNSClient amazonSNSClient, PublicUserMapper publicUserMapper,
+                                 CharityUserMapper charityUserMapper, FundraisingMapper fundraisingMapper,
+                                 DonationMapper donationMapper) {
         this.httpSession = httpSession;
         this.paypalService = paypalService;
+        this.amazonSNSClient = amazonSNSClient;
         this.publicUserMapper = publicUserMapper;
         this.charityUserMapper = charityUserMapper;
         this.fundraisingMapper = fundraisingMapper;
@@ -422,6 +434,31 @@ public class PublicUserServiceImpl implements PublicUserService {
         // noting happen
         return new ReturnStatus(CharityConstants.RETURN_PAYMENT_STATUS_FAILED,
                 CharityCodes.PAYPAL_PAY_STATUS_FAILED, StatusType.FAIL);
+    }
+
+    @Override
+    public ReturnStatus shareThroughSms(String url, String tel) {
+        String message = CharityConstants.SMS_MESSAGE + url;
+
+        Map<String, MessageAttributeValue> smsAttributes = Maps.newHashMap();
+        //<set SMS attributes>
+        smsAttributes.put(CharityConstants.SMS_ATTRIBUTE_MAX_PRICE, new MessageAttributeValue()
+                .withStringValue(CharityConstants.SMS_ATTRIBUTE_MAX_PRICE_VALUE) //Sets the max price to 0.10 USD.
+                .withDataType(CharityConstants.SMS_ATTRIBUTE_NUMBER_TYPE));
+
+        // send message
+        PublishResult result = amazonSNSClient.publish(new PublishRequest()
+                .withMessage(message)
+                .withPhoneNumber(tel)
+                .withMessageAttributes(smsAttributes));
+        int httpStatusCode = result.getSdkHttpMetadata().getHttpStatusCode();
+        if (httpStatusCode == 200) {
+            return new ReturnStatus(CharityConstants.RETURN_SMS_SENT_SUCCESS);
+        } else {
+            log.error(String.format(CharityConstants.LOG_SMS_SEND_FAILED, tel));
+            return new ReturnStatus(CharityConstants.LOG_MESSAGE_SEND_FAILED,
+                    CharityCodes.MESSAGE_SEND_FAILED, StatusType.FAIL);
+        }
     }
 
     /**

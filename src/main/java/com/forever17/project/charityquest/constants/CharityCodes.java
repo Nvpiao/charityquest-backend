@@ -35,4 +35,5 @@ public final class CharityCodes {
     public static final String PAYPAL_PAY_LINK_GET_FAILED = "00000024";
     public static final String PAYPAL_PAY_STATUS_FAILED = "00000025";
     public static final String FUNDRAISING_OR_PUBLIC_CAN_NOT_FOUND = "00000026";
+    public static final String MESSAGE_SEND_FAILED = "00000027";
 }

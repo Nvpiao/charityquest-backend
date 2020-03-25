@@ -63,6 +63,8 @@ public class CharityConstants {
     public static final String RETURN_PAY_REDIRECTION_GET_FAILED = "Direction of payment get failed!";
     public static final String RETURN_PAYMENT_STATUS_FAILED = "Payment via PayPal failed!";
     public static final String RETURN_FUNDRAISING_OR_PUBLIC_CAN_NOT_FOUND = "Fundraising or Public can not be found!";
+    public static final String RETURN_SMS_SENT_SUCCESS = "Message sent successfully.";
+    public static final String RETURN_SMS_SENT_FAILED = "Message sending failed!";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
@@ -98,6 +100,7 @@ public class CharityConstants {
     public static final String LOG_CHARITY_DOES_NOT_EXIST = "CharityId: {%s}, ERROR: Charity does not exist!";
     public static final String LOG_FUNDRAISING_LAST_LESS_THAN_ONE_DAY = "CharityId: {%s}, ERROR: Fundraising cannot be less than one day!";
     public static final String LOG_FUNDRAISING_OR_PUBLIC_CAN_NOT_FOUND = "FundraisingID： {%s}, PublicID: {%s}, ERROR: Fundraising or Public user can not be found!";
+    public static final String LOG_SMS_SEND_FAILED = "Tel: {%s}, ERROR: Message sending failed!";
 
     // mail
     public static final String MAIL_SUBJECT_RESET_PASSWORD = "Password Reset";
@@ -161,4 +164,11 @@ public class CharityConstants {
     public static final String PAYPAL_SUCCESS_LINK_PUBLIC_ID = "&publicId=";
     public static final String PAYPAL_SUCCESS_LINK_MONEY = "&money=";
     public static final String PAYPAL_STATUS_APPROVED = "approved";
+
+    // sms
+    public static final String SMS_MESSAGE = "Hi! your friend just share a fundraising with you. Link: ";
+    public static final String SMS_ATTRIBUTE_MAX_PRICE = "AWS.SNS.SMS.MaxPrice";
+    public static final String SMS_ATTRIBUTE_NUMBER_TYPE = "Number";
+    public static final String SMS_ATTRIBUTE_MAX_PRICE_VALUE = "0.10";
+    public static final String AWS_SNS_PREFIX = "aws";
 }
