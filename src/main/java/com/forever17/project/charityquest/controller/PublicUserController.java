@@ -309,4 +309,26 @@ public class PublicUserController {
                                                @RequestParam("pageSize") int pageSize) {
         return publicUserService.showFundraisingHistory(publicId, pageNum, pageSize, search);
     }
+
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation("get list of regulation donation history")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "publicId", value = "id of public",
+                    dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageNum", value = "number of page",
+                    dataTypeClass = Integer.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "size of a page",
+                    dataTypeClass = Integer.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "search", value = "criteria of searching",
+                    dataTypeClass = String.class, paramType = "query", required = true)
+    })
+    @GetMapping(path = "/showRegulationDonation")
+    public ReturnStatus showRegulationDonation(@RequestParam("publicId") String publicId,
+                                               @RequestParam("search") String search,
+                                               @RequestParam("pageNum") int pageNum,
+                                               @RequestParam("pageSize") int pageSize) {
+        return publicUserService.showRegulationDonation(publicId, pageNum, pageSize, search);
+    }
 }

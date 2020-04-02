@@ -75,8 +75,8 @@ paypal:
   client-secret: EHNAs8JDFwkX_2l_qb4HVCSyKUhGDNwepEUd9Wou0hKO72DaEJGxztjEggKutwMpXBWX_bVxUrnreFJx
   mode: sandbox
   cancel-url: http://teamwork/Charity/#/en-gb/
-  success-fundraising-url: http://1teamwork/Charity/#/en-gb/fundraising
-  success-donation-url: http://1teamwork/Charity/#/en-gb/donation
+  success-fundraising-url: http://teamwork/Charity/#/en-gb/fundraising
+  success-donation-url: http://teamwork/Charity/#/en-gb/donation
 
 cloud:
   aws:

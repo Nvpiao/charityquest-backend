@@ -166,4 +166,15 @@ public interface PublicUserService {
      * @return instance of ReturnStatus
      */
     ReturnStatus showFundraisingHistory(String publicId, int pageNum, int pageSize, String search);
+
+    /**
+     * get list of regulation donation history
+     *
+     * @param publicId id of public
+     * @param pageNum  num of page
+     * @param pageSize size of page
+     * @param search   searching criteria
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus showRegulationDonation(String publicId, int pageNum, int pageSize, String search);
 }

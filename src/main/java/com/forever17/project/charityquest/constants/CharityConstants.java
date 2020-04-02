@@ -142,6 +142,8 @@ public class CharityConstants {
 
     // sql
     public static final String SQL_ORDER_MODIFY_TIME_DESC = "modify_time desc";
+    public static final String SQL_ORDER_DONATION_TIME_DESC = "time desc";
+    public static final String SQL_ORDER_CHARITY_NAME_DESC = "name desc";
 
     // thread pool
     public static final String THREAD_POOL_NAME_PREFIX = "ThreadPoolTaskExecutor-";
