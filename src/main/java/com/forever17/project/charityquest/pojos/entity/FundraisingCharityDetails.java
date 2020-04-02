@@ -11,7 +11,7 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 
 /**
- * Combination of fundraising and chairty
+ * Combination of fundraising and charity
  *
  * @author MingLiu (MLiu54@sheffield.ac.uk)
  * @version 1.0
@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel
-public class FundraisingDetails {
+public class FundraisingCharityDetails {
     /**
      * id of fundraising.
      */
@@ -99,7 +99,7 @@ public class FundraisingDetails {
      */
     private String caseDesc;
 
-    public FundraisingDetails(Fundraising fundraising, CharityUser charityUser) {
+    public FundraisingCharityDetails(Fundraising fundraising, CharityUser charityUser) {
         this.fundraisingId = fundraising.getId();
         this.charityId = charityUser.getId();
         this.url = fundraising.getUrl();

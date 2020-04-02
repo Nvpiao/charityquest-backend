@@ -155,4 +155,15 @@ public interface PublicUserService {
      * @return instance of ReturnStatus
      */
     ReturnStatus showDonationList(String publicId, int pageNum, int pageSize, String search);
+
+    /**
+     * get list of fundraising history
+     *
+     * @param publicId id of public
+     * @param pageNum  num of page
+     * @param pageSize size of page
+     * @param search   searching criteria
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus showFundraisingHistory(String publicId, int pageNum, int pageSize, String search);
 }

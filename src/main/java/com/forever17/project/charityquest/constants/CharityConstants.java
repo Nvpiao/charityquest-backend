@@ -51,7 +51,7 @@ public class CharityConstants {
     public static final String RETURN_DASHBOARD_DONATION_HISTORY_GET_SUCCESS = "Dashboard: donation history obtained successfully.";
     public static final String RETURN_DASHBOARD_DONATION_LOCATION_GET_SUCCESS = "Dashboard: donation location obtained successfully.";
     public static final String RETURN_CHARITY_LIST_GET_SUCCESS = "List of Charities get successfully.";
-    public static final String RETURN_DONATION_LIST_GET_SUCCESS = "List of Donations get successfully.";
+    public static final String RETURN_DONATION_LIST_GET_SUCCESS = "List of Donation histories get successfully.";
     public static final String RETURN_URL_CAN_NOT_BLANK = "URL can not be blank!";
     public static final String RETURN_ID_CAN_NOT_BLANK = "ID can not be blank!";
     public static final String RETURN_URL_CAN_NOT_BE_USED = "URL can not be used!";
@@ -68,7 +68,9 @@ public class CharityConstants {
     public static final String RETURN_SMS_SENT_FAILED = "Message sending failed!";
     public static final String RETURN_CHARITY_OR_PUBLIC_CAN_NOT_FOUND = "Charity or Public can not be found!";
     public static final String RETURN_CHARITY_INFO_GET_SUCCESS = "Charity details obtained successfully.";
-    public static final String RETURN_NO_DONATION_LIST = "No donation can be found!";
+    public static final String RETURN_NO_DONATION_LIST = "No donation history can be found!";
+    public static final String RETURN_FUNDRAISING_LIST_GET_SUCCESS = "List of Fundraising histories get successfully.";
+    public static final String RETURN_NO_FUNDRAISING_LIST = "No fundraising history can be found!";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
@@ -106,7 +108,8 @@ public class CharityConstants {
     public static final String LOG_FUNDRAISING_OR_PUBLIC_CAN_NOT_FOUND = "FundraisingID： {%s}, PublicID: {%s}, ERROR: Fundraising or Public user can not be found!";
     public static final String LOG_SMS_SEND_FAILED = "Tel: {%s}, ERROR: Message sending failed!";
     public static final String LOG_CHARITY_OR_PUBLIC_CAN_NOT_FOUND = "CharityID： {%s}, PublicID: {%s}, ERROR: Charity or Public user can not be found!";
-    public static final String LOG_NO_DONATION_LIST = "PublicId: {%s}, WARN: No donation can be found!";
+    public static final String LOG_NO_DONATION_LIST = "PublicId: {%s}, WARN: No donation history can be found!";
+    public static final String LOG_NO_FUNDRAISING_LIST = "PublicId: {%s}, WARN: No fundraising history can be found!";
 
     // mail
     public static final String MAIL_SUBJECT_RESET_PASSWORD = "Password Reset";

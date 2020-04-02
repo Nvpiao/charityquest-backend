@@ -651,6 +651,76 @@ public class DonationExample {
             addCriterion("donation.`time` not between", value1, value2, "time");
             return (Criteria) this;
         }
+
+        public Criteria andStatusIsNull() {
+            addCriterion("donation.`status` is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNotNull() {
+            addCriterion("donation.`status` is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusEqualTo(String value) {
+            addCriterion("donation.`status` =", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotEqualTo(String value) {
+            addCriterion("donation.`status` <>", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThan(String value) {
+            addCriterion("donation.`status` >", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("donation.`status` >=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThan(String value) {
+            addCriterion("donation.`status` <", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThanOrEqualTo(String value) {
+            addCriterion("donation.`status` <=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLike(String value) {
+            addCriterion("donation.`status` like", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotLike(String value) {
+            addCriterion("donation.`status` not like", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIn(List<String> values) {
+            addCriterion("donation.`status` in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotIn(List<String> values) {
+            addCriterion("donation.`status` not in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusBetween(String value1, String value2) {
+            addCriterion("donation.`status` between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotBetween(String value1, String value2) {
+            addCriterion("donation.`status` not between", value1, value2, "status");
+            return (Criteria) this;
+        }
     }
 
     /**

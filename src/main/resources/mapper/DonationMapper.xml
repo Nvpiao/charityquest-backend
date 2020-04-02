@@ -10,6 +10,7 @@
         <result column="donation_donate_type" jdbcType="VARCHAR" property="donateType"/>
         <result column="donation_money" jdbcType="FLOAT" property="money"/>
         <result column="donation_time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="donation_status" jdbcType="VARCHAR" property="status"/>
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -74,7 +75,8 @@
     <sql id="Base_Column_List">
         donation.id as donation_id, donation.public_id as donation_public_id, donation.`type` as `donation_type`,
     donation.charity_id as donation_charity_id, donation.fundraising_id as donation_fundraising_id, 
-    donation.donate_type as donation_donate_type, donation.money as donation_money, donation.`time` as `donation_time`
+    donation.donate_type as donation_donate_type, donation.money as donation_money, donation.`time` as `donation_time`, 
+    donation.`status` as `donation_status`
     </sql>
     <select id="selectByExample" parameterType="com.forever17.project.charityquest.pojos.DonationExample"
             resultMap="BaseResultMap">
@@ -110,11 +112,11 @@
     </delete>
     <insert id="insert" parameterType="com.forever17.project.charityquest.pojos.Donation">
         insert into donation (id, public_id, `type`,
-        charity_id, fundraising_id, donate_type,
-        money, `time`)
+                              charity_id, fundraising_id, donate_type,
+                              money, `time`, `status`)
         values (#{id,jdbcType=VARCHAR}, #{publicId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
-        #{charityId,jdbcType=VARCHAR}, #{fundraisingId,jdbcType=VARCHAR}, #{donateType,jdbcType=VARCHAR},
-        #{money,jdbcType=FLOAT}, #{time,jdbcType=TIMESTAMP})
+                #{charityId,jdbcType=VARCHAR}, #{fundraisingId,jdbcType=VARCHAR}, #{donateType,jdbcType=VARCHAR},
+                #{money,jdbcType=FLOAT}, #{time,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.forever17.project.charityquest.pojos.Donation">
         insert into donation
@@ -143,6 +145,9 @@
             <if test="time != null">
                 `time`,
             </if>
+            <if test="status != null">
+                `status`,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -168,6 +173,9 @@
             </if>
             <if test="time != null">
                 #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -209,6 +217,9 @@
             <if test="record.time != null">
                 donation.`time` = #{record.time,jdbcType=TIMESTAMP},
             </if>
+            <if test="record.status != null">
+                donation.`status` = #{record.status,jdbcType=VARCHAR},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
@@ -223,7 +234,8 @@
         donation.fundraising_id = #{record.fundraisingId,jdbcType=VARCHAR},
         donation.donate_type = #{record.donateType,jdbcType=VARCHAR},
         donation.money = #{record.money,jdbcType=FLOAT},
-        donation.`time` = #{record.time,jdbcType=TIMESTAMP}
+        donation.`time` = #{record.time,jdbcType=TIMESTAMP},
+        donation.`status` = #{record.status,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -252,18 +264,22 @@
             <if test="time != null">
                 `time` = #{time,jdbcType=TIMESTAMP},
             </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=VARCHAR},
+            </if>
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.forever17.project.charityquest.pojos.Donation">
         update donation
-        set public_id = #{publicId,jdbcType=VARCHAR},
-        `type` = #{type,jdbcType=VARCHAR},
-        charity_id = #{charityId,jdbcType=VARCHAR},
-        fundraising_id = #{fundraisingId,jdbcType=VARCHAR},
-        donate_type = #{donateType,jdbcType=VARCHAR},
-        money = #{money,jdbcType=FLOAT},
-        `time` = #{time,jdbcType=TIMESTAMP}
+        set public_id      = #{publicId,jdbcType=VARCHAR},
+            `type`         = #{type,jdbcType=VARCHAR},
+            charity_id     = #{charityId,jdbcType=VARCHAR},
+            fundraising_id = #{fundraisingId,jdbcType=VARCHAR},
+            donate_type    = #{donateType,jdbcType=VARCHAR},
+            money          = #{money,jdbcType=FLOAT},
+            `time`         = #{time,jdbcType=TIMESTAMP},
+            `status`       = #{status,jdbcType=VARCHAR}
         where id = #{id,jdbcType=VARCHAR}
     </update>
 </mapper>
