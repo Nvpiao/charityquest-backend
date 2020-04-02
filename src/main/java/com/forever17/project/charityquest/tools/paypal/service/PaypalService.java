@@ -49,16 +49,17 @@ public class PaypalService {
      * @param total         total money to pay
      * @param fundraisingId id of fundraising
      * @param publicId      id of public
+     * @param url           url of fundraising
      * @return instance of Payment
      * @throws PayPalRESTException exception from paypal
      */
-    public Payment createPayment(float total, String fundraisingId, String publicId) throws PayPalRESTException {
+    public Payment createPayment(float total, String fundraisingId, String publicId, String url) throws PayPalRESTException {
         // amount
         Amount amount = new Amount();
         amount.setCurrency(CharityConstants.PAYPAL_CURRENCY);
         amount.setTotal(String.format("%.2f", total));
 
-        // tanscation
+        // transaction
         Transaction transaction = new Transaction();
         transaction.setDescription(CharityConstants.PAYPAL_PAY_DESCRIPTION);
         transaction.setAmount(amount);
@@ -75,7 +76,7 @@ public class PaypalService {
         payment.setTransactions(transactions);
         RedirectUrls redirectUrls = new RedirectUrls();
         redirectUrls.setCancelUrl(paypalConfig.getCancelUrl());
-        String successUrl = paypalConfig.getSuccessUrl() +
+        String successUrl = paypalConfig.getSuccessUrl() + '/' + url +
                 CharityConstants.PAYPAL_SUCCESS_LINK_FLAG +
                 CharityConstants.PAYPAL_SUCCESS_LINK_FUNDRAISING_ID + fundraisingId +
                 CharityConstants.PAYPAL_SUCCESS_LINK_PUBLIC_ID + publicId +

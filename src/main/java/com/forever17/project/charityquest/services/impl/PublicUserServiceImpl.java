@@ -383,7 +383,7 @@ public class PublicUserServiceImpl implements PublicUserService {
 
         try {
             // create payment
-            Payment payment = paypalService.createPayment(money, fundraisingId, publicId);
+            Payment payment = paypalService.createPayment(money, fundraisingId, publicId, fundraising.getUrl());
             for (Links links : payment.getLinks()) {
                 if (links.getRel().equals(CharityConstants.PAYPAL_APPROVAL_LINK)) {
                     return new ReturnStatus(CharityConstants.RETURN_PAY_REDIRECTION_GET_SUCCESS,
