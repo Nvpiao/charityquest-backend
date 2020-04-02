@@ -603,6 +603,29 @@ public class PublicUserServiceImpl implements PublicUserService {
         return getDonation(publicId, pageNum, pageSize, search, donationCriteria);
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ReturnStatus cancelRegulationDonation(String publicId, String donationId) {
+        PublicUser publicUser = publicUserMapper.selectByPrimaryKey(publicId);
+        if (Objects.isNull(publicUser)) {
+            // user does not exist
+            log.error(String.format(CharityConstants.LOG_USER_DOES_NOT_EXIST_ID, publicId));
+            return new ReturnStatus(CharityConstants.RETURN_USER_DOES_NOT_EXIST_ERROR,
+                    CharityCodes.LOGIN_USER_DOES_NOT_EXIST, StatusType.FAIL);
+        }
+
+        Donation donation = donationMapper.selectByPrimaryKey(donationId);
+        if (!Objects.isNull(donation)) {
+            donation.setStatus(CharityConstants.DONATION_STATUS_CANCELLED);
+            donationMapper.updateByPrimaryKeySelective(donation);
+            return new ReturnStatus(CharityConstants.RETURN_REGULAR_DONATION_CANCELLED_SUCCESS);
+        }
+
+        log.error(String.format(CharityConstants.LOG_DONATION_NOT_EXIST, donationId));
+        return new ReturnStatus(CharityConstants.RETURN_DONATION_NOT_EXIST,
+                CharityCodes.DONATION_NOT_EXIST, StatusType.FAIL);
+    }
+
     private ReturnStatus getDonation(String publicId, int pageNum, int pageSize, String search,
                                      DonationExample.Criteria donationCriteria) {
         PublicUser publicUser = publicUserMapper.selectByPrimaryKey(publicId);

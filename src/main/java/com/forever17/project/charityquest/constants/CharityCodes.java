@@ -39,4 +39,5 @@ public final class CharityCodes {
     public static final String CHARITY_OR_PUBLIC_CAN_NOT_FOUND = "00000028";
     public static final String NO_DONATION_LIST = "00000029";
     public static final String NO_FUNDRAISING_LIST = "00000030";
+    public static final String DONATION_NOT_EXIST = "00000031";
 }

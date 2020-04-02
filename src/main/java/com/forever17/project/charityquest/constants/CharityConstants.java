@@ -71,6 +71,8 @@ public class CharityConstants {
     public static final String RETURN_NO_DONATION_LIST = "No donation history can be found!";
     public static final String RETURN_FUNDRAISING_LIST_GET_SUCCESS = "List of Fundraising histories get successfully.";
     public static final String RETURN_NO_FUNDRAISING_LIST = "No fundraising history can be found!";
+    public static final String RETURN_REGULAR_DONATION_CANCELLED_SUCCESS = "Recursive donations have been cancelled.";
+    public static final String RETURN_DONATION_NOT_EXIST = "Donation does not exist!";
 
     // md5 algorithm string
     public static final String MD5 = "MD5";
@@ -109,7 +111,8 @@ public class CharityConstants {
     public static final String LOG_SMS_SEND_FAILED = "Tel: {%s}, ERROR: Message sending failed!";
     public static final String LOG_CHARITY_OR_PUBLIC_CAN_NOT_FOUND = "CharityID： {%s}, PublicID: {%s}, ERROR: Charity or Public user can not be found!";
     public static final String LOG_NO_DONATION_LIST = "PublicId: {%s}, WARN: No donation history can be found!";
-    public static final String LOG_NO_FUNDRAISING_LIST = "PublicId: {%s}, WARN: No fundraising history can be found!";
+    public static final String LOG_NO_FUNDRAISING_LIST = "PublicId: {%s}, ERROR: No fundraising history can be found!";
+    public static final String LOG_DONATION_NOT_EXIST = "DonationID: {%s}, ERROR: Donation does not exists!";
 
     // mail
     public static final String MAIL_SUBJECT_RESET_PASSWORD = "Password Reset";
@@ -187,4 +190,7 @@ public class CharityConstants {
 
     // null
     public static final String DEFAULT_VALUE_NULL_STRING = "null";
+
+    // status
+    public static final String DONATION_STATUS_CANCELLED = "cancelled";
 }

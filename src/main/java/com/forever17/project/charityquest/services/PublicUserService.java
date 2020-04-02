@@ -177,4 +177,13 @@ public interface PublicUserService {
      * @return instance of ReturnStatus
      */
     ReturnStatus showRegulationDonation(String publicId, int pageNum, int pageSize, String search);
+
+    /**
+     * cancel recursive donation
+     *
+     * @param publicId   id of public
+     * @param donationId id of donation
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus cancelRegulationDonation(String publicId, String donationId);
 }

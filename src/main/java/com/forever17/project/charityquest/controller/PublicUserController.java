@@ -310,7 +310,6 @@ public class PublicUserController {
         return publicUserService.showFundraisingHistory(publicId, pageNum, pageSize, search);
     }
 
-
     @LoginCheck
     @ResponseBody
     @ApiOperation("get list of regulation donation history")
@@ -330,5 +329,19 @@ public class PublicUserController {
                                                @RequestParam("pageNum") int pageNum,
                                                @RequestParam("pageSize") int pageSize) {
         return publicUserService.showRegulationDonation(publicId, pageNum, pageSize, search);
+    }
+
+    @ResponseBody
+    @ApiOperation("cancel recursive donation")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "publicId", value = "id of public",
+                    dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "donationId", value = "id of donation",
+                    dataTypeClass = String.class, paramType = "query", required = true)
+    })
+    @GetMapping(path = "/cancelRegulationDonation")
+    public ReturnStatus cancelRegulationDonation(@RequestParam("publicId") String publicId,
+                                                 @RequestParam("donationId") String donationId) {
+        return publicUserService.cancelRegulationDonation(publicId, donationId);
     }
 }
