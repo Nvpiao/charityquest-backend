@@ -362,7 +362,7 @@ public class CharityUserExample {
         }
 
         public Criteria andNameLike(String value) {
-            addCriterion("charity_user.`name` like", value, "name");
+            addCriterion("LOWER(charity_user.`name`) like", value, "name");
             return (Criteria) this;
         }
 

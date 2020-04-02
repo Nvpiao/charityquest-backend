@@ -267,4 +267,25 @@ public class PublicUserController {
                                         @RequestParam("tel") String tel) {
         return publicUserService.shareThroughSms(url, tel);
     }
+
+    @LoginCheck
+    @ResponseBody
+    @ApiOperation("get list of donation history for once donation")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "publicId", value = "id of public",
+                    dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageNum", value = "number of page",
+                    dataTypeClass = Integer.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "size of a page",
+                    dataTypeClass = Integer.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "search", value = "criteria of searching",
+                    dataTypeClass = String.class, paramType = "query", required = true)
+    })
+    @GetMapping(path = "/showDonationList")
+    public ReturnStatus showDonationList(@RequestParam("publicId") String publicId,
+                                         @RequestParam("search") String search,
+                                         @RequestParam("pageNum") int pageNum,
+                                         @RequestParam("pageSize") int pageSize) {
+        return publicUserService.showDonationList(publicId, pageNum, pageSize, search);
+    }
 }

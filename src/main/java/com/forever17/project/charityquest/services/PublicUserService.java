@@ -144,4 +144,15 @@ public interface PublicUserService {
      * @return instance of ReturnStatus
      */
     ReturnStatus shareThroughSms(String url, String tel);
+
+    /**
+     * get list of donation history for once donation
+     *
+     * @param publicId id of public
+     * @param pageNum  num of page
+     * @param pageSize size of page
+     * @param search   searching criteria
+     * @return instance of ReturnStatus
+     */
+    ReturnStatus showDonationList(String publicId, int pageNum, int pageSize, String search);
 }

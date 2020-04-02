@@ -7,6 +7,7 @@ import com.amazonaws.services.sns.model.PublishRequest;
 import com.amazonaws.services.sns.model.PublishResult;
 import com.forever17.project.charityquest.constants.CharityCodes;
 import com.forever17.project.charityquest.constants.CharityConstants;
+import com.forever17.project.charityquest.enums.DonationTimes;
 import com.forever17.project.charityquest.enums.DonationType;
 import com.forever17.project.charityquest.enums.StatusType;
 import com.forever17.project.charityquest.exceptions.SystemInternalException;
@@ -17,6 +18,7 @@ import com.forever17.project.charityquest.mapper.PublicUserMapper;
 import com.forever17.project.charityquest.pojos.CharityUser;
 import com.forever17.project.charityquest.pojos.CharityUserExample;
 import com.forever17.project.charityquest.pojos.Donation;
+import com.forever17.project.charityquest.pojos.DonationExample;
 import com.forever17.project.charityquest.pojos.Fundraising;
 import com.forever17.project.charityquest.pojos.FundraisingExample;
 import com.forever17.project.charityquest.pojos.Message;
@@ -49,6 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of PublicUserService
@@ -112,11 +115,17 @@ public class PublicUserServiceImpl implements PublicUserService {
      */
     private FundraisingExample fundraisingExample;
 
+    /**
+     * Example of Donation class
+     */
+    private DonationExample donationExample;
+
     {
         // static initialization
         publicUserExample = new PublicUserExample();
         charityUserExample = new CharityUserExample();
         fundraisingExample = new FundraisingExample();
+        donationExample = new DonationExample();
     }
 
     @Autowired
@@ -279,7 +288,7 @@ public class PublicUserServiceImpl implements PublicUserService {
     public ReturnStatus showCharityList(String search, int pageNum, int pageSize) {
 
         // escape
-        search = EscapeUtils.escapeMysql(search);
+        search = EscapeUtils.escapeMysql(search.toLowerCase().trim());
 
         // search criteria
         search = CharityConstants.SEARCH_WILD_CARD + search + CharityConstants.SEARCH_WILD_CARD;
@@ -492,6 +501,59 @@ public class PublicUserServiceImpl implements PublicUserService {
             return new ReturnStatus(CharityConstants.LOG_MESSAGE_SEND_FAILED,
                     CharityCodes.MESSAGE_SEND_FAILED, StatusType.FAIL);
         }
+    }
+
+    @Override
+    public ReturnStatus showDonationList(String publicId, int pageNum, int pageSize, String search) {
+        PublicUser publicUser = publicUserMapper.selectByPrimaryKey(publicId);
+        if (Objects.isNull(publicUser)) {
+            // user does not exist
+            log.error(String.format(CharityConstants.LOG_USER_DOES_NOT_EXIST_ID, publicId));
+            return new ReturnStatus(CharityConstants.RETURN_USER_DOES_NOT_EXIST_ERROR,
+                    CharityCodes.LOGIN_USER_DOES_NOT_EXIST, StatusType.FAIL);
+        }
+
+        // escape
+        search = EscapeUtils.escapeMysql(search.toLowerCase().trim());
+        // search criteria
+        search = CharityConstants.SEARCH_WILD_CARD + search + CharityConstants.SEARCH_WILD_CARD;
+
+        // charity example
+        charityUserExample.clear();
+        charityUserExample.createCriteria().andNameLike(search);
+        List<CharityUser> charityUsers = charityUserMapper.selectByExample(charityUserExample);
+
+        if (!charityUsers.isEmpty()) {
+            List<String> charityIds = charityUsers.stream()
+                    .map(CharityUser::getId)
+                    .collect(Collectors.toList());
+
+            // donation example
+            donationExample.clear();
+            donationExample.createCriteria()
+                    .andCharityIdIn(charityIds)
+                    .andTypeEqualTo(DonationType.DONATION.name().toLowerCase())
+                    .andDonateTypeEqualTo(DonationTimes.ONCE.name().toLowerCase())
+                    .andPublicIdEqualTo(publicId);
+
+            // page helper
+            Page<Donation> page = PageHelper.startPage(pageNum, pageSize);
+            List<Donation> donations = donationMapper.selectByExample(donationExample);
+            if (!donations.isEmpty()) {
+                // assembly data
+                Map<String, Object> dataMap = Maps.newHashMap();
+                dataMap.put(CharityConstants.DATA_PAGE_HELPER_TOTAL_NUMS, page.getTotal());
+                dataMap.put(CharityConstants.DATA_PAGE_HELPER_TOTAL_PAGES, page.getPages());
+                dataMap.put(CharityConstants.DATA_PAGE_HELPER_NOW_PAGE, page.getPageNum());
+                dataMap.put(CharityConstants.DATA_PAGE_HELPER_DATA, donations);
+
+                // return result
+                return new ReturnStatus(CharityConstants.RETURN_DONATION_LIST_GET_SUCCESS, dataMap);
+            }
+        }
+        log.warn(String.format(CharityConstants.LOG_NO_DONATION_LIST, publicId));
+        return new ReturnStatus(CharityConstants.RETURN_NO_DONATION_LIST,
+                CharityCodes.NO_DONATION_LIST, StatusType.WARN);
     }
 
     /**
