@@ -88,3 +88,6 @@ cloud:
       auto: false
     stack:
       auto: false
+
+cron:
+  scheduled: "0 0 6 * * ?"

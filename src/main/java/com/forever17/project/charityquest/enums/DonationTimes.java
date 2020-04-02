@@ -30,4 +30,13 @@ public enum DonationTimes {
      * code of donation times
      */
     private int code;
+
+    /**
+     * get name and to lowercase
+     *
+     * @return name of enum with lowercase
+     */
+    public String getName() {
+        return this.name().toLowerCase();
+    }
 }

@@ -27,4 +27,13 @@ public enum UserType {
     public static UserType getUserType(int i) {
         return list[i];
     }
+
+    /**
+     * get name and to lowercase
+     *
+     * @return name of enum with lowercase
+     */
+    public String getName() {
+        return this.name().toLowerCase();
+    }
 }

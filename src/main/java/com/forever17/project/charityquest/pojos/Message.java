@@ -71,7 +71,7 @@ public class Message implements Serializable {
     /**
      * status of message. types: draft, sent, failed. default: draft.
      */
-    private String status = MessageType.DRAFT.name().toLowerCase();
+    private String status = MessageType.DRAFT.getName();
 
     /**
      * error message when it send failed.

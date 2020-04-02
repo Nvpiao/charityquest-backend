@@ -443,7 +443,7 @@ public class PublicUserServiceImpl implements PublicUserService {
                 Donation donation = Donation.builder()
                         .id(UUID.randomUUID().toString())
                         .publicId(publicId)
-                        .type(donationType.name().toLowerCase())
+                        .type(donationType.getName())
                         .fundraisingId(fundraisingId.equals(CharityConstants.DEFAULT_VALUE_NULL_STRING)
                                 ? null : fundraisingId)
                         .charityId(charityId.equals(CharityConstants.DEFAULT_VALUE_NULL_STRING)
@@ -512,8 +512,8 @@ public class PublicUserServiceImpl implements PublicUserService {
         // donation example
         donationExample.clear();
         DonationExample.Criteria donationCriteria = donationExample.createCriteria()
-                .andTypeEqualTo(DonationType.DONATION.name().toLowerCase())
-                .andDonateTypeEqualTo(DonationTimes.ONCE.name().toLowerCase())
+                .andTypeEqualTo(DonationType.DONATION.getName())
+                .andDonateTypeEqualTo(DonationTimes.ONCE.getName())
                 .andPublicIdEqualTo(publicId);
         return getDonation(publicId, pageNum, pageSize, search, donationCriteria);
     }
@@ -555,7 +555,7 @@ public class PublicUserServiceImpl implements PublicUserService {
                 donationExample.clear();
                 donationExample.createCriteria()
                         .andFundraisingIdIn(fundraisingIds)
-                        .andTypeEqualTo(DonationType.FUNDRAISING.name().toLowerCase())
+                        .andTypeEqualTo(DonationType.FUNDRAISING.getName())
                         .andPublicIdEqualTo(publicId);
                 donationExample.setOrderByClause(CharityConstants.SQL_ORDER_DONATION_TIME_DESC);
 
@@ -597,8 +597,8 @@ public class PublicUserServiceImpl implements PublicUserService {
         // donation example
         donationExample.clear();
         DonationExample.Criteria donationCriteria = donationExample.createCriteria()
-                .andTypeEqualTo(DonationType.DONATION.name().toLowerCase())
-                .andDonateTypeNotEqualTo(DonationTimes.ONCE.name().toLowerCase())
+                .andTypeEqualTo(DonationType.DONATION.getName())
+                .andDonateTypeNotEqualTo(DonationTimes.ONCE.getName())
                 .andPublicIdEqualTo(publicId);
         return getDonation(publicId, pageNum, pageSize, search, donationCriteria);
     }

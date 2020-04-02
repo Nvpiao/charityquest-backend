@@ -23,4 +23,13 @@ public enum StatusType {
      * code of status
      */
     private final int code;
+
+    /**
+     * get name and to lowercase
+     *
+     * @return name of enum with lowercase
+     */
+    public String getName() {
+        return this.name().toLowerCase();
+    }
 }

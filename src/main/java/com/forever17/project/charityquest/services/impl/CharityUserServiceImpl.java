@@ -292,13 +292,13 @@ public class CharityUserServiceImpl implements CharityUserService {
     @Override
     public ReturnStatus getDraftMessageList(String id, int pageNum, int pageSize) {
         return getMessageList(id, pageNum, pageSize,
-                Collections.singletonList(MessageType.DRAFT.name().toLowerCase()));
+                Collections.singletonList(MessageType.DRAFT.getName()));
     }
 
     @Override
     public ReturnStatus getSendMessageList(String id, int pageNum, int pageSize) {
         return getMessageList(id, pageNum, pageSize,
-                Arrays.asList(MessageType.SENT.name().toLowerCase(), MessageType.FAILED.name().toLowerCase()));
+                Arrays.asList(MessageType.SENT.getName(), MessageType.FAILED.getName()));
     }
 
     @Override
@@ -327,7 +327,7 @@ public class CharityUserServiceImpl implements CharityUserService {
             message.setId(UUID.randomUUID().toString());
             message.setCreateTime(LocalDateTime.now());
             message.setModifyTime(LocalDateTime.now());
-            message.setStatus(MessageType.DRAFT.name().toLowerCase());
+            message.setStatus(MessageType.DRAFT.getName());
             messageMapper.insertSelective(message);
             return new ReturnStatus(CharityConstants.RETURN_CREATE_MESSAGE_SUCCESS,
                     ImmutableMap.of(CharityConstants.DATA_MESSAGE_ID, message.getId()));
@@ -497,7 +497,7 @@ public class CharityUserServiceImpl implements CharityUserService {
             // send message
             publicUsers.forEach(publicUser -> charityUserService.sendMessage(publicUser, message));
             // update send status
-            messageMapper.updateByPrimaryKeySelective(new Message(message.getId(), MessageType.SENT.name().toLowerCase()));
+            messageMapper.updateByPrimaryKeySelective(new Message(message.getId(), MessageType.SENT.getName()));
             return new ReturnStatus(CharityConstants.RETURN_MESSAGE_SEND_SUCCESS);
         }
         return new ReturnStatus(CharityConstants.RETURN_MESSAGE_NOTHING_SEND,

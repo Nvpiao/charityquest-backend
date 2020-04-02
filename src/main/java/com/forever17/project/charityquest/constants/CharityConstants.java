@@ -113,6 +113,7 @@ public class CharityConstants {
     public static final String LOG_NO_DONATION_LIST = "PublicId: {%s}, WARN: No donation history can be found!";
     public static final String LOG_NO_FUNDRAISING_LIST = "PublicId: {%s}, ERROR: No fundraising history can be found!";
     public static final String LOG_DONATION_NOT_EXIST = "DonationID: {%s}, ERROR: Donation does not exists!";
+    public static final String LOG_DONATION_REMINDER_SEND_FAILED = "PublicID: {%s}, CharityName: {%s}, ERROR: Donation reminder sending failed!";
 
     // mail
     public static final String MAIL_SUBJECT_RESET_PASSWORD = "Password Reset";
@@ -120,6 +121,9 @@ public class CharityConstants {
     public static final String MAIL_TEXT_RESET_PASSWORD_TYPE = "&type=";
     public static final String MAIL_TEXT_RESET_PASSWORD_EMAIL = "&email=";
     public static final String MAIL_TEXT_RESET_PASSWORD_CODE = "?code=";
+    public static final String MAIL_SUBJECT_DONATION_REMINDER = "Recursive Donation Reminder";
+    public static final String MAIL_TEXT_DONATION_REMINDER = "Dear $FirstName, \n It is your time to DONATE to $CharityName again!" +
+            " \n Best regards\nCharityQuest Team.";
 
     // return data
     public static final String DATA_PAGE_HELPER_NOW_PAGE = "nowPage";
@@ -155,6 +159,7 @@ public class CharityConstants {
     // email template
     public static final String MESSAGE_TEMPLATE_FIRST_NAME = "$FirstName";
     public static final String MESSAGE_TEMPLATE_LAST_NAME = "$LastName";
+    public static final String MESSAGE_TEMPLATE_CHARITY_NAME = "$CharityName";
 
     // mysql
     public static final String SEARCH_WILD_CARD = "%";
@@ -193,4 +198,5 @@ public class CharityConstants {
 
     // status
     public static final String DONATION_STATUS_CANCELLED = "cancelled";
+    public static final String DONATION_STATUS_ENABLED = "enabled";
 }
