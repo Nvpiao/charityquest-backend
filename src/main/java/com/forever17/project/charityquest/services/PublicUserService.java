@@ -1,5 +1,6 @@
 package com.forever17.project.charityquest.services;
 
+import com.forever17.project.charityquest.enums.DonationType;
 import com.forever17.project.charityquest.exceptions.SystemInternalException;
 import com.forever17.project.charityquest.pojos.Fundraising;
 import com.forever17.project.charityquest.pojos.PublicUser;
@@ -110,25 +111,30 @@ public interface PublicUserService {
     /**
      * donate through paypal.
      *
+     * @param donationType  type of donation
      * @param fundraisingId id of fundraising
+     * @param charityId     id of charity
      * @param publicId      id of public
      * @param money         money of donation
      * @return instance of ReturnStatus
      */
-    ReturnStatus donateThroughPaypal(String fundraisingId, String publicId, float money) throws SystemInternalException;
+    ReturnStatus donateThroughPaypal(DonationType donationType, String fundraisingId, String charityId,
+                                     String publicId, float money) throws SystemInternalException;
 
     /**
      * finish transaction through paypal.
      *
+     * @param donationType  type of donation
      * @param fundraisingId id of fundraising
+     * @param charityId     id of charity
      * @param publicId      id of public
      * @param paymentId     id of payment
      * @param payerId       id of payer
      * @param money         money of donation
      * @return instance of ReturnStatus
      */
-    ReturnStatus executePayment(String fundraisingId, String publicId, String paymentId,
-                                String payerId, double money) throws SystemInternalException;
+    ReturnStatus executePayment(DonationType donationType, String fundraisingId, String charityId, String publicId,
+                                String paymentId, String payerId, double money) throws SystemInternalException;
 
     /**
      * share fundraising though sms

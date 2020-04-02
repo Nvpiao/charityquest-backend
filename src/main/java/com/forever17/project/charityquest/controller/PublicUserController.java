@@ -1,6 +1,7 @@
 package com.forever17.project.charityquest.controller;
 
 import com.forever17.project.charityquest.aop.annotation.LoginCheck;
+import com.forever17.project.charityquest.enums.DonationType;
 import com.forever17.project.charityquest.exceptions.SystemInternalException;
 import com.forever17.project.charityquest.pojos.Fundraising;
 import com.forever17.project.charityquest.pojos.PublicUser;
@@ -190,19 +191,26 @@ public class PublicUserController {
     @ApiOperation(value = "donate through paypal.",
             consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "fundraisingId", value = "id of fundraising",
+            @ApiImplicitParam(name = "flag", value = "flag of donation",
                     dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "fundraisingId", value = "id of fundraising",
+                    dataTypeClass = String.class, paramType = "query"),
+            @ApiImplicitParam(name = "charityId", value = "id of charity",
+                    dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "publicId", value = "id of public",
                     dataTypeClass = String.class, paramType = "query", required = true),
             @ApiImplicitParam(name = "money", value = "money of donation",
                     dataTypeClass = Integer.class, paramType = "query", required = true)
     })
     @GetMapping(path = "/donateThroughPaypal")
-    public ReturnStatus donateThroughPaypal(@RequestParam("fundraisingId") String fundraisingId,
+    public ReturnStatus donateThroughPaypal(@RequestParam("flag") String flag,
+                                            @RequestParam(value = "fundraisingId", required = false, defaultValue = "null") String fundraisingId,
+                                            @RequestParam(value = "charityId", required = false, defaultValue = "null") String charityId,
                                             @RequestParam("publicId") String publicId,
                                             @RequestParam("money") float money) {
         try {
-            return publicUserService.donateThroughPaypal(fundraisingId, publicId, money);
+            return publicUserService.donateThroughPaypal(DonationType.valueOf(flag.toUpperCase()),
+                    fundraisingId, charityId, publicId, money);
         } catch (SystemInternalException e) {
             return internalErrorStatus;
         }
@@ -213,8 +221,12 @@ public class PublicUserController {
     @ApiOperation(value = "finish transaction through paypal.",
             consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "fundraisingId", value = "id of fundraising",
+            @ApiImplicitParam(name = "flag", value = "flag of donation",
                     dataTypeClass = String.class, paramType = "query", required = true),
+            @ApiImplicitParam(name = "fundraisingId", value = "id of fundraising",
+                    dataTypeClass = String.class, paramType = "query"),
+            @ApiImplicitParam(name = "charityId", value = "id of charity",
+                    dataTypeClass = String.class, paramType = "query"),
             @ApiImplicitParam(name = "publicId", value = "id of public",
                     dataTypeClass = String.class, paramType = "query", required = true),
             @ApiImplicitParam(name = "paymentId", value = "id of payment",
@@ -224,14 +236,17 @@ public class PublicUserController {
             @ApiImplicitParam(name = "money", value = "money of donation",
                     dataTypeClass = Integer.class, paramType = "query", required = true)
     })
-    @GetMapping(path = "/finishPaypalTransForFundraising")
-    public ReturnStatus finishPaypalTransForFundraising(@RequestParam("fundraisingId") String fundraisingId,
-                                                        @RequestParam("publicId") String publicId,
-                                                        @RequestParam("paymentId") String paymentId,
-                                                        @RequestParam("PayerID") String payerId,
-                                                        @RequestParam("money") double money) {
+    @GetMapping(path = "/finishPaypalTrans")
+    public ReturnStatus finishPaypalTrans(@RequestParam("flag") String flag,
+                                          @RequestParam(value = "fundraisingId", required = false, defaultValue = "null") String fundraisingId,
+                                          @RequestParam(value = "charityId", required = false, defaultValue = "null") String charityId,
+                                          @RequestParam("publicId") String publicId,
+                                          @RequestParam("paymentId") String paymentId,
+                                          @RequestParam("PayerID") String payerId,
+                                          @RequestParam("money") double money) {
         try {
-            return publicUserService.executePayment(fundraisingId, publicId, paymentId, payerId, money);
+            return publicUserService.executePayment(DonationType.valueOf(flag.toUpperCase()), fundraisingId, charityId,
+                    publicId, paymentId, payerId, money);
         } catch (SystemInternalException e) {
             return internalErrorStatus;
         }

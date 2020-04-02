@@ -1,6 +1,7 @@
 package com.forever17.project.charityquest.tools.paypal.service;
 
 import com.forever17.project.charityquest.constants.CharityConstants;
+import com.forever17.project.charityquest.enums.DonationType;
 import com.forever17.project.charityquest.tools.paypal.config.PaypalConfig;
 import com.paypal.api.payments.Amount;
 import com.paypal.api.payments.Payer;
@@ -46,18 +47,20 @@ public class PaypalService {
     /**
      * create a payment
      *
-     * @param total         total money to pay
+     * @param donationType  type of donation
+     * @param money         total money to pay
      * @param fundraisingId id of fundraising
      * @param publicId      id of public
      * @param url           url of fundraising
      * @return instance of Payment
      * @throws PayPalRESTException exception from paypal
      */
-    public Payment createPayment(float total, String fundraisingId, String publicId, String url) throws PayPalRESTException {
+    public Payment createPayment(DonationType donationType, String fundraisingId, String charityId,
+                                 String publicId, float money, String url) throws PayPalRESTException {
         // amount
         Amount amount = new Amount();
         amount.setCurrency(CharityConstants.PAYPAL_CURRENCY);
-        amount.setTotal(String.format("%.2f", total));
+        amount.setTotal(String.format("%.2f", money));
 
         // transaction
         Transaction transaction = new Transaction();
@@ -76,11 +79,20 @@ public class PaypalService {
         payment.setTransactions(transactions);
         RedirectUrls redirectUrls = new RedirectUrls();
         redirectUrls.setCancelUrl(paypalConfig.getCancelUrl());
-        String successUrl = paypalConfig.getSuccessUrl() + '/' + url +
-                CharityConstants.PAYPAL_SUCCESS_LINK_FLAG +
-                CharityConstants.PAYPAL_SUCCESS_LINK_FUNDRAISING_ID + fundraisingId +
-                CharityConstants.PAYPAL_SUCCESS_LINK_PUBLIC_ID + publicId +
-                CharityConstants.PAYPAL_SUCCESS_LINK_MONEY + total;
+
+        // common url
+        String commonUrl = CharityConstants.PAYPAL_SUCCESS_LINK_PUBLIC_ID + publicId +
+                CharityConstants.PAYPAL_SUCCESS_LINK_MONEY + money;
+        String successUrl = null;
+        if (donationType == DonationType.DONATION) {
+            successUrl = paypalConfig.getSuccessDonationUrl() + '/'
+                    + CharityConstants.PAYPAL_SUCCESS_LINK_FLAG_DONATION + commonUrl
+                    + CharityConstants.PAYPAL_SUCCESS_LINK_CHARITY_ID + charityId;
+        } else if (donationType == DonationType.FUNDRAISING) {
+            successUrl = paypalConfig.getSuccessFundraisingUrl() + '/' + url
+                    + CharityConstants.PAYPAL_SUCCESS_LINK_FLAG_FUNDRAISING + commonUrl
+                    + CharityConstants.PAYPAL_SUCCESS_LINK_FUNDRAISING_ID + fundraisingId;
+        }
         redirectUrls.setReturnUrl(successUrl);
         payment.setRedirectUrls(redirectUrls);
 

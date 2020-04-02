@@ -371,19 +371,32 @@ public class PublicUserServiceImpl implements PublicUserService {
 
 
     @Override
-    public ReturnStatus donateThroughPaypal(String fundraisingId, String publicId, float money) throws SystemInternalException {
-        // check exist
-        Fundraising fundraising = fundraisingMapper.selectByPrimaryKey(fundraisingId);
+    public ReturnStatus donateThroughPaypal(DonationType donationType, String fundraisingId, String charityId,
+                                            String publicId, float money) throws SystemInternalException {
         PublicUser publicUser = publicUserMapper.selectByPrimaryKey(publicId);
-        if (Objects.isNull(fundraising) || Objects.isNull(publicUser)) {
-            log.error(String.format(CharityConstants.LOG_FUNDRAISING_OR_PUBLIC_CAN_NOT_FOUND, fundraisingId, publicId));
-            return new ReturnStatus(CharityConstants.RETURN_FUNDRAISING_OR_PUBLIC_CAN_NOT_FOUND,
-                    CharityCodes.FUNDRAISING_OR_PUBLIC_CAN_NOT_FOUND, StatusType.FAIL);
+        Fundraising fundraising = null;
+        if (donationType == DonationType.FUNDRAISING) {
+            // check exist
+            fundraising = fundraisingMapper.selectByPrimaryKey(fundraisingId);
+            if (Objects.isNull(fundraising) || Objects.isNull(publicUser)) {
+                log.error(String.format(CharityConstants.LOG_FUNDRAISING_OR_PUBLIC_CAN_NOT_FOUND, fundraisingId, publicId));
+                return new ReturnStatus(CharityConstants.RETURN_FUNDRAISING_OR_PUBLIC_CAN_NOT_FOUND,
+                        CharityCodes.FUNDRAISING_OR_PUBLIC_CAN_NOT_FOUND, StatusType.FAIL);
+            }
+        } else if (donationType == DonationType.DONATION) {
+            // check exist
+            CharityUser charityUser = charityUserMapper.selectByPrimaryKey(charityId);
+            if (Objects.isNull(charityUser) || Objects.isNull(publicUser)) {
+                log.error(String.format(CharityConstants.LOG_CHARITY_OR_PUBLIC_CAN_NOT_FOUND, charityId, publicId));
+                return new ReturnStatus(CharityConstants.RETURN_CHARITY_OR_PUBLIC_CAN_NOT_FOUND,
+                        CharityCodes.CHARITY_OR_PUBLIC_CAN_NOT_FOUND, StatusType.FAIL);
+            }
         }
 
         try {
             // create payment
-            Payment payment = paypalService.createPayment(money, fundraisingId, publicId, fundraising.getUrl());
+            Payment payment = paypalService.createPayment(donationType, fundraisingId, charityId,
+                    publicId, money, Objects.isNull(fundraising) ? null : fundraising.getUrl());
             for (Links links : payment.getLinks()) {
                 if (links.getRel().equals(CharityConstants.PAYPAL_APPROVAL_LINK)) {
                     return new ReturnStatus(CharityConstants.RETURN_PAY_REDIRECTION_GET_SUCCESS,
@@ -403,28 +416,37 @@ public class PublicUserServiceImpl implements PublicUserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ReturnStatus executePayment(String fundraisingId, String publicId, String paymentId,
-                                       String payerId, double money) throws SystemInternalException {
+    public ReturnStatus executePayment(DonationType donationType, String fundraisingId, String charityId, String publicId,
+                                       String paymentId, String payerId, double money) throws SystemInternalException {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
             if (payment.getState().equals(CharityConstants.PAYPAL_STATUS_APPROVED)) {
-                // update money
-                fundraisingMapper.updateMoney(fundraisingId, money);
+                if (donationType == DonationType.FUNDRAISING) {
+                    // update money
+                    fundraisingMapper.updateMoney(fundraisingId, money);
+                }
 
                 // create donation
                 Donation donation = Donation.builder()
                         .id(UUID.randomUUID().toString())
                         .publicId(publicId)
-                        .type(DonationType.FUNDRAISING.name().toLowerCase())
-                        .fundraisingId(fundraisingId)
+                        .type(donationType.name().toLowerCase())
+                        .fundraisingId(fundraisingId.equals(CharityConstants.DEFAULT_VALUE_NULL_STRING)
+                                ? null : fundraisingId)
+                        .charityId(charityId.equals(CharityConstants.DEFAULT_VALUE_NULL_STRING)
+                                ? null : charityId)
                         .money(money)
                         .time(LocalDateTime.now())
                         .build();
                 // add donation history
                 donationMapper.insertSelective(donation);
-
-                // return details of fundraising
-                return getFundraisingById(fundraisingId);
+                if (donationType == DonationType.FUNDRAISING) {
+                    // return details of fundraising
+                    return getFundraisingById(fundraisingId);
+                } else if (donationType == DonationType.DONATION) {
+                    // return details of charity
+                    return getCharityById(charityId);
+                }
             }
         } catch (PayPalRESTException e) {
             // exception
@@ -434,6 +456,17 @@ public class PublicUserServiceImpl implements PublicUserService {
         // noting happen
         return new ReturnStatus(CharityConstants.RETURN_PAYMENT_STATUS_FAILED,
                 CharityCodes.PAYPAL_PAY_STATUS_FAILED, StatusType.FAIL);
+    }
+
+    /**
+     * get details of charity by id of charity
+     *
+     * @param charityId id of charity
+     * @return instance of ReturnStatus
+     */
+    private ReturnStatus getCharityById(String charityId) {
+        CharityUser charityUser = charityUserMapper.selectByPrimaryKey(charityId);
+        return new ReturnStatus(CharityConstants.RETURN_CHARITY_INFO_GET_SUCCESS, charityUser);
     }
 
     @Override

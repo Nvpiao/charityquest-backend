@@ -47,9 +47,14 @@ public class PaypalConfig {
     private String cancelUrl;
 
     /**
-     * url of succession
+     * url of succession for donation
      */
-    private String successUrl;
+    private String successDonationUrl;
+
+    /**
+     * url of succession for fundraising
+     */
+    private String successFundraisingUrl;
 
     @Bean
     public Map<String, String> paypalSdkConfig() {
