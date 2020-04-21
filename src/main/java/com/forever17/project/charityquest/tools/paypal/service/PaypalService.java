@@ -89,7 +89,7 @@ public class PaypalService {
                     + CharityConstants.PAYPAL_SUCCESS_LINK_FLAG_DONATION + commonUrl
                     + CharityConstants.PAYPAL_SUCCESS_LINK_CHARITY_ID + charityId;
         } else if (donationType == DonationType.FUNDRAISING) {
-            successUrl = paypalConfig.getSuccessFundraisingUrl() + '/' + url
+            successUrl = paypalConfig.getSuccessFundraisingUrl() + '/' + url.substring(url.lastIndexOf('/') + 1)
                     + CharityConstants.PAYPAL_SUCCESS_LINK_FLAG_FUNDRAISING + commonUrl
                     + CharityConstants.PAYPAL_SUCCESS_LINK_FUNDRAISING_ID + fundraisingId;
         }
