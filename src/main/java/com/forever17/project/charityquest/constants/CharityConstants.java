@@ -199,4 +199,6 @@ public class CharityConstants {
     // status
     public static final String DONATION_STATUS_CANCELLED = "cancelled";
     public static final String DONATION_STATUS_ENABLED = "enabled";
+
+    public static final String REGION_DEFAULT_OTHER = "OTHER";
 }

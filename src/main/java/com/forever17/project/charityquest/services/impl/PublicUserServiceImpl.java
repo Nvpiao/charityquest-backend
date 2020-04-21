@@ -7,6 +7,7 @@ import com.amazonaws.services.sns.model.PublishRequest;
 import com.amazonaws.services.sns.model.PublishResult;
 import com.forever17.project.charityquest.constants.CharityCodes;
 import com.forever17.project.charityquest.constants.CharityConstants;
+import com.forever17.project.charityquest.constants.Region;
 import com.forever17.project.charityquest.enums.DonationTimes;
 import com.forever17.project.charityquest.enums.DonationType;
 import com.forever17.project.charityquest.enums.StatusType;
@@ -106,22 +107,22 @@ public class PublicUserServiceImpl implements PublicUserService {
     /**
      * Example of PublicUser class
      */
-    private PublicUserExample publicUserExample;
+    private final PublicUserExample publicUserExample;
 
     /**
      * Example of CharityUser class
      */
-    private CharityUserExample charityUserExample;
+    private final CharityUserExample charityUserExample;
 
     /**
      * Example of Fundraising class
      */
-    private FundraisingExample fundraisingExample;
+    private final FundraisingExample fundraisingExample;
 
     /**
      * Example of Donation class
      */
-    private DonationExample donationExample;
+    private final DonationExample donationExample;
 
     {
         // static initialization
@@ -156,6 +157,10 @@ public class PublicUserServiceImpl implements PublicUserService {
         publicUser.setId(userId);
         // set md5 password
         publicUser.setPassword(md5Password);
+
+        String telPre = publicUser.getTelPre();
+        String region = Region.allRegions.getOrDefault(telPre, CharityConstants.REGION_DEFAULT_OTHER);
+        publicUser.setLocation(region);
 
         // email check
         ReturnStatus emailStatus = checkEmail(publicUser.getEmail());
